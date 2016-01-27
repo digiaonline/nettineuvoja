@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+  <div nn-element-header></div>
+  <div class="panel-body" ng-show="!collapsed">
+    <div nn-form-group>
+      <label for="{{ model.id }}_name">System Name</label>
+      <input class="form-control" type="text" name="{{ model.id }}_name" id="{{ model.id }}_name"
+             ng-model="model.name"/>
+    </div>
+    <label>Items</label>
+
+    <div class="form-items">
+      <div ng-repeat="item in model.items" class="form-input">
+        <div nn-form-item="{items: model.items, index: $index}"></div>
+      </div>
+      <div class="item-add">
+        <a class="add-button" ng-click="adding = true" ng-show="!adding"
+           title="Add item"><i class="bts bt-plus"></i></a>
+
+        <div class="add-items" ng-show="adding">
+          <a class="item-button" ng-repeat="option in service.itemTypeOptions"
+             ng-click="createItem(option.type)">{{ option.label }}</a>
+          <a class="close-button" ng-click="adding = false" title="Close"><i class="bts bt-times"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,145 @@
+<div class="edit-slide" ng-class="{'loading': loading}">
+  <div class="edit-slide-inner">
+    <div class="edit-slide-left">
+      <div class="header-slide" nn-fixed-header="0">
+        <h2 class="slide-title">
+          {{ model.label['fi'] }}
+          <small>{{ model.name }}</small>
+          <span class="slide-status">
+              <span class="status-saving" ng-show="status === 'saving'" title="Saving">
+                  <i class="btb bt-gear bt-spin bt-lg"></i></span>
+              <span class="status-saved" ng-show="status === 'clean'" title="Saved">
+                  <i class="btb bt-check bt-lg"></i></span>
+              <span class="status-dirty" ng-show="status === 'dirty'" title="Modified">
+                  <i class="btb bt-check bt-lg"></i></span>
+          </span>
+        </h2>
+      </div>
+      <form class="form" name="slideForm">
+        <div nn-form-group>
+          <label for="{{ model.id }}_name">System name</label>
+          <input class="form-control" type="text" name="{{ model.id }}_name"
+                 id="{{ model.id }}_name"
+                 ng-model="model.name"/>
+        </div>
+        <div ng-repeat="language in languages">
+          <div nn-form-group>
+            <label for="{{ model.id }}_label_{{ language.iso_code }}">Label
+              <small>{{ language.label }}</small>
+            </label>
+            <input class="form-control" type="text" name="{{ model.id }}_label_{{ language.iso_code }}"
+                   id="{{ model.id }}_label_{{ language.iso_code }}"
+                   ng-model="model.label[language.iso_code]"/>
+          </div>
+        </div>
+        <div ng-repeat="language in languages">
+          <div nn-form-group>
+            <label for="{{ model.id }}_summary_label_{{ language.iso_code }}">Summary label
+              <small>{{ language.label }}</small>
+            </label>
+            <input class="form-control" type="text" name="{{ model.id }}_summary_label_{{ language.iso_code }}"
+                   id="{{ model.id }}_summary_label_{{ language.iso_code }}"
+                   ng-model="model.summary_label[language.iso_code]"/>
+          </div>
+        </div>
+        <div nn-form-group>
+          <label>Flags</label>
+
+          <div class="checkbox">
+            <label class="checkbox-inline">
+              <input type="checkbox" id="{{ model.id }}_save_after"
+                     name="{{ model.id }}_save_after"
+                     ng-model="model.save_after"/>
+              Save After
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" id="{{ model.id }}_summary_after"
+                     name="{{ model.id }}_summary_after"
+                     ng-model="model.summary_after"/>
+              Summary After
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" id="{{ model.id }}_exclude_from_summary"
+                     name="{{ model.id }}_exclude_from_summary"
+                     ng-model="model.exclude_from_summary"/>
+              Exclude from summary
+            </label>
+          </div>
+        </div>
+        <div nn-styles="model.style"></div>
+        <label>Elements</label>
+
+        <div class="slide-elements">
+          <div ng-repeat="element in model.elements">
+            <div ng-switch="element.type">
+              <div ng-switch-when="html">
+                <div nn-html-element="{elements: model.elements, index: $index}"></div>
+              </div>
+              <div ng-switch-when="choice">
+                <div nn-choice-element="{elements: model.elements, index: $index}"></div>
+              </div>
+              <div ng-switch-when="form">
+                <div nn-form-element="{elements: model.elements, index: $index}"></div>
+              </div>
+              <div ng-switch-when="next">
+                <div nn-next-element="{elements: model.elements, index: $index}"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="item-add">
+        <a class="add-button" ng-click="adding = true" ng-show="!adding"
+           title="Add item"><i class="bts bt-plus"></i></a>
+
+        <div class="add-items" ng-show="adding">
+          <a class="item-button" ng-repeat="option in elementService.typeOptions"
+             ng-class="{'disabled': !elementService.canCreate(model.elements, option.type)}"
+             ng-click="createElement(option.type)">{{ option.label }}</a>
+          <a class="close-button" ng-click="adding = false" title="Close"><i class="bts bt-times"></i></a>
+        </div>
+      </div>
+      <div class="debug" ng-show="debug">
+        <pre>model: {{ model | json }}</pre>
+      </div>
+    </div>
+    <div class="edit-slide-right">
+      <div class="header-sidebar">
+        <h2 class="sidebar-title">
+          Slides
+          <a class="preview-button" ng-click="previewService.open({url: flowchartUrl})" title="Preview"><i
+              class="btb bt-eye bt-lg"></i></a>
+        </h2>
+      </div>
+      <div ng-repeat="slide in slides | orderBy:'name'"
+           ng-class="{'active': currentIndex === getSlideIndex(slide)}">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="heading-inner">
+              <div class="heading-left">
+                <h3>
+                  <a ng-click="activateSlide(getSlideIndex(slide))">{{ slide.label['fi'] }}
+                    <small>{{ slide.name }}</small>
+                  </a>
+                </h3>
+              </div>
+              <div class="heading-right">
+                <i class="btb bt-database" title="Save After" ng-show="slide.save_after"></i>
+                <i class="btb bt-file" title="Summary After" ng-show="slide.summary_after"></i>
+                <i class="btb bt-merge" title="Previous Slide" ng-show="isSourceSlide(slide)"></i>
+                <i class="btb bt-fork" title="Next Slide" ng-show="isDestinationSlide(slide.name)"></i>
+                <a class="remove-button"
+                   nn-confirm-text="Are you sure you want to remove this slide?"
+                   ng-click="slideService.delete(slide.id, slideService.getIndex(slide))"
+                   title="Remove"><i class="bts bt-times"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="slide-add">
+        <a class="add-button" title="Add slide" ng-click="slideService.openAddModal()"><i class="bts bt-plus"></i></a>
+      </div>
+    </div>
+  </div>
+</div>

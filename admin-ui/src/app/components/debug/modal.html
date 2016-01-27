@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="close()"><i class="bts bt-times bt-sm"></i></button>
+  <h3 class="modal-title">Server error</h3>
+</div>
+<div class="modal-body">
+  <div class="debug-exception">{{ data.exception }}</div>
+
+  <div class="debug-message">{{ data.message || 'No message' }}</div>
+
+  <div class="debug-source">{{ data.file }}({{ data.line }})</div>
+
+  <div class="debug-trace">
+    <h5 class="debug-trace-heading">Stack Trace</h5>
+
+    <ol class="debug-trace-nav">
+      <li class="debug-trace-item" ng-repeat="item in data.trace" ng-if="item.file">
+        <span class="debug-trace-source">{{ item.file }}({{ item.line }})</span>
+        <span class="debug-trace-function">{{ item.class ? item.class + '::' : '' }}{{ item.function }}</span>
+      </li>
+    </ol>
+
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="cancel-button" ng-click="close()">Close</button>
+</div>

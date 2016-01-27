@@ -1,0 +1,32 @@
+<div class="panel panel-default">
+  <div nn-item-header></div>
+  <div class="panel-body" ng-show="!collapsed">
+    <div nn-form-group>
+      <label for="{{ model.id }}_keyword">Keyword</label>
+      <input class="form-control" type="text" id="{{ model.id }}_keyword" name="{{ model.id }}_keyword"
+             ng-model="model.keyword"/>
+    </div>
+    <div ng-repeat="language in languages">
+      <div nn-form-group>
+        <label for="{{ model.id }}_title_{{ language.iso_code }}">Title
+          <small>{{ language.label }}</small>
+        </label>
+        <input class="form-control" type="text"
+               id="{{ model.id }}_title_{{ language.iso_code }}"
+               name="{{ model.id }}_title_{{ language.iso_code }}"
+               ng-model="model.title[language.iso_code]"/>
+      </div>
+    </div>
+    <div ng-repeat="language in languages">
+      <div nn-form-group>
+        <label for="{{ model.id }}_body_{{ language.iso_code }}">Content
+          <small>{{ language.label }}</small>
+        </label>
+
+        <div text-angular name="{{ model.id }}_body_{{ language.iso_code }}"
+             id="{{ model.id }}_body_{{ language.iso_code }}"
+             ng-model="model.body[language.iso_code]"></div>
+      </div>
+    </div>
+  </div>
+</div>

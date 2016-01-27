@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+  <div nn-element-header></div>
+  <div class="panel-body" ng-show="!collapsed">
+    <div nn-form-group>
+      <label for="{{ model.id }}_name">System Name</label>
+      <input class="form-control" type="text" name="{{ model.id }}_name" id="{{ model.id }}_name"
+             ng-model="model.name"/>
+    </div>
+    <div nn-form-group>
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="model.multiple" name="multiple"/> Multiple Choice</label>
+      </div>
+    </div>
+    <div class="choice-items">
+      <label>Options</label>
+
+      <div ng-repeat="item in model.items" class="choice-item">
+        <div nn-choice-item="{items: model.items, index: $index}"></div>
+      </div>
+      <div class="item-add">
+        <a class="add-button" ng-click="itemService.add(model.items)"
+           title="Add item"><i class="bts bt-plus"></i></a>
+      </div>
+    </div>
+    <div nn-styles="model.style"></div>
+  </div>
+</div>

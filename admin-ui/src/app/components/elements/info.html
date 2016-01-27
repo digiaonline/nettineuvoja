@@ -1,0 +1,31 @@
+<div class="modal-header">
+  <h3 class="modal-title">Edit Info</h3>
+</div>
+<div class="modal-body">
+  <form class="form" name="infoForm">
+    <div ng-repeat="language in languages">
+      <div nn-form-group>
+        <label for="{{ model.id }}_title_{{ language.iso_code }}">Title
+          <small>{{ language.label }}</small>
+        </label>
+        <input class="form-control" name="{{ model.id }}_title_{{ language.iso_code }}"
+               id="{{ model.id }}_title_{{ language.iso_code }}"
+               ng-model="model.title[language.iso_code]"/>
+      </div>
+    </div>
+    <div ng-repeat="language in languages">
+      <div nn-form-group>
+        <label for="{{ model.id }}_content_{{ language.iso_code }}">Content
+          <small>{{ language.label }}</small>
+        </label>
+
+        <div text-angular name="{{ model.id }}_content_{{ language.iso_code }}"
+             id="{{ model.id }}_content_{{ language.iso_code }}"
+             ng-model="model.content[language.iso_code]"></div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="submit-button" ng-click="close()">Close</button>
+</div>

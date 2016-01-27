@@ -1,0 +1,102 @@
+<div class="panel panel-default">
+  <div nn-item-header></div>
+  <div class="panel-body" ng-show="!collapsed">
+    <div nn-form-group>
+      <label for="{{ model.id }}_name">System name</label>
+      <input class="form-control" type="text" name="{{ model.id }}_name" id="{{ model.id }}_name"
+             ng-model="model.name"/>
+    </div>
+    <div ng-repeat="language in languages">
+      <div nn-form-group>
+        <label for="{{ model.id }}_label_{{ language.iso_code }}">Label
+          <small>{{ language.label }}</small>
+        </label>
+        <input class="form-control" type="text" name="{{ model.id }}_label_{{ language.iso_code }}"
+               id="{{ model.id }}_label_{{ language.iso_code }}"
+               ng-model="model.label[language.iso_code]"/>
+      </div>
+    </div>
+    <div ng-switch="model.type">
+      <div ng-switch-when="text">
+        <div ng-repeat="language in languages">
+          <div nn-form-group>
+            <label for="{{ model.id }}_placeholder_{{ language.iso_code }}">Placeholder
+              <small>{{ language.label }}</small>
+            </label>
+            <input class="form-control" type="text" name="{{ model.id }}_placeholder_{{ language.iso_code }}"
+                   id="{{ model.id }}_placeholder_{{ language.iso_code }}"
+                   ng-model="model.placeholder[language.iso_code]"/>
+          </div>
+        </div>
+        <div nn-form-group>
+          <label for="{{ model.id }}_max_length">Maximum length</label>
+          <input class="form-control" type="number" name="{{ model.id }}_max_length"
+                 id="{{ model.id }}_max_length" ng-model="model.max_length"/>
+        </div>
+        <div nn-form-group>
+          <label for="{{ model.id }}_input_type">Input Type</label>
+          <select class="form-control" name="{{ model.id }}_input_type"
+                  id="{{ model.id }}_input_type" ng-model="model.input_type"
+                  ng-options="option.type as option.label for option in service.inputTypeOptions">
+            <option value="">-- Type --</option>
+          </select>
+        </div>
+      </div>
+      <div ng-switch-when="autocomplete">
+        <div ng-repeat="language in languages">
+          <div nn-form-group>
+            <label for="{{ model.id }}_placeholder_{{ language.iso_code }}">Placeholder
+              <small>{{ language.label }}</small>
+            </label>
+            <input class="form-control" type="text" name="{{ model.id }}_placeholder_{{ language.iso_code }}"
+                   id="{{ model.id }}_placeholder_{{ language.iso_code }}"
+                   ng-model="model.placeholder[language.iso_code]"/>
+          </div>
+        </div>
+        <div nn-form-group>
+          <label for="{{ model.id }}_source">Source URL</label>
+          <input class="form-control" type="text" name="{{ model.id }}_source" id="{{ model.id }}_source"
+                 ng-model="model.source"/>
+        </div>
+        <label>Notices</label>
+
+        <div ng-repeat="notice in model.notices" class="notice-item">
+          <div nn-notice-item="{items: model.notices, index: $index}"></div>
+        </div>
+        <div class="item-add">
+          <a class="add-button" ng-click="itemService.add(model.notices)"
+             title="Add item"><i class="bts bt-plus"></i></a>
+        </div>
+      </div>
+      <div ng-switch-when="checkbox"></div>
+      <div ng-switch-when="dropdown">
+        <div ng-repeat="language in languages">
+          <div nn-form-group>
+            <label for="{{ model.id }}_empty_{{ language.iso_code }}">Empty text
+              <small>{{ language.label }}</small>
+            </label>
+            <input class="form-control" type="text" name="{{ model.id }}_empty_{{ language.iso_code }}"
+                   id="{{ model.id }}_empty_{{ language.iso_code }}"
+                   ng-model="model.empty[language.iso_code]"/>
+          </div>
+        </div>
+        <label>Options</label>
+
+        <div ng-repeat="item in model.items" class="option-item">
+          <div nn-option-item="{items: model.items, index: $index}"></div>
+        </div>
+        <div class="item-add">
+          <a class="add-button" ng-click="itemService.add(model.items)"
+             title="Add item"><i class="bts bt-plus"></i></a>
+        </div>
+      </div>
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="model.required"/> Required</label>
+      </div>
+    </div>
+    <div class="item-info">
+      <a class="info-button" ng-click="infoService.open(model.info)"
+         title="Edit info"><i class="bts bt-info-circle bt-lg"></i></a>
+    </div>
+  </div>
+</div>

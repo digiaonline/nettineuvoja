@@ -1,0 +1,25 @@
+// Bordered & Pulled
+// -------------------------
+
+.@{bt-css-prefix}-border {
+  padding: .2em;
+  border: solid .08em @bt-border-color;
+  border-radius: .1em;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.bts, .btb, .btr, .btl, .fab {
+  &.pull-left {
+    margin-right: .3em;
+  }
+  &.pull-right {
+    margin-left: .3em;
+  }
+}
