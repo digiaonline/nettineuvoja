@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Nettineuvoja\Slides\Domain\Model\Slide" exclusion-policy="all">
+
+        <xml-namespace prefix="atom" uri="http://www.w3.org/2005/Atom"/>
+
+        <property name="objectId" serialized-name="id"
+                  accessor-getter="getObjectIdValue"
+                  read-only="true" expose="true"/>
+        <property name="name" type="string"
+                  accessor-getter="getName"
+                  read-only="true" expose="true"/>
+        <property name="label"
+                  accessor-getter="getLabel"
+                  read-only="true" expose="true"/>
+        <property name="summaryLabel" serialized-name="summary_label"
+                  accessor-getter="getSummaryLabel"
+                  read-only="true" expose="true"/>
+        <property name="elements"
+                  accessor-getter="getElements"
+                  read-only="true" expose="true"/>
+        <property name="style"
+                  accessor-getter="getStyle"
+                  read-only="true" expose="true"/>
+        <property name="saveAfter" serialized-name="save_after"
+                  accessor-getter="getSaveAfter"
+                  read-only="true" expose="true"/>
+        <property name="summaryAfter" serialized-name="summary_after"
+                  accessor-getter="getSummaryAfter"
+                  read-only="true" expose="true"/>
+        <property name="excludeFromSummary" serialized-name="exclude_from_summary"
+                  accessor-getter="getExcludeFromSummary"
+                  read-only="true" expose="true"/>
+        <property name="orderNumber" serialized-name="order_number"
+                  accessor-getter="getOrderNumber"
+                  read-only="true" expose="true"/>
+        <property name="createdAt" serialized-name="created_at" type="integer"
+                  accessor-getter="getCreatedAtTimestamp"
+                  read-only="true" expose="true"/>
+        <property name="updatedAt" serialized-name="updated_at" type="integer"
+                  accessor-getter="getUpdatedAtTimestamp"
+                  read-only="true" expose="true"/>
+        <property name="status" type="integer"
+                  accessor-getter="getStatusValue"
+                  read-only="true" expose="true"/>
+
+    </class>
+</serializer>

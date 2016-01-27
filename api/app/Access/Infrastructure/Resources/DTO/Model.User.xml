@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<serializer>
+    <class name="Nettineuvoja\Access\Domain\Model\User" exclusion-policy="all">
+
+        <xml-namespace prefix="atom" uri="http://www.w3.org/2005/Atom"/>
+
+        <property name="objectId" serialized-name="id"
+                  accessor-getter="getObjectIdValue"
+                  read-only="true" expose="true"/>
+        <property name="email" type="string" accessor-getter="getEmail"
+                  read-only="true" expose="true"/>
+        <property name="firstName" serialized-name="first_name" type="string"
+                  accessor-getter="getFirstName"
+                  read-only="true" expose="true"/>
+        <property name="lastName" serialized-name="last_name" type="string"
+                  accessor-getter="getLastName"
+                  read-only="true" expose="true"/>
+        <virtual-property serialized-name="full_name" method="getFullName"/>
+        <virtual-property serialized-name="initials" method="getInitials"/>
+        <property name="createdAt" serialized-name="created_at" type="integer"
+                  accessor-getter="getCreatedAtTimestamp"
+                  read-only="true" expose="true"/>
+        <property name="updatedAt" serialized-name="updated_at" type="integer"
+                  accessor-getter="getUpdatedAtTimestamp"
+                  read-only="true" expose="true"/>
+        <property name="status" type="integer"
+                  accessor-getter="getStatusValue"
+                  read-only="true" expose="true"/>
+
+    </class>
+</serializer>
