@@ -150,6 +150,14 @@
 
                           <div ng-show="notices[item.id]" nn-notice="notices[item.id]"></div>
                         </div>
+                        <div ng-switch-when="file" class="input-file">
+                          <label for="{{ item.id }}_value" ng-show="item.label">{{ translate(item.label) }}</label>
+                          <div class="upload-button" ngf-select="uploadFile($file, session, slide, element, item)"
+                               ng-model="file" name="file" ngf-pattern="'*/*'" ngf-accept="'*/*'" ngf-max-size="20MB">
+                            {{ 'CHOOSE_FILE' | translate }}
+                          </div>
+                          <div class="upload-filename">{{session.model[slide.name][element.name][item.name] ? session.model[slide.name][element.name][item.name].filename : ''}}</div>
+                        </div>
                       </div>
                     </div>
                   </form>

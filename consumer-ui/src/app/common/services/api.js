@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('nnConsumerUi')
-  .factory('apiService', function($http, API_URL, API_VERSION) {
+  .factory('apiService', function($http, Upload, API_URL, API_VERSION) {
     /**
      *
      * @param {string} source
@@ -56,6 +56,17 @@ angular.module('nnConsumerUi')
       return sendRequest({
         method: 'GET',
         url: createUrl('languages')
+      });
+    }
+
+    /**
+     *
+     * @param file
+     */
+    function uploadFile(file) {
+      return Upload.upload({
+        url: createUrl('files'),
+        data: {file: file}
       });
     }
 
@@ -126,7 +137,8 @@ angular.module('nnConsumerUi')
       sendMail: sendMail,
       getSessionId: getSessionId,
       saveSession: saveSession,
-      getLanguages: getLanguages
+      getLanguages: getLanguages,
+      uploadFile: uploadFile
     };
   });
 
