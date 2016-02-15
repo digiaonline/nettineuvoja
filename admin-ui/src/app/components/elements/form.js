@@ -6,7 +6,8 @@ angular.module('nnAdminUi')
       {type: 'text', label: 'Text'},
       {type: 'autocomplete', label: 'Autocomplete'},
       {type: 'checkbox', label: 'Checkbox'},
-      {type: 'dropdown', label: 'Drop-down'}
+      {type: 'dropdown', label: 'Drop-down'},
+      {type: 'file', label: 'File'}
     ];
 
     var inputTypeOptions = [
