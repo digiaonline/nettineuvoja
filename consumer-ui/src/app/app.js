@@ -10,6 +10,7 @@ angular.module('nnConsumerUi', [
   'ui.bootstrap',
   'pascalprecht.translate',
   'duScroll',
-  'LocalStorageModule'
+  'LocalStorageModule',
+  'ngFileUpload'
 ])
   .value('duScrollGreedy', true);

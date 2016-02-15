@@ -88,4 +88,7 @@ $app->group([
 
     // Languages
     $app->get('languages', 'LanguageController@listLanguages');
+
+    // Files
+    $app->post('files', 'FileController@uploadFile');
 });

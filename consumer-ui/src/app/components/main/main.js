@@ -478,6 +478,24 @@ angular.module('nnConsumerUi')
       return string.length < maxLength ? maxLength - string.length : 0;
     };
 
+    /**
+     *
+     * @param {object} file
+     * @param {object} session
+     * @param {object} slide
+     * @param {object} element
+     * @param {object} item
+     */
+    $scope.uploadFile = function(file, session, slide, element, item) {
+      console.log('uploading file', file);
+
+      apiService.uploadFile(file)
+        .then(function (response) {
+          console.log('File uploaded', response.data.data);
+          session.model[slide.name][element.name][item.name] = response.data;
+        });
+    };
+
     $scope.scrollToElement = scrollToElement;
     $scope.loadSlide = loadSlide;
     $scope.changeLanguage = changeLanguage;
