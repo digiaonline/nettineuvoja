@@ -26,6 +26,12 @@ class AutoCompleteController extends Controller
      */
     public function autocomplete(Request $request)
     {
+        $this->tryValidateData($request->all(), [
+            'source' => 'required',
+        ], function ($errors) {
+            $this->throwValidationFailed('ERROR.VALIDATION_FAILED', $errors);
+        });
+
         $url = $request->get('source');
 
         return $this->okResponse(Kuti::get($url, [], true));
