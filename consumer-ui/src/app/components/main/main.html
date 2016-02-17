@@ -74,7 +74,7 @@
                   </div>
                 </div>
                 <div ng-switch-when="form" class="slide-form">
-                  <form class="form" name="forms.{{ slide.name }}.{{ element.name }}" novalidate>
+                  <form class="form" name="forms['{{ slide.name }}']['{{ element.name }}']" novalidate>
                     <div ng-repeat="(item_idx, item) in element.items" nn-form-group
                          class="has-feedback">
                       <div ng-switch="item.type">

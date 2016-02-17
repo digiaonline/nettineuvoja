@@ -46,12 +46,13 @@ angular.module('nnConsumerUi')
         }
       }
 
-      return apiService.autocomplete(item.source.replace('$keyword', encodeURIComponent(keyword)))
+      return apiService.autocomplete(item.source ? item.source.replace('$keyword', encodeURIComponent(keyword)) : '')
         .then(function(response) {
           $log.info('Received autocomplete data.', response.data);
           return response.data;
         }, function(response) {
           $log.error('Failed to get autocomplete data.', response);
+          return [];
         });
     }
 
@@ -112,40 +113,8 @@ angular.module('nnConsumerUi')
     function validateForms(forms, slide, model) {
       var valid = true;
       angular.forEach(forms, function(value) {
-        valid = validateForm(value, slide, model) && valid;
+        valid = value.$valid && valid;
       });
-      return valid;
-    }
-
-    /**
-     *
-     * @param {object} form
-     * @param {object} slide
-     * @param {object} model
-     * @returns {boolean}
-     */
-    function validateForm(form, slide, model) {
-      var valid = form.$valid;
-      var checkboxes = [];
-      angular.forEach(slide.elements, function(element) {
-        if (angular.isDefined(element.type) && element.type === 'form') {
-          angular.forEach(element.items, function(item) {
-            if (item.type === 'checkbox') {
-              checkboxes.push({element: element.name, item: item.name});
-            }
-          });
-        }
-      });
-      if (checkboxes.length) {
-        valid = false;
-        if (angular.isDefined(model)) {
-          angular.forEach(checkboxes, function(checkbox) {
-            if (angular.isDefined(model[checkbox.element]) && angular.isDefined(model[checkbox.element][checkbox.item])) {
-              valid = model[checkbox.element][checkbox.item] || valid;
-            }
-          });
-        }
-      }
       return valid;
     }
 
@@ -193,17 +162,30 @@ angular.module('nnConsumerUi')
      * @param {object} scope
      */
     function sendSummaryMail(scope) {
-      if (angular.isUndefined(scope.session.model.yhteystiedot)) {
-        $log.warn('Mail not sent (no contact information)');
-        return;
-      }
-
       $templateRequest('components/summary/summary.html')
         .then(function(template) {
           var body = $compile('<div nn-summary="session.model">' + template + '</div>')(scope);
 
           $timeout(function() {
-            var email = scope.session.model.yhteystiedot.yhteystiedot.sahkoposti;
+            var email = '';
+
+            angular.forEach(scope.session.model, function(slideData, slideName) {
+              if (slideName.indexOf('yhteystiedot') !== -1) {
+                angular.forEach(slideData, function(elementData, elementName) {
+                  angular.forEach(elementData, function(itemData, itemName) {
+                    if (itemName === 'sahkoposti') {
+                      email = itemData;
+                    }
+                  });
+                });
+              }
+            });
+
+            if (angular.isUndefined(email)) {
+              $log.warn('Mail not sent (no contact information)');
+              return;
+            }
+
             var config = {
               subject: APP_NAME + ': ' + $filter('translate')('SUMMARY_HEADING'),
               from_email: FROM_EMAIL,
@@ -487,11 +469,8 @@ angular.module('nnConsumerUi')
      * @param {object} item
      */
     $scope.uploadFile = function(file, session, slide, element, item) {
-      console.log('uploading file', file);
-
       apiService.uploadFile(file)
         .then(function (response) {
-          console.log('File uploaded', response.data.data);
           session.model[slide.name][element.name][item.name] = response.data;
         });
     };
