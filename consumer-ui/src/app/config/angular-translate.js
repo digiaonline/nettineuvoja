@@ -6,7 +6,8 @@ angular.module('nnConsumerUi')
       'CHOOSE_FILE': 'Valitse tiedosto',
       'PRINT_BUTTON': 'Tulosta',
       'SEND_MAIL_BUTTON': 'Lähetä sähköpostiin',
-      'MAIL_SENT_TEXT': 'Sähköposti lähetetty'
+      'MAIL_SENT_TEXT': 'Sähköposti lähetetty',
+      'NEXT_TEXT': 'Seuraava'
     });
 
     $translateProvider.translations('sv', {
@@ -15,7 +16,8 @@ angular.module('nnConsumerUi')
       'CHOOSE_FILE': 'Välj fil',
       'PRINT_BUTTON': 'Skriv ut',
       'SEND_MAIL_BUTTON': 'Skicka till e-post',
-      'MAIL_SENT_TEXT': 'E-post skickad'
+      'MAIL_SENT_TEXT': 'E-post skickad',
+      'NEXT_TEXT': 'Nästa'
     });
 
     $translateProvider.translations('en', {
@@ -24,7 +26,8 @@ angular.module('nnConsumerUi')
       'CHOOSE_FILE': 'Choose file',
       'PRINT_BUTTON': 'Print',
       'SEND_MAIL_BUTTON': 'Send to e-mail',
-      'MAIL_SENT_TEXT': 'E-mail sent'
+      'MAIL_SENT_TEXT': 'E-mail sent',
+      'NEXT_TEXT': 'Next'
     });
 
     $translateProvider.preferredLanguage('fi');
