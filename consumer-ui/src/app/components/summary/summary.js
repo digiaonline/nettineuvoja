@@ -25,12 +25,13 @@ angular.module('nnConsumerUi')
       var slide,
         summaryData = [],
         element,
-        items;
+        items,
+        text;
 
       angular.forEach(model, function(value, key) {
         slide = slideService.getByName(key);
 
-        if (!slide.exclude_from_summary) {
+        if (slide && !slide.exclude_from_summary) {
           items = [];
 
           angular.forEach(value, function(elementValue, elementKey) {
@@ -46,7 +47,6 @@ angular.module('nnConsumerUi')
                   break;
                 case 'form':
                   angular.forEach(element.items, function(item) {
-                    console.log(item.type);
                     if (elementValue[item.name]) {
                       switch (item.type) {
                         case 'checkbox':
@@ -59,8 +59,10 @@ angular.module('nnConsumerUi')
                             }
                           });
                           break;
+                        case 'file':
+                          break;
                         default:
-                          var text = '';
+                          text = '';
 
                           if (item.label) {
                             text += translate(item.label) + ': ';
