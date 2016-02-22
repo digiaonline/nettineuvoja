@@ -60,7 +60,8 @@
                       <div ng-switch-when="true">
                         <a class="choice-item"
                            ng-model="session.model[slide.name][element.name][item.name]"
-                           ng-style="element.style" btn-checkbox>
+                           ng-style="element.style"
+                           ng-click="multipleChoiceToggled(slide, element, item)" btn-checkbox>
                           <img class="item-icon" ng-src="{{ item.icon }}" alt=""/>
 
                           <div class="item-content" ng-bind-html="translate(item.label) | html"></div>
