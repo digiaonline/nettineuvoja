@@ -170,7 +170,7 @@ angular.module('nnConsumerUi')
             var email = '';
 
             angular.forEach(scope.session.model, function(slideData, slideName) {
-              if (slideName.indexOf('yhteystiedot') !== -1) {
+              if (true || slideName.indexOf('yhteystiedot') !== -1) {
                 angular.forEach(slideData, function(elementData, elementName) {
                   angular.forEach(elementData, function(itemData, itemName) {
                     if (itemName === 'sahkoposti') {
@@ -322,7 +322,7 @@ angular.module('nnConsumerUi')
       angular.forEach(choices, function(choice) {
         if (choice.multiple) {
           angular.forEach(choice.items, function(item) {
-            if (item.next_slide && model[choice.name][item.name]) {
+            if (item.next_slide && angular.isDefined(model[choice.name][item.name]) && model[choice.name][item.name]) {
               nextSlide = item.next_slide;
             }
           });
@@ -473,6 +473,20 @@ angular.module('nnConsumerUi')
         .then(function (response) {
           session.model[slide.name][element.name][item.name] = response.data;
         });
+    };
+
+    /**
+     *
+     * @param {object} slide
+     * @param {object} element
+     * @param {object} item
+     */
+    $scope.multipleChoiceToggled = function(slide, element, item) {
+      console.log($scope.session.model[slide.name][element.name][item.name]);
+      if (angular.isDefined($scope.session.model[slide.name][element.name][item.name]) && $scope.session.model[slide.name][element.name][item.name]) {
+        delete $scope.session.model[item.next_slide];
+      }
+      return true;
     };
 
     $scope.scrollToElement = scrollToElement;
