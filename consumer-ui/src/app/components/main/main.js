@@ -482,9 +482,19 @@ angular.module('nnConsumerUi')
      * @param {object} item
      */
     $scope.multipleChoiceToggled = function(slide, element, item) {
-      console.log($scope.session.model[slide.name][element.name][item.name]);
-      if (angular.isDefined($scope.session.model[slide.name][element.name][item.name]) && $scope.session.model[slide.name][element.name][item.name]) {
-        delete $scope.session.model[item.next_slide];
+      if (angular.isDefined($scope.session.model[slide.name][element.name][item.name])) {
+        if ($scope.session.model[slide.name][element.name][item.name]) {
+          delete $scope.session.model[item.next_slide];
+        }
+      }
+      var slideIndex = null;
+      angular.forEach($scope.slides, function(value, index) {
+        if (value.name === item.next_slide) {
+          slideIndex = index;
+        }
+      });
+      if (slideIndex) {
+        $scope.slides.splice(slideIndex, 1);
       }
       return true;
     };
