@@ -5,8 +5,7 @@
 Requirements: *Node*
 
 ```
-$ sudo npm install -g grunt-cli bower
-$ npm install
+$ npm install && bower install
 $ cp .env.example .env
 ```
 
