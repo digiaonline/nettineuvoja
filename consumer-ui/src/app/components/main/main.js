@@ -190,7 +190,7 @@ angular.module('nnConsumerUi')
               subject: APP_NAME + ': ' + $filter('translate')('SUMMARY_HEADING'),
               from_email: FROM_EMAIL,
               from_name: APP_NAME,
-              to: [{email: email, type: 'to'}],
+              to: [{ email: email, type: 'to' }],
               html: body.html(),
               text: body.text()
             };
@@ -247,7 +247,7 @@ angular.module('nnConsumerUi')
      * Adjusts the pager's position so that it's always vertically centered.
      */
     function centerPager() {
-      pagerElement.css({marginTop: -(pagerElement.height() / 2)});
+      pagerElement.css({ marginTop: -(pagerElement.height() / 2) });
     }
 
     /**
@@ -257,6 +257,9 @@ angular.module('nnConsumerUi')
      */
     function loadSlide(name, index) {
       if ($scope.loading) {
+        return;
+      }
+      if (!name) {
         return;
       }
       var current = $scope.slides[index];
@@ -470,9 +473,31 @@ angular.module('nnConsumerUi')
      */
     $scope.uploadFile = function(file, session, slide, element, item) {
       apiService.uploadFile(file)
-        .then(function (response) {
+        .then(function(response) {
           session.model[slide.name][element.name][item.name] = response.data;
         });
+    };
+
+    /**
+     *
+     * @param {object} slide
+     * @param {object} element
+     * @param {object} item
+     * @param {number} slide_idx
+     */
+    $scope.singleChoiceToggled = function(slide, element, item, slide_idx) {
+      if (angular.isDefined(element.items)) {
+        angular.forEach(element.items, function(choice) {
+          if (choice.next_slide) {
+            delete $scope.session.model[choice.next_slide];
+            removeSlide(choice.next_slide);
+          }
+        });
+
+        if (item.next_slide) {
+          loadSlide(item.next_slide, slide_idx);
+        }
+      }
     };
 
     /**
@@ -485,19 +510,26 @@ angular.module('nnConsumerUi')
       if (angular.isDefined($scope.session.model[slide.name][element.name][item.name])) {
         if ($scope.session.model[slide.name][element.name][item.name]) {
           delete $scope.session.model[item.next_slide];
+          removeSlide(item.next_slide);
         }
       }
+    };
+
+    /**
+     *
+     * @param {string} name
+     */
+    function removeSlide(name) {
       var slideIndex = null;
       angular.forEach($scope.slides, function(value, index) {
-        if (value.name === item.next_slide) {
+        if (value.name === name) {
           slideIndex = index;
         }
       });
       if (slideIndex) {
         $scope.slides.splice(slideIndex, 1);
       }
-      return true;
-    };
+    }
 
     $scope.scrollToElement = scrollToElement;
     $scope.loadSlide = loadSlide;
