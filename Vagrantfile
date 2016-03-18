@@ -24,8 +24,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   
   config.vm.provision "shell",
     name: "Running local Ansible provisioning",
-    inline: "cd /ops/packer/ansible && \
-         ansible-playbook -i inventory/development \
-         --limit nettineuvoja-vagrant nettineuvoja.yml"
+    inline: "/vagrant/ops/scripts/provision.sh development"
   
 end
