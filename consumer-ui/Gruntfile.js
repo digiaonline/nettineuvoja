@@ -76,4 +76,15 @@ module.exports = function(grunt) {
     'aws_s3:prod'
   ]);
 
+  // Dist task
+  grunt.registerTask('dist', [
+    //'jshint',
+    'ngconstant:prod',
+    'build',
+    'optimize',
+    'publish',
+    'copy:deploy',
+    'compress:prod'
+  ]);
+
 };
