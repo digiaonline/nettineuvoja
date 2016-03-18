@@ -19,8 +19,6 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__ . '/../')
 );
 
-$app->useStoragePath(env('APP_STORAGE_PATH'));
-
 $app->configure('app');
 $app->configure('auth');
 $app->configure('view');
