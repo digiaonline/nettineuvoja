@@ -3,7 +3,6 @@
   "description": "Nettineuvoja REST API.",
   "license": "MIT",
   "type": "project",
-  "minimum-stability": "dev",
   "require": {
     "php": ">=5.5.9",
     "laravel/lumen-framework": "5.1.*",
@@ -12,13 +11,13 @@
     "jenssegers/date": "^3.0",
     "nordsoftware/lumen-core": "~0.13",
     "nordsoftware/lumen-cors": "~1.3",
-    "nordsoftware/lumen-doctrine": "~2.2",
-    "nordsoftware/lumen-oauth2": "~1.1",
+    "nordsoftware/lumen-doctrine": "~2.4",
+    "nordsoftware/lumen-oauth2": "~1.3",
     "nordsoftware/lumen-serializer": "~0.1",
     "vlucas/phpdotenv": "~1.0",
     "mandrill/mandrill": "~1.0",
     "guzzlehttp/guzzle": "~5.0",
-    "crisu83/shortid": "*",
+    "crisu83/shortid": "~1.0",
     "nordsoftware/lumen-rbac": "~0.5"
   },
   "require-dev": {
