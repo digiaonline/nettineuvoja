@@ -65,7 +65,7 @@ $app->middleware([
     // 'Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse',
     // 'Illuminate\Session\Middleware\StartSession',
     // 'Illuminate\View\Middleware\ShareErrorsFromSession',
-    Nord\Lumen\Cors\Middleware\CorsMiddleware::class,
+    Nord\Lumen\Cors\CorsMiddleware::class,
 ]);
 
 $app->routeMiddleware([
