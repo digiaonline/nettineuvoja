@@ -440,7 +440,7 @@ angular.module('nnConsumerUi')
     $scope.singleChoiceToggled = function(slide, element, item, slide_idx) {
       if (angular.isDefined(element.items)) {
         angular.forEach(element.items, function(choice) {
-          if (choice.next_slide) {
+          if (choice.name !== item.name && choice.next_slide) {
             delete $scope.session.model[choice.next_slide];
             removeSlide(choice.next_slide);
           }
