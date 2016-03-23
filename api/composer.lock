@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "69fadb7a7e483b1d70bec7d0fc6ea306",
-    "content-hash": "209573ad3410bc4a2fedcc33fdc3c975",
+    "hash": "13683f1abde70e627a4bd68e3b824f25",
+    "content-hash": "f248009d45ad1653d142c9e0487c4182",
     "packages": [
         {
             "name": "adoy/fastcgi-client",
@@ -3161,16 +3161,16 @@
         },
         {
             "name": "nordsoftware/lumen-cors",
-            "version": "1.4.0",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nordsoftware/lumen-cors.git",
-                "reference": "41af2104da05b8d0eb93d53cb71e57f617f267dd"
+                "reference": "ac5fadc20a809f67c119665ae454f3351b488864"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nordsoftware/lumen-cors/zipball/41af2104da05b8d0eb93d53cb71e57f617f267dd",
-                "reference": "41af2104da05b8d0eb93d53cb71e57f617f267dd",
+                "url": "https://api.github.com/repos/nordsoftware/lumen-cors/zipball/ac5fadc20a809f67c119665ae454f3351b488864",
+                "reference": "ac5fadc20a809f67c119665ae454f3351b488864",
                 "shasum": ""
             },
             "require": {
@@ -3211,7 +3211,7 @@
                 "resource",
                 "sharing"
             ],
-            "time": "2016-03-11 08:43:23"
+            "time": "2016-03-22 10:34:02"
         },
         {
             "name": "nordsoftware/lumen-doctrine",

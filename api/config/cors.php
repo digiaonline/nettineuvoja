@@ -11,7 +11,8 @@ return [
     |
     */
 
-    'allowOrigins'     => ['*'],
+    'allow_origins' => ['*'],
+
     /*
     |--------------------------------------------------------------------------
     | Allowed HTTP headers
@@ -21,7 +22,8 @@ return [
     |
     */
 
-    'allowHeaders'     => ['*'],
+    'allow_headers' => ['*'],
+
     /*
     |--------------------------------------------------------------------------
     | Allowed HTTP methods
@@ -31,7 +33,8 @@ return [
     |
     */
 
-    'allowMethods'     => ['*'],
+    'allow_methods' => ['*'],
+
     /*
     |--------------------------------------------------------------------------
     | Whether or not the response can be exposed when credentials are present
@@ -45,7 +48,8 @@ return [
     |
     */
 
-    'allowCredentials' => false,
+    'allow_credentials' => false,
+
     /*
     |--------------------------------------------------------------------------
     | Exposed headers
@@ -55,7 +59,8 @@ return [
     |
     */
 
-    'exposeHeaders'    => [],
+    'expose_headers' => [],
+
     /*
     |--------------------------------------------------------------------------
     | Max age
@@ -65,6 +70,39 @@ return [
     |
     */
 
-    'maxAge'           => 0,
+    'max_age' => 0,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Origin not allowed
+    |--------------------------------------------------------------------------
+    |
+    | Creates the response if the origin is not allowed.
+    |
+    */
+
+    'origin_not_allowed' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Method not allowed
+    |--------------------------------------------------------------------------
+    |
+    | Creates the response if the method is not allowed.
+    |
+    */
+
+    'method_not_allowed' => null,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Header not allowed
+    |--------------------------------------------------------------------------
+    |
+    | Creates the response if the header is not allowed.
+    |
+    */
+
+    'header_not_allowed' => null,
 
 ];

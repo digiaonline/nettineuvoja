@@ -22,7 +22,6 @@ $app = new Laravel\Lumen\Application(
 $app->configure('app');
 $app->configure('auth');
 $app->configure('view');
-$app->configure('cors');
 $app->configure('database');
 $app->configure('doctrine');
 $app->configure('oauth2');
