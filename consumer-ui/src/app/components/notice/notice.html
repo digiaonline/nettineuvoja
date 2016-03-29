@@ -3,7 +3,7 @@
     <i class="fa fa-exclamation"></i>
   </div>
   <div class="notice-content">
-    <h5 class="notice-title" ng-show="model.title">{{ model.title}}</h5>
+    <h5 class="notice-title" ng-show="model.title">{{ translate(model.title) }}</h5>
 
     <div class="notice-body" ng-bind-html="model.body | html"></div>
   </div>
