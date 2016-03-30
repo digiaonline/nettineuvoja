@@ -1,6 +1,6 @@
 angular.module('nnConsumerUi')
   .config(function(localStorageServiceProvider) {
     localStorageServiceProvider
-      .setPrefix('nnConsumer')
+      .setPrefix('nnConsumerUi')
       .setStorageType('sessionStorage');
   });
