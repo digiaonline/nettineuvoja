@@ -10,19 +10,12 @@ angular.module('nnConsumerUi')
   })
 
   // Service that handles all logic related to the main view.
-  .service('mainService', function($templateRequest, $compile, $window, $timeout, $filter, $rootScope, $log, storageService, DEBUG, APP_NAME, FROM_EMAIL, apiService, KutiService) {
-
-    var sessionKey = 'nnSession';
+  .service('mainService', function($templateRequest, $compile, $window, $timeout, $filter, $rootScope, $log, storageService, DEBUG, APP_NAME, FROM_EMAIL, apiService, kutiService) {
 
     this.autocomplete = autocomplete;
     this.findSlide = findSlide;
     this.findElements = findElements;
-    this.getSessionId = getSessionId;
     this.validateForms = validateForms;
-    this.loadSession = loadSession;
-    this.saveSessionLocal = saveSessionLocal;
-    this.saveSessionRemote = saveSessionRemote;
-    this.clearSession = clearSession;
     this.sendSummaryMail = sendSummaryMail;
     this.print = print;
 
@@ -53,19 +46,6 @@ angular.module('nnConsumerUi')
         }, function(response) {
           $log.error('Failed to get autocomplete data.', response);
           return [];
-        });
-    }
-
-    /**
-     * Returns the session ID from the Kuti API.
-     * @returns {promise}
-     */
-    function getSessionId() {
-      return KutiService.getSessionId()
-        .then(function(sessionId) {
-          return sessionId;
-        }, function(response) {
-          $log.error('Failed to get session id.', response);
         });
     }
 
@@ -119,45 +99,6 @@ angular.module('nnConsumerUi')
     }
 
     /**
-     * Loads the session from local storage if applicable.
-     * @returns {object}
-     */
-    function loadSession() {
-      var session = storageService.get(sessionKey) || {};
-      $log.debug('Loaded session', session);
-      return session;
-    }
-
-    /**
-     * Saves the session to local storage.
-     * @param {object} session
-     */
-    function saveSessionLocal(session) {
-      $log.debug('Saving session locally', session);
-      storageService.set(sessionKey, session);
-    }
-
-    /**
-     * Saves the session to through the Kuti API.
-     * @param {object} session
-     * @returns {object}
-     */
-    function saveSessionRemote(session) {
-      $log.debug('Saving session remotely', session);
-      return KutiService.saveSession(session);
-    }
-
-    /**
-     * Clears the model (for development purposes only).
-     */
-    function clearSession() {
-      if (!DEBUG) {
-        return;
-      }
-      storageService.remove(sessionKey);
-    }
-
-    /**
      * Sends the summary email.
      * @param {object} scope
      */
@@ -190,7 +131,7 @@ angular.module('nnConsumerUi')
               subject: APP_NAME + ': ' + $filter('translate')('SUMMARY_HEADING'),
               from_email: FROM_EMAIL,
               from_name: APP_NAME,
-              to: [{email: email, type: 'to'}],
+              to: [{ email: email, type: 'to' }],
               html: body.html(),
               text: body.text()
             };
@@ -210,7 +151,7 @@ angular.module('nnConsumerUi')
   })
 
   // Controller that connects the necessary services to the main view.
-  .controller('MainCtrl', function($scope, $q, $timeout, $document, $window, $interval, $log, $modal, $translate, DEBUG, ENVIRONMENT, slideService, InfoService, mainService, apiService, languageService) {
+  .controller('MainCtrl', function($scope, $q, $timeout, $document, $window, $interval, $log, $modal, $translate, DEBUG, ENVIRONMENT, sessionService, slideService, InfoService, mainService, apiService, languageService) {
 
     var firstSlide = 'etusivu';
     var loadDelay = 350;
@@ -219,7 +160,7 @@ angular.module('nnConsumerUi')
 
     $scope.loading = false;
     $scope.showSummary = false;
-    $scope.session = mainService.loadSession();
+    $scope.session = sessionService.load();
     $scope.slides = [];
     $scope.forms = {};
     $scope.service = mainService;
@@ -247,7 +188,7 @@ angular.module('nnConsumerUi')
      * Adjusts the pager's position so that it's always vertically centered.
      */
     function centerPager() {
-      pagerElement.css({marginTop: -(pagerElement.height() / 2)});
+      pagerElement.css({ marginTop: -(pagerElement.height() / 2) });
     }
 
     /**
@@ -256,11 +197,15 @@ angular.module('nnConsumerUi')
      * @param {number} index
      */
     function loadSlide(name, index) {
+      if (angular.isUndefined(index)) {
+        index = -1;
+      }
       if ($scope.loading) {
         return;
       }
       var current = $scope.slides[index];
       if (current) {
+        // TODO: Refactor this
         var choices = mainService.findElements(current, 'choice');
         if (choices.length && angular.isDefined($scope.session.model) && angular.isDefined($scope.session.model[current.name])) {
           var choiceNextSlide = getNextSlideFromChoices(choices, $scope.session.model[current.name]);
@@ -282,11 +227,15 @@ angular.module('nnConsumerUi')
         $log.error('Failed to find slide', name);
         return;
       }
-      $scope.session.model[next.name] = $scope.session.model[next.name] || {};
+      if (angular.isDefined($scope.session.answers[next.name])) {
+        $scope.session.model[next.name] = angular.copy($scope.session.answers[next.name]);
+      } else {
+        $scope.session.model[next.name] = {}
+      }
       $scope.session.model[next.name].index = index + 1;
       if (current) {
         if (current.save_after) {
-          mainService.saveSessionRemote($scope.session);
+          sessionService.saveRemote($scope.session);
         }
       }
       $scope.loading = true;
@@ -304,6 +253,7 @@ angular.module('nnConsumerUi')
             elements[0].next_slide = 'summary';
           }
         }
+        $scope.session.answers[name] = angular.copy($scope.session.model[name]);
         $scope.slides.push(next);
         centerPager();
         scrollToElement(next.name);
@@ -332,6 +282,63 @@ angular.module('nnConsumerUi')
     }
 
     /**
+     * Initializes the main view by loading the first slide.
+     */
+    function init() {
+      $scope.loading = true;
+
+      // Create the session if not created already.
+      if (angular.isUndefined($scope.session.id)) {
+        createSession();
+      }
+
+      // Load the slides
+      slideService.load()
+        .then(function() {
+          $scope.loading = false;
+          loadSlide(firstSlide);
+        });
+
+      // Get languages.
+      apiService.getLanguages()
+        .then(function(response) {
+          $scope.languages = response.data;
+        });
+
+      // Setup a watcher for session.
+      $scope.$watch('session', function(value) {
+        if (!value) {
+          return;
+        }
+        sessionService.saveLocal(value);
+      }, true/* objectEquality */);
+
+      changeLanguage($scope.session.language);
+    }
+
+    /**
+     * Creates the user session.
+     */
+    function createSession() {
+      sessionService.init()
+        .then(function(session) {
+          $scope.session = session;
+        }, function() {
+          $log.error('Failed to create session.');
+        });
+    }
+
+    /**
+     * Changes the active language.
+     *
+     * @param {string} language
+     */
+    function changeLanguage(language) {
+      $scope.activeLanguage = $scope.session.language = language;
+      $translate.use(language);
+    }
+
+    /**
      * Changes the next slide for the given slide.
      *
      * @param {string} name
@@ -344,80 +351,13 @@ angular.module('nnConsumerUi')
       }
     };
 
-    function initSession() {
-      var dfd = $q.defer();
-
-      // Get a new session ID if necessary
-      if (angular.isUndefined($scope.session.id)) {
-        mainService.getSessionId()
-          .then(function(sessionId) {
-            startSession(sessionId);
-
-            dfd.resolve($scope.session);
-          });
-      } else {
-        dfd.resolve($scope.session);
-      }
-
-      return dfd.promise;
-    }
-
-    /**
-     * Initializes the main view by loading the first slide.
-     */
-    function init() {
-      $scope.loading = true;
-
-      initSession()
-        .then(function(session) {
-          // Load the first slide.
-          slideService.load()
-            .then(function() {
-              $scope.loading = false;
-              loadSlide(firstSlide, -1);
-            });
-        });
-
-      apiService.getLanguages()
-        .then(function(response) {
-          $scope.languages = response.data;
-        });
-
-      $scope.$watch('session', function(value) {
-        if (!value) {
-          return;
-        }
-        mainService.saveSessionLocal(value);
-      }, true/* objectEquality */);
-
-      changeLanguage($scope.session.language);
-    }
-
-    /**
-     * Starts the user session.
-     *
-     * @param {number} sessionId
-     */
-    function startSession(sessionId) {
-      $scope.session.id = sessionId;
-      $scope.session.environment = ENVIRONMENT;
-      $scope.session.language = 'fi';
-      $scope.session.model = {};
-    }
-
     /**
      * Clears the model for debugging purposes.
      */
-    $scope.clearSession = function() {
-      if (!DEBUG) {
-        return;
-      }
-      $scope.session = {};
-      mainService.clearSession();
-      mainService.getSessionId()
-        .then(function(sessionId) {
-          startSession(sessionId);
-        });
+    $scope.clear = function() {
+      delete $scope.session;
+      sessionService.clear();
+      createSession();
     };
 
     /**
@@ -426,7 +366,7 @@ angular.module('nnConsumerUi')
     $scope.sendMail = function() {
       $scope.showSentMessage = true;
 
-      mainService.saveSessionRemote($scope.session)
+      sessionService.saveRemote($scope.session)
         .then(function() {
           mainService.sendSummaryMail($scope);
 
@@ -437,14 +377,8 @@ angular.module('nnConsumerUi')
     };
 
     /**
-     * @param {string} language
-     */
-    function changeLanguage(language) {
-      $scope.activeLanguage = $scope.session.language = language;
-      $translate.use(language);
-    }
-
-    /**
+     * Translates the given item to the active language.
+     *
      * @param {object} item
      * @returns {string}
      */
@@ -452,6 +386,13 @@ angular.module('nnConsumerUi')
       return languageService.translate(item, $scope.activeLanguage);
     };
 
+    /**
+     * Calculates the characters remaining for a text area.
+     *
+     * @param {string} string
+     * @param {number} maxLength
+     * @returns {number}
+     */
     $scope.calculateCharactersRemaining = function(string, maxLength) {
       if (angular.isUndefined(string)) {
         return maxLength;
@@ -461,6 +402,7 @@ angular.module('nnConsumerUi')
     };
 
     /**
+     * Called when a file is uploaded.
      *
      * @param {object} file
      * @param {object} session
@@ -470,12 +412,13 @@ angular.module('nnConsumerUi')
      */
     $scope.uploadFile = function(file, session, slide, element, item) {
       apiService.uploadFile(file)
-        .then(function (response) {
+        .then(function(response) {
           session.model[slide.name][element.name][item.name] = response.data;
         });
     };
 
     /**
+     * Called when a multiple choice is toggled.
      *
      * @param {object} slide
      * @param {object} element

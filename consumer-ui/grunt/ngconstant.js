@@ -11,6 +11,7 @@ module.exports = function(grunt, options) {
         API_VERSION: 'v1',
         API_URL: process.env.API_URL,
         DEBUG: false,
+        DEFAULT_LANGUAGE: 'fi',
         VERSION: pkg.version,
         ENVIRONMENT: 'development',
         FROM_EMAIL: process.env.FROM_EMAIL

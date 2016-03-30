@@ -2,7 +2,7 @@
 
 angular.module('nnConsumerUi')
 
-  .service('KutiService', function($http, $log, DEBUG, apiService) {
+  .service('kutiService', function($http, $log, DEBUG, apiService) {
     this.getSessionId = function() {
       return apiService.getSessionId()
         .then(function(response) {
