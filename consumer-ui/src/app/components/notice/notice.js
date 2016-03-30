@@ -2,7 +2,7 @@
 
 angular.module('nnConsumerUi')
 
-  .controller('NoticeController', function($scope) {
+  .controller('NoticeController', function($scope, languageService) {
     /**
      * @param {object} item
      * @returns {string}
