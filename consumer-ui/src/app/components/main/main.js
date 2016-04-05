@@ -197,15 +197,12 @@ angular.module('nnConsumerUi')
      * @param {number} index
      */
     function loadSlide(name, index) {
-      if (angular.isUndefined(index)) {
-        index = -1;
-      }
       if ($scope.loading) {
         return;
       }
       var current = $scope.slides[index];
       if (current) {
-        // TODO: Refactor this
+        // Handle multiple-choice as a special case (could probably be refactored).
         var choices = mainService.findElements(current, 'choice');
         if (choices.length && angular.isDefined($scope.session.model) && angular.isDefined($scope.session.model[current.name])) {
           var choiceNextSlide = getNextSlideFromChoices(choices, $scope.session.model[current.name]);
@@ -215,24 +212,26 @@ angular.module('nnConsumerUi')
           }
         }
       }
-      var slide = mainService.findSlide($scope.slides, name);
-      if (slide !== null) {
-        $log.debug('Slide exists, scrolling to element', name);
-        scrollToElement(slide.name);
-        return;
-      }
+      // Make sure that the model only contains the correct slides (used when the route is changed).
+      var newModel = {};
+      angular.forEach($scope.session.model, function(value, key) {
+        if (angular.isDefined(value.index) && value.index <= index) {
+          newModel[key] = value;
+        }
+      });
+      $scope.session.model = newModel;
       $scope.slides.splice(index + 1);
+      // var slide = mainService.findSlide($scope.slides, name);
+      // if (slide !== null) {
+      //   $log.debug('Slide exists, scrolling to element', name);
+      //   scrollToElement(slide.name);
+      //   return;
+      // }
       var next = slideService.getByName(name);
       if (!next) {
         $log.error('Failed to find slide', name);
         return;
       }
-      if (angular.isDefined($scope.session.answers[next.name])) {
-        $scope.session.model[next.name] = angular.copy($scope.session.answers[next.name]);
-      } else {
-        $scope.session.model[next.name] = {}
-      }
-      $scope.session.model[next.name].index = index + 1;
       if (current) {
         if (current.save_after) {
           sessionService.saveRemote($scope.session);
@@ -253,7 +252,17 @@ angular.module('nnConsumerUi')
             elements[0].next_slide = 'summary';
           }
         }
-        $scope.session.answers[name] = angular.copy($scope.session.model[name]);
+        // Copy existing answers from the session if there is any.
+        if (angular.isDefined($scope.session.answers[name])) {
+          $scope.session.model[name] = angular.copy($scope.session.answers[name]);
+        } else {
+          $scope.session.model[name] = {};
+        }
+        // Copy the current model answers to another collection for save keeping purposes.
+        if (current && angular.isDefined($scope.session.model[current.name])) {
+          $scope.session.answers[current.name] = angular.copy($scope.session.model[current.name]);
+        }
+        $scope.session.model[next.name].index = index + 1;
         $scope.slides.push(next);
         centerPager();
         scrollToElement(next.name);
@@ -296,7 +305,7 @@ angular.module('nnConsumerUi')
       slideService.load()
         .then(function() {
           $scope.loading = false;
-          loadSlide(firstSlide);
+          loadSlide(firstSlide, -1);
         });
 
       // Get languages.
