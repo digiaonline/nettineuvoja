@@ -50,7 +50,7 @@
                         <a class="choice-item"
                            ng-model="session.model[slide.name][element.name]"
                            ng-style="element.style"
-                           ng-click="item.next_slide && loadSlide(item.next_slide, slide_idx)"
+                           ng-click="singleChoiceToggled(slide, element, item, slide_idx)"
                            btn-radio="'{{ item.name }}'">
                           <img class="item-icon" ng-src="{{ item.icon }}" alt=""/>
 
@@ -68,7 +68,7 @@
                         </a>
                       </div>
                     </div>
-                    <a class="choice-info" ng-show="item.info.title[activeLanguage]"
+                    <a class="choice-info" ng-show="item.info.title"
                        ng-click="infoService.open(item.info, activeLanguage)">
                       <i class="fa fa-info"></i>
                     </a>
@@ -106,7 +106,7 @@
                               <span class="fa fa-asterisk form-control-feedback"
                                     title="{{ 'REQUIRED_FIELD' | translate }}"
                                     ng-show="item.required"></span>
-                              <a class="input-info" ng-show="item.info.title[activeLanguage]"
+                              <a class="input-info" ng-show="item.info.title"
                                  ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
                             </div>
                           </div>
@@ -118,7 +118,7 @@
                                    ng-model="session.model[slide.name][element.name][item.name]"
                                    ng-required="item.required"/> {{ translate(item.label) }}
                           </label>
-                          <a class="input-info" ng-show="item.info.title[activeLanguage]"
+                          <a class="input-info" ng-show="item.info.title"
                              ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
                         </div>
                         <div ng-switch-when="radio"></div>
@@ -131,7 +131,7 @@
                                   ng-required="item.required">
                             <option value="">{{ translate(item.empty) || ('EMPTY_TEXT' | translate) }}</option>
                           </select>
-                          <a class="input-info info-info-dropdown" ng-show="item.info.title[activeLanguage]"
+                          <a class="input-info info-info-dropdown" ng-show="item.info.title"
                              ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
                         </div>
                         <div ng-switch-when="autocomplete" class="input-text">
@@ -146,7 +146,7 @@
                                  typeahead-min-length="3"/>
                           <span class="fa fa-asterisk form-control-feedback"
                                 title="{{ 'REQUIRED_FIELD' | translate }}" ng-show="item.required"></span>
-                          <a class="input-info" ng-show="item.info.title[activeLanguage]"
+                          <a class="input-info" ng-show="item.info.title"
                              ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
 
                           <div ng-show="notices[item.id]" nn-notice="notices[item.id]"></div>

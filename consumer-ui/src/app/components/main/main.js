@@ -200,6 +200,9 @@ angular.module('nnConsumerUi')
       if ($scope.loading) {
         return;
       }
+      if (!name) {
+        return;
+      }
       var current = $scope.slides[index];
       if (current) {
         // Handle multiple-choice as a special case (could probably be refactored).
@@ -432,24 +435,53 @@ angular.module('nnConsumerUi')
      * @param {object} slide
      * @param {object} element
      * @param {object} item
+     * @param {number} slide_idx
+     */
+    $scope.singleChoiceToggled = function(slide, element, item, slide_idx) {
+      if (angular.isDefined(element.items)) {
+        angular.forEach(element.items, function(choice) {
+          if (choice.next_slide) {
+            delete $scope.session.model[choice.next_slide];
+            removeSlide(choice.next_slide);
+          }
+        });
+
+        if (item.next_slide) {
+          loadSlide(item.next_slide, slide_idx);
+        }
+      }
+    };
+
+    /**
+     *
+     * @param {object} slide
+     * @param {object} element
+     * @param {object} item
      */
     $scope.multipleChoiceToggled = function(slide, element, item) {
       if (angular.isDefined($scope.session.model[slide.name][element.name][item.name])) {
         if ($scope.session.model[slide.name][element.name][item.name]) {
           delete $scope.session.model[item.next_slide];
+          removeSlide(item.next_slide);
         }
       }
+    };
+
+    /**
+     *
+     * @param {string} name
+     */
+    function removeSlide(name) {
       var slideIndex = null;
       angular.forEach($scope.slides, function(value, index) {
-        if (value.name === item.next_slide) {
+        if (value.name === name) {
           slideIndex = index;
         }
       });
       if (slideIndex) {
         $scope.slides.splice(slideIndex, 1);
       }
-      return true;
-    };
+    }
 
     $scope.scrollToElement = scrollToElement;
     $scope.loadSlide = loadSlide;
