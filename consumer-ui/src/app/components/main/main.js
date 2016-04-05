@@ -459,7 +459,9 @@ angular.module('nnConsumerUi')
      * @param {object} item
      */
     $scope.multipleChoiceToggled = function(slide, element, item) {
-      if (angular.isDefined($scope.session.model[slide.name][element.name][item.name])) {
+      if (angular.isDefined($scope.session.model[slide.name])
+        && angular.isDefined($scope.session.model[slide.name][element.name])
+        && angular.isDefined($scope.session.model[slide.name][element.name][item.name])) {
         if ($scope.session.model[slide.name][element.name][item.name]) {
           delete $scope.session.model[item.next_slide];
           removeSlide(item.next_slide);
