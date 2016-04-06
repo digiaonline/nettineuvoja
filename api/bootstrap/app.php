@@ -43,8 +43,27 @@ $app->withFacades();
 |
 */
 
-$app->singleton(Illuminate\Contracts\Debug\ExceptionHandler::class, Nord\Lumen\Core\App\Exception\Handler::class);
-$app->singleton(Illuminate\Contracts\Console\Kernel::class, Nettineuvoja\Common\Console\Kernel::class);
+$app->singleton(
+    Illuminate\Contracts\Debug\ExceptionHandler::class,
+    Nord\Lumen\Core\App\Exception\Handler::class
+);
+
+$app->singleton(
+    Illuminate\Contracts\Console\Kernel::class,
+    Nettineuvoja\Common\Console\Kernel::class
+);
+
+$app->singleton(
+    'mailer',
+    function ($app) {
+        /** @var $app \Laravel\Lumen\Application */
+        return $app->loadComponent(
+            'mail',
+            Illuminate\Mail\MailServiceProvider::class,
+            'mailer'
+        );
+    }
+);
 
 /*
 |--------------------------------------------------------------------------
