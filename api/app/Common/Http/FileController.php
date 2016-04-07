@@ -1,9 +1,8 @@
 <?php namespace Nettineuvoja\Common\Http;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use Nord\Lumen\Core\App\CreatesHttpResponses;
-use Nord\Lumen\Core\App\ValidatesData;
+use Nord\Lumen\Core\Traits\CreatesHttpResponses;
+use Nord\Lumen\Core\Traits\ValidatesData;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**

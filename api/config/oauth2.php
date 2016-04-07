@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'database'                => 'default',
+    'database' => 'default',
     /*
     |--------------------------------------------------------------------------
     | Supported Grant Types
@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'grant_types'             => [
+    'grant_types' => [
         'password'      => [
             'class'            => 'League\OAuth2\Server\Grant\PasswordGrant',
             'callback'         => function ($username, $password) {
@@ -48,7 +48,7 @@ return [
                     return false;
                 }
 
-                return $user->getObjectIdValue();
+                return $user->getDomainIdValue();
             },
             'access_token_ttl' => 3600,
         ],
@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'token_type'              => 'League\OAuth2\Server\TokenType\Bearer',
+    'token_type' => 'League\OAuth2\Server\TokenType\Bearer',
     /*
     |--------------------------------------------------------------------------
     | State Parameter
@@ -80,7 +80,7 @@ return [
     |
     */
 
-    'state_param'             => false,
+    'state_param' => false,
     /*
     |--------------------------------------------------------------------------
     | Scope Parameter
@@ -90,7 +90,7 @@ return [
     |
     */
 
-    'scope_param'             => false,
+    'scope_param' => false,
     /*
     |--------------------------------------------------------------------------
     | Scope Delimiter
@@ -100,7 +100,7 @@ return [
     |
     */
 
-    'scope_delimiter'         => ',',
+    'scope_delimiter' => ',',
     /*
     |--------------------------------------------------------------------------
     | Default Scope
@@ -110,7 +110,7 @@ return [
     |
     */
 
-    'default_scope'           => null,
+    'default_scope' => null,
     /*
     |--------------------------------------------------------------------------
     | Access Token TTL
@@ -121,7 +121,7 @@ return [
     |
     */
 
-    'access_token_ttl'        => 3600,
+    'access_token_ttl' => 3600,
     /*
     |--------------------------------------------------------------------------
     | Limit clients to specific grants
@@ -154,7 +154,7 @@ return [
     |
     */
 
-    'limit_scopes_to_grants'  => false,
+    'limit_scopes_to_grants' => false,
     /*
     |--------------------------------------------------------------------------
     | HTTP Header Only
@@ -165,6 +165,6 @@ return [
     |
     */
 
-    'http_headers_only'       => false,
+    'http_headers_only' => false,
 
 ];

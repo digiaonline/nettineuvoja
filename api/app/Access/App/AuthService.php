@@ -18,6 +18,6 @@ final class AuthService
     public function authenticate($username, $password)
     {
         /** @noinspection PhpUndefinedMethodInspection */
-        return Auth::attempt(['email' => $username, 'password' => $password]);
+        return Auth::validate(['email' => $username, 'password' => $password]);
     }
 }

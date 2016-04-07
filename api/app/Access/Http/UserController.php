@@ -4,10 +4,10 @@ use Nettineuvoja\Access\App\HandlesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Lumen\Routing\Controller;
-use Nord\Lumen\Core\App\ChecksPermissions;
-use Nord\Lumen\Core\App\CreatesHttpResponses;
-use Nord\Lumen\Core\App\SerializesData;
-use Nord\Lumen\Core\App\ValidatesData;
+use Nettineuvoja\Access\Transformers\UserTransformer;
+use Nord\Lumen\Core\Traits\CreatesHttpResponses;
+use Nord\Lumen\Core\Traits\SerializesData;
+use Nord\Lumen\Core\Traits\ValidatesData;
 
 /**
  * Class UserController
@@ -18,7 +18,6 @@ class UserController extends Controller
 
     use HandlesUsers;
     use CreatesHttpResponses;
-    use ChecksPermissions;
     use ValidatesData;
     use SerializesData;
 
@@ -35,25 +34,21 @@ class UserController extends Controller
         $this->tryValidateData($request->all(), [
             'email'      => 'required|max:255',
             'password'   => 'min:5',
-            'first_name' => 'required|max:255',
-            'last_name'  => 'required|max:255',
         ], function ($errors) {
             $this->throwValidationFailed('ERROR.VALIDATION_FAILED', $errors);
         });
 
         $email     = $request->get('email');
         $password  = $request->get('password');
-        $firstName = $request->get('first_name');
-        $lastName  = $request->get('last_name');
 
         // Make sure we cannot create a user with an existing email.
         if ($this->userExists($email)) {
             return $this->unprocessableEntityResponse('ERROR.USER_EXISTS');
         }
 
-        $user = $this->getUserService()->createUser($email, $password, $firstName, $lastName);
+        $user = $this->getUserService()->createUser($email, $password);
 
-        return $this->resourceCreatedResponse($this->serializeData($user));
+        return $this->createdResponse($this->serializeItem($user, new UserTransformer())->toArray());
     }
 
 
@@ -87,7 +82,7 @@ class UserController extends Controller
 
         $this->getUserService()->updateUser($user, $email, $password, $firstName, $lastName);
 
-        return $this->resourceOkResponse($this->serializeData($user));
+        return $this->okResponse($this->serializeItem($user, new UserTransformer())->toArray());
     }
 
 
@@ -104,7 +99,7 @@ class UserController extends Controller
             $this->throwNotFound('ERROR.USER_NOT_FOUND');
         });
 
-        return $this->resourceOkResponse($this->serializeData($user));
+        return $this->okResponse($this->serializeItem($user, new UserTransformer())->toArray());
     }
 
 
@@ -136,7 +131,7 @@ class UserController extends Controller
     {
         $users = $this->getUserService()->getUsers();
 
-        return $this->resourceOkResponse($this->serializeData($users));
+        return $this->okResponse($this->serializeCollection($users, new UserTransformer())->toArray());
     }
 
 
@@ -151,6 +146,6 @@ class UserController extends Controller
             $this->throwNotFound('ERROR.USER_NOT_FOUND');
         });
 
-        return $this->resourceOkResponse($this->serializeData($user));
+        return $this->okResponse($this->serializeItem($user, new UserTransformer())->toArray());
     }
 }

@@ -38,7 +38,7 @@ $app->group([
 $app->group([
     'prefix'     => 'v1',
     'namespace'  => 'Nettineuvoja\Access\Http',
-    'middleware' => 'oauth2',
+    'middleware' => 'auth',
 ], function () use ($app) {
     // User actions
     $app->post('users', 'UserController@createUser');
@@ -62,7 +62,7 @@ $app->group([
 $app->group([
     'prefix'     => 'v1',
     'namespace'  => 'Nettineuvoja\Slides\Http',
-    'middleware' => 'oauth2',
+    'middleware' => 'auth',
 ], function () use ($app) {
     // Slides
     $app->post('slides', 'SlideController@createSlide');

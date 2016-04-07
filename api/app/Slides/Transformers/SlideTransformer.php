@@ -1,0 +1,33 @@
+<?php
+
+namespace Nettineuvoja\Slides\Transformers;
+
+use League\Fractal\TransformerAbstract;
+use Nettineuvoja\Slides\Domain\Model\Slide;
+
+class SlideTransformer extends TransformerAbstract
+{
+
+    /**
+     * @param Slide $slide
+     *
+     * @return array
+     */
+    public function transform(Slide $slide)
+    {
+        return [
+            'id'                   => $slide->getDomainIdValue(),
+            'name'                 => $slide->getName(),
+            'label'                => $slide->getLabel(),
+            'summary_label'        => $slide->getSummaryLabel(),
+            'elements'             => $slide->getElements(),
+            'style'                => $slide->getStyle(),
+            'save_after'           => (bool) $slide->getSaveAfter(),
+            'summary_after'        => (bool) $slide->getSummaryAfter(),
+            'exclude_from_summary' => (bool) $slide->getExcludeFromSummary(),
+            'order_number'         => (int) $slide->getOrderNumber(),
+            'created_at'           => $slide->getCreatedAtTimestamp(),
+            'updated_at'           => $slide->getUpdatedAtTimestamp(),
+        ];
+    }
+}

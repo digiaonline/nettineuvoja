@@ -45,7 +45,7 @@ $app->withFacades();
 
 $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
-    Nord\Lumen\Core\App\Exception\Handler::class
+    Nord\Lumen\Core\Debug\ExceptionHandler::class
 );
 
 $app->singleton(
@@ -86,7 +86,7 @@ $app->middleware([
 
 $app->routeMiddleware([
     // 'csrf' => 'Laravel\Lumen\Http\Middleware\VerifyCsrfToken',
-    'oauth2' => Nord\Lumen\OAuth2\Middleware\OAuth2Middleware::class,
+    'auth' => Nettineuvoja\Access\Http\Middleware\Authenticate::class,
 ]);
 
 /*
@@ -100,39 +100,14 @@ $app->routeMiddleware([
 |
 */
 
-// CORS
 $app->register(Nord\Lumen\Cors\CorsServiceProvider::class);
-
-// Doctrine
 $app->register(Nord\Lumen\Doctrine\ORM\DoctrineServiceProvider::class);
-
-// OAuth2
 $app->register(Nord\Lumen\OAuth2\Doctrine\DoctrineServiceProvider::class);
 $app->register(Nord\Lumen\OAuth2\OAuth2ServiceProvider::class);
-
-// RBAC
 $app->register(Nord\Lumen\Rbac\Doctrine\DoctrineStorageServiceProvider::class);
-$app->register(Nord\Lumen\Rbac\RbacServiceProvider::class);
-
-// Serializer
-$app->register(Nord\Lumen\Serializer\SerializerServiceProvider::class);
-
-// Date
+$app->register(Nord\Lumen\Fractal\FractalServiceProvider::class);
 $app->register(Jenssegers\Date\DateServiceProvider::class);
-
-/*
-|--------------------------------------------------------------------------
-| Extend Managers
-|--------------------------------------------------------------------------
-|
-| todo: Write this
-|
-*/
-
-// @see http://laravel.com/docs/5.0/extending#authentication
-Auth::extend('nettineuvoja', function ($app) {
-    return $app[Nettineuvoja\Access\App\UserService::class];
-});
+$app->register(Nettineuvoja\Access\Providers\AuthServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

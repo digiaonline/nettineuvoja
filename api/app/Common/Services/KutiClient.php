@@ -1,10 +1,9 @@
 <?php namespace Nettineuvoja\Common\Services;
 
+use Exception;
 use GuzzleHttp\Client;
-use GuzzleHttp\Message\RequestInterface;
 use GuzzleHttp\Message\Response;
 use Illuminate\Support\Facades\Log;
-use Nord\Lumen\Core\Exception\Exception;
 
 /**
  * Class KutiClient
@@ -67,7 +66,6 @@ class KutiClient
      *
      * @return bool|mixed
      * @throws Exception
-     * @throws \Exception
      */
     public function get($path = null, array $options = [], $skipBaseUrl = false)
     {

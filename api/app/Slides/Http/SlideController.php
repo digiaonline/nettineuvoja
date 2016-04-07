@@ -3,9 +3,10 @@
 use Illuminate\Http\Request;
 use Nettineuvoja\Slides\App\HandlesSlides;
 use Laravel\Lumen\Routing\Controller;
-use Nord\Lumen\Core\App\CreatesHttpResponses;
-use Nord\Lumen\Core\App\SerializesData;
-use Nord\Lumen\Core\App\ValidatesData;
+use Nettineuvoja\Slides\Transformers\SlideTransformer;
+use Nord\Lumen\Core\Traits\CreatesHttpResponses;
+use Nord\Lumen\Core\Traits\SerializesData;
+use Nord\Lumen\Core\Traits\ValidatesData;
 
 /**
  * Class SlideController
@@ -32,7 +33,7 @@ class SlideController extends Controller
 
         $slide = $this->getSlideService()->createSlide($name, $label);
 
-        return $this->resourceCreatedResponse($this->serializeData($slide));
+        return $this->createdResponse($this->serializeItem($slide, new SlideTransformer())->toArray());
     }
 
 
@@ -69,7 +70,7 @@ class SlideController extends Controller
         $this->getSlideService()->updateSlide($slide, $name, $label, $summaryLabel, $elements, $style, $saveAfter,
             $summaryAfter, $excludeFromSummary, $orderNumber, $status);
 
-        return $this->resourceOkResponse($this->serializeData($slide));
+        return $this->okResponse($this->serializeItem($slide, new SlideTransformer())->toArray());
     }
 
 
@@ -89,7 +90,7 @@ class SlideController extends Controller
     {
         $slides = $this->getSlideService()->getSlides();
 
-        return $this->resourceOkResponse($this->serializeData($slides));
+        return $this->okResponse($this->serializeCollection($slides, new SlideTransformer())->toArray());
     }
 
 
@@ -104,7 +105,7 @@ class SlideController extends Controller
             $this->throwNotFound('ERROR.SLIDE_NOT_FOUND');
         });
 
-        return $this->resourceOkResponse($this->serializeData($slide));
+        return $this->okResponse($this->serializeItem($slide, new SlideTransformer())->toArray());
     }
 
 

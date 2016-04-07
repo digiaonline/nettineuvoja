@@ -3,9 +3,8 @@
 use Illuminate\Http\Request;
 use Nettineuvoja\Common\Facades\Kuti;
 use Laravel\Lumen\Routing\Controller;
-use Nord\Lumen\Core\App\CreatesHttpResponses;
-use Nord\Lumen\Core\App\SerializesData;
-use Nord\Lumen\Core\App\ValidatesData;
+use Nord\Lumen\Core\Traits\CreatesHttpResponses;
+use Nord\Lumen\Core\Traits\ValidatesData;
 
 /**
  * Class KutiController
@@ -16,7 +15,6 @@ class KutiController extends Controller
 
     use ValidatesData;
     use CreatesHttpResponses;
-    use SerializesData;
 
 
     /**

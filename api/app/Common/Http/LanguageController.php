@@ -1,6 +1,6 @@
 <?php namespace Nettineuvoja\Common\Http;
 
-use Nord\Lumen\Core\App\CreatesHttpResponses;
+use Nord\Lumen\Core\Traits\CreatesHttpResponses;
 
 /**
  * Class LanguageController

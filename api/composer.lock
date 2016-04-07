@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "13683f1abde70e627a4bd68e3b824f25",
-    "content-hash": "f248009d45ad1653d142c9e0487c4182",
+    "hash": "a9cf2f3e54d4e936947a6c30583bf301",
+    "content-hash": "b63f4d4593a3b27ab56e0c3681ae00d5",
     "packages": [
         {
             "name": "adoy/fastcgi-client",
@@ -2783,6 +2783,69 @@
             "time": "2015-10-15 15:55:48"
         },
         {
+            "name": "league/fractal",
+            "version": "0.13.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/fractal.git",
+                "reference": "3caeefbad51bce7a06947321938128512f42346c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/fractal/zipball/3caeefbad51bce7a06947321938128512f42346c",
+                "reference": "3caeefbad51bce7a06947321938128512f42346c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "illuminate/contracts": "~5.0",
+                "mockery/mockery": "~0.9",
+                "pagerfanta/pagerfanta": "~1.0.0",
+                "phpunit/phpunit": "~4.0",
+                "squizlabs/php_codesniffer": "~1.5",
+                "zendframework/zend-paginator": "~2.3"
+            },
+            "suggest": {
+                "illuminate/pagination": "The Illuminate Pagination component.",
+                "pagerfanta/pagerfanta": "Pagerfanta Paginator",
+                "zendframework/zend-paginator": "Zend Framework Paginator"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.13-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\Fractal\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Phil Sturgeon",
+                    "email": "me@philsturgeon.uk",
+                    "homepage": "http://philsturgeon.uk/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Handle the output of complex data structures ready for API output.",
+            "homepage": "http://fractal.thephpleague.com/",
+            "keywords": [
+                "api",
+                "json",
+                "league",
+                "rest"
+            ],
+            "time": "2015-10-07 14:48:58"
+        },
+        {
             "name": "league/oauth2-server",
             "version": "4.1.5",
             "source": {
@@ -3103,30 +3166,33 @@
         },
         {
             "name": "nordsoftware/lumen-core",
-            "version": "0.14.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nordsoftware/lumen-core.git",
-                "reference": "33ff2d974c53b1fa36abfb5162fbfcb36c02af8d"
+                "reference": "dd948cfc821d804f3c01f37a2332e12aeb60012d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nordsoftware/lumen-core/zipball/33ff2d974c53b1fa36abfb5162fbfcb36c02af8d",
-                "reference": "33ff2d974c53b1fa36abfb5162fbfcb36c02af8d",
+                "url": "https://api.github.com/repos/nordsoftware/lumen-core/zipball/dd948cfc821d804f3c01f37a2332e12aeb60012d",
+                "reference": "dd948cfc821d804f3c01f37a2332e12aeb60012d",
                 "shasum": ""
             },
             "require": {
+                "crisu83/shortid": "^1.0",
                 "nesbot/carbon": "~1.20"
             },
             "require-dev": {
-                "laravel/lumen-framework": "5.0.*"
+                "laravel/lumen-framework": "5.2.*"
             },
             "suggest": {
                 "nordsoftware/lumen-cors": "For CORS support.",
                 "nordsoftware/lumen-doctrine": "For Doctrine support.",
+                "nordsoftware/lumen-elasticsearch": "For Elasticsearch support.",
+                "nordsoftware/lumen-fractal": "For serialization support.",
                 "nordsoftware/lumen-oauth2": "For OAuth2 support.",
                 "nordsoftware/lumen-rbac": "For RBAC support.",
-                "nordsoftware/lumen-serializer": "For Serialization support."
+                "pagerfanta/pagerfanta": "For pagination support."
             },
             "type": "library",
             "autoload": {
@@ -3157,20 +3223,20 @@
                 "lumen",
                 "rest"
             ],
-            "time": "2015-12-22 09:31:49"
+            "time": "2016-04-01 13:50:51"
         },
         {
             "name": "nordsoftware/lumen-cors",
-            "version": "1.5.0",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nordsoftware/lumen-cors.git",
-                "reference": "ac5fadc20a809f67c119665ae454f3351b488864"
+                "reference": "234a8f86941f7406900844e2efb0cc573b24fe0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nordsoftware/lumen-cors/zipball/ac5fadc20a809f67c119665ae454f3351b488864",
-                "reference": "ac5fadc20a809f67c119665ae454f3351b488864",
+                "url": "https://api.github.com/repos/nordsoftware/lumen-cors/zipball/234a8f86941f7406900844e2efb0cc573b24fe0e",
+                "reference": "234a8f86941f7406900844e2efb0cc573b24fe0e",
                 "shasum": ""
             },
             "require": {
@@ -3211,7 +3277,7 @@
                 "resource",
                 "sharing"
             ],
-            "time": "2016-03-22 10:34:02"
+            "time": "2016-03-30 10:49:57"
         },
         {
             "name": "nordsoftware/lumen-doctrine",
@@ -3264,24 +3330,71 @@
             "time": "2016-03-07 21:44:00"
         },
         {
-            "name": "nordsoftware/lumen-oauth2",
-            "version": "1.3.0",
+            "name": "nordsoftware/lumen-fractal",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nordsoftware/lumen-oauth2.git",
-                "reference": "cc983a14b630d60c49c2d6154d1832dd9d1068d2"
+                "url": "https://github.com/nordsoftware/lumen-fractal.git",
+                "reference": "5f26d50890f0d5b80a489f040eb02ae28f645e15"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nordsoftware/lumen-oauth2/zipball/cc983a14b630d60c49c2d6154d1832dd9d1068d2",
-                "reference": "cc983a14b630d60c49c2d6154d1832dd9d1068d2",
+                "url": "https://api.github.com/repos/nordsoftware/lumen-fractal/zipball/5f26d50890f0d5b80a489f040eb02ae28f645e15",
+                "reference": "5f26d50890f0d5b80a489f040eb02ae28f645e15",
+                "shasum": ""
+            },
+            "require": {
+                "league/fractal": "^0.13"
+            },
+            "require-dev": {
+                "laravel/lumen-framework": "^5.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Nord\\Lumen\\Fractal\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Christoffer Niska",
+                    "email": "christofferniska@gmail.com"
+                }
+            ],
+            "description": "Fractal module for the Lumen PHP framework.",
+            "keywords": [
+                "api",
+                "fractal",
+                "json",
+                "laravel",
+                "lumen",
+                "serialization"
+            ],
+            "time": "2016-03-30 10:26:29"
+        },
+        {
+            "name": "nordsoftware/lumen-oauth2",
+            "version": "1.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nordsoftware/lumen-oauth2.git",
+                "reference": "62e173ae71fcfa4ac58e4557a13dc6ecd4bfcaab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nordsoftware/lumen-oauth2/zipball/62e173ae71fcfa4ac58e4557a13dc6ecd4bfcaab",
+                "reference": "62e173ae71fcfa4ac58e4557a13dc6ecd4bfcaab",
                 "shasum": ""
             },
             "require": {
                 "league/oauth2-server": "^4.1",
                 "nesbot/carbon": "^1.21",
-                "nordsoftware/lumen-core": "^0.14",
-                "php": ">=5.5"
+                "nordsoftware/lumen-core": "^1.0",
+                "php": ">=5.5.9"
             },
             "require-dev": {
                 "laravel/lumen-framework": "^5.2"
@@ -3312,7 +3425,7 @@
                 "lumen",
                 "oauth2"
             ],
-            "time": "2016-03-07 21:19:49"
+            "time": "2016-03-22 15:55:55"
         },
         {
             "name": "nordsoftware/lumen-rbac",

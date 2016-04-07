@@ -5,9 +5,9 @@ use Nettineuvoja\Access\App\HandlesUsers;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller;
 use League\OAuth2\Server\Exception\OAuthException;
-use Nord\Lumen\Core\App\AuthenticatesUsers;
-use Nord\Lumen\Core\App\CreatesHttpResponses;
-use Nord\Lumen\Core\App\ValidatesData;
+use Nord\Lumen\Core\Traits\AuthenticatesUsers;
+use Nord\Lumen\Core\Traits\CreatesHttpResponses;
+use Nord\Lumen\Core\Traits\ValidatesData;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -46,12 +46,10 @@ class AuthController extends Controller
         $user = $this->getUserService()->getUserByEmail($username);
 
         if ($user === null) {
-
             return $this->forbiddenResponse('ERROR.LOGIN_FAILED');
         }
 
         if (!$this->getAuthService()->authenticate($username, $password)) {
-
             return $this->forbiddenResponse('ERROR.LOGIN_FAILED');
         }
 

@@ -21,7 +21,7 @@ return [
         ],
     ],
     'types'           => [
-        'object_id' => 'Nord\Lumen\Core\Infrastructure\ObjectIdType',
+        'domain_id' => 'Nord\Lumen\Core\Infrastructure\DomainIdType',
         'status'    => 'Nord\Lumen\Core\Infrastructure\StatusType',
     ],
     'proxy'           => [

@@ -7,16 +7,15 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
-use Nord\Lumen\Core\App\AuthenticatesUsers;
-use Nord\Lumen\Core\App\CreatesIdentities;
-use Nord\Lumen\Core\App\ManagesEntities;
-use Nord\Lumen\Rbac\Contracts\SubjectProvider;
+use Nord\Lumen\Core\Traits\AuthenticatesUsers;
+use Nord\Lumen\Core\Traits\CreatesIdentities;
+use Nord\Lumen\Core\Traits\ManagesEntities;
 
 /**
  * Class UserService
  * @package Nettineuvoja\Access\App
  */
-final class UserService implements UserProvider, SubjectProvider
+final class UserService implements UserProvider
 {
 
     use ManagesEntities;
@@ -31,7 +30,7 @@ final class UserService implements UserProvider, SubjectProvider
      */
     public function getUser($id)
     {
-        return $this->getRepository()->findByObjectId($id);
+        return $this->getRepository()->findByDomainId($id);
     }
 
 
@@ -40,11 +39,14 @@ final class UserService implements UserProvider, SubjectProvider
      */
     public function getCurrentUser()
     {
+        /** @noinspection PhpUndefinedMethodInspection */
         if (app()->runningInConsole()) {
             return null;
         }
 
-        return $this->getRepository()->findByObjectId($this->getOAuth2Service()->getResourceOwnerId());
+        $domainId = $this->getOAuth2Service()->getResourceOwnerId();
+
+        return $domainId ? $this->getRepository()->findByDomainId($domainId) : null;
     }
 
 
@@ -76,17 +78,13 @@ final class UserService implements UserProvider, SubjectProvider
      *
      * @return User
      */
-    public function createUser(
-        $email,
-        $password,
-        $firstName,
-        $lastName
-    ) {
-        $objectId = $this->createObjectId(function ($value) {
-            return $this->getRepository()->objectIdExists($value);
+    public function createUser($email, $password)
+    {
+        $domainId = $this->createDomainId(function ($value) {
+            return $this->getRepository()->domainIdExists($value);
         });
 
-        $user = new User($objectId, $email, $password, $firstName, $lastName);
+        $user = new User($domainId, $email, $password);
 
         $this->saveEntityAndCommit($user);
 
@@ -101,24 +99,13 @@ final class UserService implements UserProvider, SubjectProvider
      * @param string|null $firstName
      * @param string|null $lastName
      */
-    public function updateUser(
-        User $user,
-        $email,
-        $password,
-        $firstName = null,
-        $lastName = null
-    ) {
+    public function updateUser(User $user, $email, $password)
+    {
         if ($user->getEmail() !== $email) {
             $user->changeEmail($email);
         }
         if (!empty($password)) {
             $user->changePassword($password);
-        }
-        if ($firstName !== null && $user->getFirstName() !== $firstName) {
-            $user->changeFirstName($firstName);
-        }
-        if ($lastName !== null && $user->getLastName() !== $lastName) {
-            $user->changeLastName($lastName);
         }
 
         $this->updateEntityAndCommit($user);

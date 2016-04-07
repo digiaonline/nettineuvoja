@@ -11,7 +11,7 @@
             <generator strategy="AUTO"/>
         </id>
 
-        <field name="objectId" type="object_id" column="object_id" unique="true"/>
+        <field name="domainId" type="domain_id" column="domain_id" unique="true"/>
         <field name="name" type="string"/>
         <field name="label" type="json_array"/>
         <field name="summaryLabel" type="json_array" column="summary_label" nullable="true"/>
@@ -21,11 +21,9 @@
         <field name="summaryAfter" type="integer" column="summary_after"/>
         <field name="excludeFromSummary" type="integer" column="exclude_from_summary"/>
         <field name="orderNumber" type="integer" column="order_number" nullable="true"/>
-
         <field name="createdAt" column="created_at" type="datetime"/>
         <field name="updatedAt" column="updated_at" type="datetime" nullable="true"/>
         <field name="deletedAt" column="deleted_at" type="datetime" nullable="true"/>
-
         <field name="status" type="status"/>
 
         <lifecycle-callbacks>

@@ -5,9 +5,8 @@ use Illuminate\Http\Request;
 use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Mail;
 use Laravel\Lumen\Routing\Controller;
-use Nord\Lumen\Core\App\CreatesHttpResponses;
-use Nord\Lumen\Core\App\SerializesData;
-use Nord\Lumen\Core\App\ValidatesData;
+use Nord\Lumen\Core\Traits\CreatesHttpResponses;
+use Nord\Lumen\Core\Traits\ValidatesData;
 
 /**
  * Class MailController
@@ -18,7 +17,6 @@ class MailController extends Controller
 
     use CreatesHttpResponses;
     use ValidatesData;
-    use SerializesData;
 
 
     /**

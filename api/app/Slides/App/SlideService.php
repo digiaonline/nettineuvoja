@@ -3,8 +3,8 @@
 use Illuminate\Support\Collection;
 use Nettineuvoja\Slides\Domain\Model\Slide;
 use Nettineuvoja\Slides\Infrastructure\SlideRepository;
-use Nord\Lumen\Core\App\CreatesIdentities;
-use Nord\Lumen\Core\App\ManagesEntities;
+use Nord\Lumen\Core\Traits\CreatesIdentities;
+use Nord\Lumen\Core\Traits\ManagesEntities;
 
 /**
  * Class SlideService
@@ -22,15 +22,14 @@ class SlideService
      * @param string $label
      *
      * @return Slide
-     * @throws \Nord\Lumen\Core\Exception\FatalError
      */
     public function createSlide($name, $label)
     {
-        $objectId = $this->createObjectId(function ($value) {
-            return $this->getRepository()->objectIdExists($value);
+        $domainId = $this->createDomainId(function ($value) {
+            return $this->getRepository()->domainIdExists($value);
         });
 
-        $slide = new Slide($objectId, $name, $label);
+        $slide = new Slide($domainId, $name, $label);
 
         $this->saveEntityAndCommit($slide);
 
@@ -115,7 +114,7 @@ class SlideService
      */
     public function getSlide($id)
     {
-        return $this->getRepository()->findByObjectId($id);
+        return $this->getRepository()->findByDomainId($id);
     }
 
 

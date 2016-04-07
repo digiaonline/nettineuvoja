@@ -1,10 +1,10 @@
 <?php namespace Nettineuvoja\Slides\Domain\Model;
 
-use Nord\Lumen\Core\Domain\Model\Entity;
-use Nord\Lumen\Core\Domain\Model\HasIdentity;
-use Nord\Lumen\Core\Domain\Model\HasStatus;
-use Nord\Lumen\Core\Domain\Model\ObjectId;
-use Nord\Lumen\Core\Domain\Model\Status;
+use Nord\Lumen\Core\Contracts\Entity;
+use Nord\Lumen\Core\Domain\DomainId;
+use Nord\Lumen\Core\Domain\Status;
+use Nord\Lumen\Core\Traits\HasIdentity;
+use Nord\Lumen\Core\Traits\HasStatus;
 use Nord\Lumen\Doctrine\ORM\Traits\AutoIncrements;
 use Nord\Lumen\Doctrine\ORM\Traits\SoftDeletes;
 use Nord\Lumen\Doctrine\ORM\Traits\Timestamps;
@@ -78,16 +78,16 @@ class Slide implements Entity
 
 
     /**
-     * @param ObjectId $objectId
+     * @param DomainId $domainId
      * @param string   $name
      * @param string   $label
      */
     public function __construct(
-        ObjectId $objectId,
+        DomainId $domainId,
         $name,
         $label
     ) {
-        $this->setObjectId($objectId);
+        $this->setDomainId($domainId);
         $this->setName($name);
         $this->setLabel($label);
         $this->setStatus(new Status(self::STATUS_PUBLISHED));

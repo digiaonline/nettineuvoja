@@ -1,16 +1,16 @@
 <?php namespace Nettineuvoja\Access\Domain\Model;
 
-use Nord\Lumen\Core\Domain\Model\Entity;
+use Nord\Lumen\Core\Contracts\Entity;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Support\Facades\Hash;
-use Nord\Lumen\Core\Domain\Model\HasIdentity;
-use Nord\Lumen\Core\Domain\Model\HasStatus;
-use Nord\Lumen\Core\Domain\Model\ObjectId;
-use Nord\Lumen\Core\Domain\Model\Status;
-use Nord\Lumen\Core\Exception\InvalidArgument;
+use Nord\Lumen\Core\Traits\HasIdentity;
+use Nord\Lumen\Core\Traits\HasStatus;
+use Nord\Lumen\Core\Domain\DomainId;
+use Nord\Lumen\Core\Domain\Status;
+use Nord\Lumen\Core\Exceptions\InvalidArgument;
 use Nord\Lumen\Doctrine\ORM\Traits\AutoIncrements;
 use Nord\Lumen\Doctrine\ORM\Traits\SoftDeletes;
 use Nord\Lumen\Doctrine\ORM\Traits\Timestamps;
@@ -45,38 +45,24 @@ class User implements Entity, AuthenticatableContract, CanResetPasswordContract
      */
     private $rememberToken = null;
 
-    /**
-     * @var null|string
-     */
-    private $firstName = null;
-
-    /**
-     * @var null|string
-     */
-    private $lastName = null;
-
 
     /**
      * User constructor.
      *
-     * @param ObjectId $objectId
+     * @param DomainId $domainId
      * @param string   $email
      * @param string   $password
      * @param string   $firstName
      * @param string   $lastName
      */
     public function __construct(
-        ObjectId $objectId,
+        DomainId $domainId,
         $email,
-        $password,
-        $firstName,
-        $lastName
+        $password
     ) {
-        $this->setObjectId($objectId);
+        $this->setDomainId($domainId);
         $this->setEmail($email);
         $this->setPassword($password);
-        $this->setFirstName($firstName);
-        $this->setLastName($lastName);
         $this->setStatus(new Status(0));
     }
 
@@ -87,42 +73,6 @@ class User implements Entity, AuthenticatableContract, CanResetPasswordContract
     public function getEmail()
     {
         return $this->email;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getFullName()
-    {
-        return $this->getFirstName() . ' ' . $this->getLastName();
-    }
-
-
-    /**
-     * @return string
-     */
-    public function getInitials()
-    {
-        return substr($this->getFirstName(), 0, 1) . substr($this->getLastName(), 0, 1);
     }
 
 
@@ -145,29 +95,11 @@ class User implements Entity, AuthenticatableContract, CanResetPasswordContract
 
 
     /**
-     * @param string $firstName
-     */
-    public function changeFirstName($firstName)
-    {
-        $this->setFirstName($firstName);
-    }
-
-
-    /**
-     * @param string $lastName
-     */
-    public function changeLastName($lastName)
-    {
-        $this->setLastName($lastName);
-    }
-
-
-    /**
      * @inheritdoc
      */
     public function getAuthIdentifier()
     {
-        return $this->getObjectId()->getValue();
+        return $this->getDomainId()->getValue();
     }
 
 
@@ -216,43 +148,5 @@ class User implements Entity, AuthenticatableContract, CanResetPasswordContract
 
         /** @noinspection PhpUndefinedMethodInspection */
         $this->password = Hash::make($password);
-    }
-
-
-    /**
-     * @param string $firstName
-     *
-     * @throws InvalidArgument
-     */
-    private function setFirstName($firstName)
-    {
-        if (empty($firstName)) {
-            throw new InvalidArgument('User first name cannot be empty.');
-        }
-
-        if (!is_string($firstName)) {
-            throw new InvalidArgument('User first name is malformed.');
-        }
-
-        $this->firstName = $firstName;
-    }
-
-
-    /**
-     * @param string $lastName
-     *
-     * @throws InvalidArgument
-     */
-    private function setLastName($lastName)
-    {
-        if (empty($lastName)) {
-            throw new InvalidArgument('User last name cannot be empty.');
-        }
-
-        if (!is_string($lastName)) {
-            throw new InvalidArgument('User last name is malformed.');
-        }
-
-        $this->lastName = $lastName;
     }
 }

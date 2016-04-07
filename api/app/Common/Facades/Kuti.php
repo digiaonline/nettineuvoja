@@ -1,6 +1,7 @@
 <?php namespace Nettineuvoja\Common\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use Nettineuvoja\Common\Services\KutiClient;
 
 /**
  * Class Kuti
@@ -17,6 +18,6 @@ class Kuti extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'Nettineuvoja\Common\Services\KutiClient';
+        return KutiClient::class;
     }
 }
