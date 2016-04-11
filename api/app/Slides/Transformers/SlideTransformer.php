@@ -28,6 +28,7 @@ class SlideTransformer extends TransformerAbstract
             'order_number'         => (int) $slide->getOrderNumber(),
             'created_at'           => $slide->getCreatedAtTimestamp(),
             'updated_at'           => $slide->getUpdatedAtTimestamp(),
+            'status'               => (int) $slide->getStatusValue(),
         ];
     }
 }

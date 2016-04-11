@@ -61,7 +61,7 @@ class SlideService
         $summaryAfter = 0,
         $excludeFromSummary = 0,
         $orderNumber = null,
-        $status
+        $status = null
     ) {
         if ($slide->getName() !== $name) {
             $slide->changeName($name);
