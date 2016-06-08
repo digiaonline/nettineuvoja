@@ -5,7 +5,7 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Nettineuvoja\Access\Domain\Model\User;
-use Nord\Lumen\Core\Domain\Model\ObjectId;
+use Nord\Lumen\Core\Domain\DomainId;
 
 /**
  * Class UsersFixture
@@ -19,7 +19,7 @@ class UsersFixture extends AbstractFixture implements FixtureInterface, OrderedF
      */
     public function load(ObjectManager $manager)
     {
-        $superuser = new User(new ObjectId(), 'demo@example.com', 'demo12', 'Demo', 'User');
+        $superuser = new User(new DomainId(), 'demo@example.com', 'demo12', 'Demo', 'User');
 
         $manager->persist($superuser);
         $manager->flush();
