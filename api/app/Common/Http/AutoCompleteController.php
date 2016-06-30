@@ -1,5 +1,6 @@
 <?php namespace Nettineuvoja\Common\Http;
 
+use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
 use Nettineuvoja\Common\Facades\Kuti;
 use Laravel\Lumen\Routing\Controller;
@@ -34,6 +35,15 @@ class AutoCompleteController extends Controller
 
         $url = $request->get('source');
 
-        return $this->okResponse(Kuti::get($url, [], true));
+        // Don't treat 404 as an error, just return an empty result instead
+        try {
+            return $this->okResponse(Kuti::get($url, [], true));
+        } catch (ClientException $e) {
+            if ($e->getCode() === 404) {
+                return $this->okResponse([]);
+            }
+
+            throw $e;
+        }
     }
 }
