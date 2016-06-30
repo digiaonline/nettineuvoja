@@ -7,7 +7,8 @@ ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = "nettineuvoja/nettineuvoja-vagrant"
+  config.vm.box = "kkv/nettineuvoja-vagrant"
+  config.vm.box_url = "https://s3-eu-west-1.amazonaws.com/nordsoftware/vagrant/json/kkv/nettineuvoja-vagrant.json"
 
   config.vm.network "private_network", ip: "192.168.10.10"
 
