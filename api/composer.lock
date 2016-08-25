@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a3260beba0f843fb8b8d7a96fd2b8cc8",
-    "content-hash": "910a9d66457ae2f75c6193b1f17fa5c7",
+    "hash": "227c1202acd3c0b144ca308f41c318c4",
+    "content-hash": "6f82ae37fd8b9b2ce2e9921e243af974",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -1673,16 +1673,16 @@
         },
         {
             "name": "illuminate/mail",
-            "version": "v5.2.36",
+            "version": "v5.2.43",
             "source": {
                 "type": "git",
-                "url": "https://github.com/nordsoftware/mail.git",
-                "reference": "020ffc2448314b6af4607e967f22e07dd2bbee80"
+                "url": "https://github.com/illuminate/mail.git",
+                "reference": "901d2233f619709fb2ad217ffa0454e0bc339a7f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nordsoftware/mail/zipball/020ffc2448314b6af4607e967f22e07dd2bbee80",
-                "reference": "020ffc2448314b6af4607e967f22e07dd2bbee80",
+                "url": "https://api.github.com/repos/illuminate/mail/zipball/901d2233f619709fb2ad217ffa0454e0bc339a7f",
+                "reference": "901d2233f619709fb2ad217ffa0454e0bc339a7f",
                 "shasum": ""
             },
             "require": {
@@ -1709,22 +1709,19 @@
                     "Illuminate\\Mail\\": ""
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
             "authors": [
                 {
                     "name": "Taylor Otwell",
-                    "email": "taylorotwell@gmail.com"
+                    "email": "taylor@laravel.com"
                 }
             ],
             "description": "The Illuminate Mail package.",
             "homepage": "http://laravel.com",
-            "support": {
-                "issues": "https://github.com/laravel/framework/issues",
-                "source": "https://github.com/laravel/framework"
-            },
-            "time": "2016-05-30 19:35:01"
+            "time": "2016-08-04 14:15:00"
         },
         {
             "name": "illuminate/pagination",

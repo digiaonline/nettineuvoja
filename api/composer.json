@@ -3,17 +3,11 @@
   "description": "Nettineuvoja REST API.",
   "license": "MIT",
   "type": "project",
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/nordsoftware/mail"
-    }
-  ],
   "require": {
     "php": ">=5.5.9",
     "laravel/lumen-framework": "5.2.*",
     "league/flysystem-aws-s3-v2": "~1.0",
-    "illuminate/mail": ">=5.2.36",
+    "illuminate/mail": "^5.2",
     "jenssegers/date": "^3.0",
     "nordsoftware/lumen-core": "^1.4",
     "nordsoftware/lumen-cors": "^1.5",
