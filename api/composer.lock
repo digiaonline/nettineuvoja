@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "732dd18ac1c232c16ec71ef83696b884",
-    "content-hash": "3d92c4b1b2621bd51bb87dd2db979577",
+    "hash": "a3260beba0f843fb8b8d7a96fd2b8cc8",
+    "content-hash": "910a9d66457ae2f75c6193b1f17fa5c7",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -842,6 +842,7 @@
                 "rest",
                 "web service"
             ],
+            "abandoned": "guzzlehttp/guzzle",
             "time": "2015-03-18 18:23:50"
         },
         {
@@ -3077,16 +3078,16 @@
         },
         {
             "name": "nordsoftware/lumen-core",
-            "version": "1.3.1",
+            "version": "1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nordsoftware/lumen-core.git",
-                "reference": "dd948cfc821d804f3c01f37a2332e12aeb60012d"
+                "reference": "a03fdf4f4e4ca73710dc6bcc71530151cdcc91eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nordsoftware/lumen-core/zipball/dd948cfc821d804f3c01f37a2332e12aeb60012d",
-                "reference": "dd948cfc821d804f3c01f37a2332e12aeb60012d",
+                "url": "https://api.github.com/repos/nordsoftware/lumen-core/zipball/a03fdf4f4e4ca73710dc6bcc71530151cdcc91eb",
+                "reference": "a03fdf4f4e4ca73710dc6bcc71530151cdcc91eb",
                 "shasum": ""
             },
             "require": {
@@ -3134,7 +3135,7 @@
                 "lumen",
                 "rest"
             ],
-            "time": "2016-04-01 13:50:51"
+            "time": "2016-05-20 08:17:43"
         },
         {
             "name": "nordsoftware/lumen-cors",
