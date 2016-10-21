@@ -25,6 +25,7 @@ class SlideTransformer extends TransformerAbstract
             'save_after'           => $slide->getSaveAfter(),
             'summary_after'        => $slide->getSummaryAfter(),
             'exclude_from_summary' => $slide->getExcludeFromSummary(),
+            'order_number'         => $slide->getOrderNumber(),
             'created_at'           => $slide->getCreatedAtTimestamp(),
             'updated_at'           => $slide->getUpdatedAtTimestamp(),
             'status'               => (int) $slide->getStatusValue(),
