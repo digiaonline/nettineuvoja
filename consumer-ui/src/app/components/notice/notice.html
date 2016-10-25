@@ -5,6 +5,6 @@
   <div class="notice-content">
     <h5 class="notice-title" ng-show="model.title">{{ translate(model.title) }}</h5>
 
-    <div class="notice-body" ng-bind-html="model.body | html"></div>
+    <div class="notice-body" ng-bind-html="translate(model.body) | html"></div>
   </div>
 </div>
