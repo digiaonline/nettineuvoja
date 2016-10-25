@@ -10,7 +10,7 @@ angular.module('nnConsumerUi')
       'MAIL_SENT_TEXT': 'Sähköposti lähetetty',
       'NEXT_TEXT': 'Seuraava',
       'SUMMARY_HEADING': 'Reklamaatio',
-      'SUMMARY_FOOT_TEXT': 'Odotan yrityksenne vastausta kahden viikon kuluessa. Sen jälkeen minulla on mahdollisuus ottaa yhteyttä maistraattien kuluttajaneuvontaan.'
+      'SUMMARY_FOOT_TEXT': 'Odotan vastaustanne kahden viikon kuluessa. Sen jälkeen minulla on mahdollisuus ottaa yhteyttä maistraattien kuluttajaneuvontaan.'
     });
 
     $translateProvider.translations('sv', {
@@ -23,7 +23,7 @@ angular.module('nnConsumerUi')
       'MAIL_SENT_TEXT': 'E-post skickad',
       'NEXT_TEXT': 'Nästa',
       'SUMMARY_HEADING': 'Reklamation',
-      'SUMMARY_FOOT_TEXT': 'Jag förväntar mig svar från ert företag inom två veckor. Efter det kan jag kontakta maistratens konsumentrådgivning.'
+      'SUMMARY_FOOT_TEXT': 'Jag förväntar mig svar inom två veckor. Efter det kan jag kontakta maistratens konsumentrådgivning.'
     });
 
     $translateProvider.translations('en', {
@@ -36,7 +36,7 @@ angular.module('nnConsumerUi')
       'MAIL_SENT_TEXT': 'E-mail sent',
       'NEXT_TEXT': 'Next',
       'SUMMARY_HEADING': 'Complaint',
-      'SUMMARY_FOOT_TEXT': 'I await an answer from your company within two weeks. Thereafter I may choose to contact the registry office\'s consumer advice.'
+      'SUMMARY_FOOT_TEXT': 'I await an answer within two weeks. Thereafter I may choose to contact the registry office\'s consumer advice.'
     });
 
     $translateProvider.preferredLanguage('fi');
