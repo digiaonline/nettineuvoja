@@ -10,6 +10,7 @@ module.exports = function(grunt, options) {
         APP_NAME: process.env.APP_NAME,
         API_VERSION: 'v1',
         API_URL: process.env.API_URL,
+        PAGE_TITLE: process.env.PAGE_TITLE,
         DEBUG: false,
         DEFAULT_LANGUAGE: 'fi',
         VERSION: pkg.version,

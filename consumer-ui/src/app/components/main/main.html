@@ -1,6 +1,7 @@
 <div class="main">
   <div class="main-head hidden-print">
-    <img class="head-kkv" src="images/kkv.png" alt="Kilpailu- ja kuluttajavirasto"/>
+    <a href="http://kkv.fi/kuluttajaneuvonta"><img class="head-kkv" src="images/kkv.png" alt="Kilpailu- ja kuluttajavirasto" analytics-on analytics-event="kkv logo"></a>
+    <a href="http://kkv.fi/kuluttajaneuvonta"><img class="head-kune" src="images/kune-logo.png" alt="Kuluttajaneuvonta" analytics-on analytics-event="kune logo"/></a>
     <ul class="language-menu hidden-print">
       <li ng-class="{'active': language.iso_code === activeLanguage}" ng-repeat="language in languages">
         <a ng-click="changeLanguage(language.iso_code)">{{ language.abbreviation }}</a>
@@ -51,7 +52,8 @@
                            ng-model="session.model[slide.name][element.name]"
                            ng-style="element.style"
                            ng-click="singleChoiceToggled(slide, element, item, slide_idx)"
-                           btn-radio="'{{ item.name }}'">
+                           btn-radio="'{{ item.name }}'"
+                           analytics-on>
                           <img class="item-icon" ng-src="{{ item.icon }}" alt=""/>
 
                           <div class="item-content" ng-bind-html="translate(item.label) | html"></div>
@@ -89,6 +91,7 @@
                                         placeholder="{{ translate(item.placeholder) }}"
                                         ng-model="session.model[slide.name][element.name][item.name]"
                                         ng-style="item.style"
+                                        maxlength="{{ item.max_length }}"
                                         ng-maxlength="item.max_length"
                                         ng-required="item.required"></textarea>
 
@@ -165,7 +168,7 @@
                 </div>
                 <div ng-switch-when="next" class="slide-next" ng-style="element.style"
                      ng-show="element.next_slide && service.validateForms(forms[slide.name], slide, session.model[slide.name])">
-                  <a class="next-button" ng-click="loadSlide(element.next_slide, slide_idx)">
+                  <a class="next-button" ng-click="loadSlide(element.next_slide, slide_idx)" analytics-on>
                     <span>{{ translate(element.label) || ('NEXT_TEXT' | translate) }}</span>
                     <i class="fa fa-chevron-down"></i>
                   </a>
@@ -175,7 +178,7 @@
           </div>
         </div>
         <div ng-switch-when="summary" class="summary">
-          <div nn-summary="session.model"></div>
+          <div nn-summary="session.model" nn-summary-language="activeLanguage"></div>
           <div class="summary-actions hidden-print">
             <a class="summary-button" ng-click="service.print()">{{ 'PRINT_BUTTON' | translate }}</a>
             <a class="summary-button" ng-click="sendMail()">{{ 'SEND_MAIL_BUTTON' | translate }}</a>

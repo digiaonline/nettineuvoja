@@ -11,6 +11,8 @@ angular.module('nnConsumerUi', [
   'pascalprecht.translate',
   'duScroll',
   'LocalStorageModule',
-  'ngFileUpload'
+  'ngFileUpload',
+  'angulartics',
+  'angulartics.google.analytics'
 ])
   .value('duScrollGreedy', true);
