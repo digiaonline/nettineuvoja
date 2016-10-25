@@ -58,9 +58,29 @@ hr {
     text-align: center;
 
     .head-kkv {
-      position: absolute;
-      top: 40px;
       left: 20px;
+      position: absolute;
+      top: 20px;
+      width: 150px;
+
+      @media screen and (min-width: @screen-sm) {
+        left: 20px;
+        top: 40px;
+        width: auto;
+      }
+    }
+
+    .head-kune {
+      position: absolute;
+      left: 9px;
+      top: 55px;
+      width: 235px;
+
+      @media screen and (min-width: @screen-sm) {
+        left: 235px;
+        top: 27px;
+        width: 280px;
+      }
     }
 
     .language-menu {
@@ -454,6 +474,14 @@ hr {
   &-title {
     margin: 0 0 40px;
     text-align: center;
+  }
+
+  &-label {
+    margin-bottom: 0;
+  }
+
+  &-item {
+    white-space: pre-line;
   }
 
   &-actions {

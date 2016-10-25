@@ -1,9 +1,9 @@
 <h2 class="summary-title">{{ 'SUMMARY_HEADING' | translate }}</h2>
 
 <div ng-repeat="data in summaryData" style="margin-bottom: 20px;">
-  <h3>{{ data.label }}</h3>
+  <h3 class="summary-label">{{ data.label }}</h3>
 
-  <div ng-repeat="item in data.items">
+  <div class="summary-item" ng-repeat="item in data.items">
     {{ item }}
   </div>
 </div>
