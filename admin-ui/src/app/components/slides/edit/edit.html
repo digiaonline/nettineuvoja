@@ -4,6 +4,7 @@
       <div class="header-slide" nn-fixed-header="0">
         <h2 class="slide-title">
           {{ model.label['fi'] }}
+          <br>
           <small>{{ model.name }}</small>
           <span class="slide-status">
               <span class="status-saving" ng-show="status === 'saving'" title="Saving">
@@ -13,6 +14,11 @@
               <span class="status-dirty" ng-show="status === 'dirty'" title="Modified">
                   <i class="btb bt-check bt-lg"></i></span>
           </span>
+        </h2>
+        <h2 class="sidebar-title-fixed">
+          Slides
+          <a class="preview-button" ng-click="previewService.open({url: flowchartUrl})" title="Preview"><i
+                  class="btb bt-eye bt-lg"></i></a>
         </h2>
       </div>
       <form class="form" name="slideForm">
@@ -66,6 +72,16 @@
             </label>
           </div>
         </div>
+        <div nn-form-group>
+          <label for="{{ model.id }}_weight">Weight
+          </label>
+          <select name="{{ model.id }}_weight" id="{{ model.id }}_weight"
+                  ng-model="model.order_number"
+                  convert-to-number>
+            <option value="" disabled selected>Please Select</option>
+            <option ng-repeat="option in getWeightOptions()" value="{{option}}">{{option}}</option>
+          </select>
+        </div>
         <div nn-styles="model.style"></div>
         <label>Elements</label>
 
@@ -104,41 +120,46 @@
       </div>
     </div>
     <div class="edit-slide-right">
-      <div class="header-sidebar">
-        <h2 class="sidebar-title">
-          Slides
-          <a class="preview-button" ng-click="previewService.open({url: flowchartUrl})" title="Preview"><i
-              class="btb bt-eye bt-lg"></i></a>
-        </h2>
-      </div>
-      <div ng-repeat="slide in slides | orderBy:'name'"
-           ng-class="{'active': currentIndex === getSlideIndex(slide)}">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <div class="heading-inner">
-              <div class="heading-left">
-                <h3>
-                  <a ng-click="activateSlide(getSlideIndex(slide))">{{ slide.label['fi'] }}
-                    <small>{{ slide.name }}</small>
-                  </a>
-                </h3>
-              </div>
-              <div class="heading-right">
-                <i class="btb bt-database" title="Save After" ng-show="slide.save_after"></i>
-                <i class="btb bt-file" title="Summary After" ng-show="slide.summary_after"></i>
-                <i class="btb bt-merge" title="Previous Slide" ng-show="isSourceSlide(slide)"></i>
-                <i class="btb bt-fork" title="Next Slide" ng-show="isDestinationSlide(slide.name)"></i>
-                <a class="remove-button"
-                   nn-confirm-text="Are you sure you want to remove this slide?"
-                   ng-click="slideService.delete(slide.id, slideService.getIndex(slide))"
-                   title="Remove"><i class="bts bt-times"></i></a>
+      <div class="edit-slide-right-content" nn-scroll-position ng-class="{ 'fixed':fixed }">
+        <div class="header-sidebar">
+          <h2 class="sidebar-title">
+            Slides
+            <a class="preview-button" ng-click="previewService.open({url: flowchartUrl})" title="Preview"><i
+                class="btb bt-eye bt-lg"></i></a>
+          </h2>
+        </div>
+        <div ng-repeat="slide in slides | orderBy:['order_number', 'name']"
+             ng-class="{'active': currentIndex === getSlideIndex(slide)}">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <div class="heading-inner">
+                <div class="heading-left">
+                  <h3>
+                    <a ng-click="activateSlide(getSlideIndex(slide))">{{ slide.label['fi'] }}
+                      <small>{{ slide.name }}</small>
+                    </a>
+                  </h3>
+                </div>
+                <div class="heading-right">
+                  <i class="btb bt-database" title="Save After" ng-show="slide.save_after"></i>
+                  <i class="btb bt-file" title="Summary After" ng-show="slide.summary_after"></i>
+                  <i class="btb bt-merge" title="Previous Slide" ng-show="isSourceSlide(slide)"></i>
+                  <i class="btb bt-fork" title="Next Slide" ng-show="isDestinationSlide(slide.name)"></i>
+                  <a class="remove-button"
+                     nn-confirm-text="Are you sure you want to remove this slide?"
+                     ng-click="slideService.delete(slide.id, slideService.getIndex(slide))"
+                     title="Remove"><i class="bts bt-times"></i></a>
+                </div>
+                <div class="heading-weight" ng-show="showHeading(slide)">
+                  <span><i class="bts bt-sort" title="Weight"></i>{{slide.order_number}}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="slide-add">
-        <a class="add-button" title="Add slide" ng-click="slideService.openAddModal()"><i class="bts bt-plus"></i></a>
+        <div class="slide-add">
+          <a class="add-button" title="Add slide" ng-click="slideService.openAddModal()"><i class="bts bt-plus"></i></a>
+        </div>
       </div>
     </div>
   </div>

@@ -20,7 +20,7 @@ angular.module('nnAdminUi')
     });
   })
 
-  .controller('EditSlideCtrl', function($scope, $log, $timeout, DEBUG, FLOWCHART_URL, querySlides, languageService, slideService, slideSerializer, SlideState, elementService, previewService) {
+  .controller('EditSlideCtrl', function($scope, $log, $timeout, _, DEBUG, FLOWCHART_URL, querySlides, languageService, slideService, slideSerializer, SlideState, elementService, previewService) {
 
     var ready = false;
     var updateTimeout;
@@ -37,6 +37,25 @@ angular.module('nnAdminUi')
     $scope.debug = DEBUG;
     $scope.adding = false;
     $scope.languages = [];
+    $scope.scroll = 0;
+
+    $scope.getWeightOptions = function() {
+      var allWeightOptions = _.range(201);
+      var existingWeights = _.map($scope.slides, function(slide) {
+        return slide.order_number;
+      });
+      var existingWeightsExceptSelected = _.omit(existingWeights, function(existingWeight) {
+        return existingWeight === $scope.model.order_number;
+      });
+
+      return _.omit(allWeightOptions, function(weightOption) {
+        return _.includes(existingWeightsExceptSelected, weightOption);
+      });
+    };
+
+    $scope.showHeading = function(slide) {
+      return _.isNumber(slide.order_number);
+    };
 
     /**
      * @returns {Promise}

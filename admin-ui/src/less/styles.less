@@ -101,6 +101,22 @@ label {
   text-align: right;
 }
 
+.heading-weight {
+  .make-sm-column(12);
+
+  > span {
+    color: @gray-light;
+    font-family: @font-family-monospace;
+    font-size: 10px;
+    font-weight: bold;
+
+    > i {
+      font-size: 12px;
+      padding-right: 5px;
+    }
+  }
+}
+
 .header-affix() {
   #gradient > .vertical(#fff, transparent, 80%);
   padding-top: 0;
@@ -115,6 +131,25 @@ label {
 
   &.affix {
     .header-affix();
+
+    .slide-title {
+      .make-md-column(8);
+      font-size: 26px;
+    }
+
+    .sidebar-title-fixed {
+      .make-md-column(4);
+      font-size: 26px;
+      padding: 0 30px 0 0;
+
+      @media screen and (min-width: @screen-md-min) {
+        display: block;
+      }
+
+      .preview-button {
+        float: right;
+      }
+    }
   }
 
   .slide-title {
@@ -134,9 +169,14 @@ label {
       color: @gray-lighter;
     }
   }
+
+  .sidebar-title-fixed {
+    display: none;
+  }
 }
 
 .header-sidebar {
+  display: block;
   margin-bottom: 20px;
   padding: 10px 0;
 
@@ -291,6 +331,41 @@ label {
 
 .edit-slide-right {
   .make-md-column(4);
+
+  @media screen and (min-width: @screen-md-min) {
+    padding: 0;
+  }
+
+  .edit-slide-right-content {
+
+    @media screen and (min-width: @screen-md-min) {
+      max-height: 100vh;
+      overflow-y: scroll;
+      padding: 71px 15px 20px;
+      position: fixed;
+      top: 0;
+      width: inherit;
+
+      &::before {
+        #gradient > .vertical(#fff, transparent, 80%);
+        content: '';
+        height: 90px;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 999;
+        width: inherit;
+      }
+
+      &.fixed {
+        padding: 100px 15px 20px;
+
+        .header-sidebar {
+          display: none;
+        }
+      }
+    }
+  }
 
   .active .panel-heading {
     background: darken(@gray-lighter, 1%);
