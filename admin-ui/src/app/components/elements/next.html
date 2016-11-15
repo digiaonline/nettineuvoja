@@ -1,0 +1,28 @@
+<div class="panel panel-default">
+  <div nn-element-header nn-element-header-sticky></div>
+  <div class="panel-body" ng-show="!collapsed">
+    <div ng-repeat="language in languages">
+      <div nn-form-group>
+        <label for="{{ model.id }}_label_{{ language.iso_code }}">Label
+          <small>{{ language.label }}</small>
+        </label>
+        <input class="form-control" type="text" name="{{ element.id }}_label_{{ language.iso_code }}"
+               id="{{ model.id }}_label_{{ language.iso_code }}"
+               ng-model="model.label[language.iso_code]"/>
+      </div>
+    </div>
+    <div nn-form-group>
+      <div class="nullable">
+        <label for="{{ model.id }}_next_slide">Next slide</label>
+        <select class="form-control"
+                name="{{ model.id }}_next_slide"
+                id="{{ model.id }}_next_slide"
+                ng-model="model.next_slide"
+                ng-options="option.name as option.label.fi for option in slideOptions | orderBy:'label.fi'">
+          <option value="">-- Slide --</option>
+        </select>
+      </div>
+    </div>
+    <div nn-styles="model.style"></div>
+  </div>
+</div>

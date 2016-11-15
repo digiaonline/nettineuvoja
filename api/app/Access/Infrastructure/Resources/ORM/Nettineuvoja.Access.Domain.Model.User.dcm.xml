@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                   https://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+
+    <entity name="Nettineuvoja\Access\Domain\Model\User" table="users"
+            repository-class="Nettineuvoja\Access\Infrastructure\UserRepository">
+
+        <id name="autoIncrementId" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>
+
+        <field name="domainId" type="domain_id" column="domain_id" unique="true"/>
+        <field name="email" type="string" unique="true"/>
+        <field name="password" type="string"/>
+        <field name="rememberToken" type="string" column="remember_token" nullable="true"/>
+        <field name="createdAt" column="created_at" type="datetime"/>
+        <field name="updatedAt" column="updated_at" type="datetime" nullable="true"/>
+        <field name="deletedAt" column="deleted_at" type="datetime" nullable="true"/>
+
+        <field name="status" type="status"/>
+
+        <lifecycle-callbacks>
+            <lifecycle-callback type="prePersist" method="prePersist"/>
+            <lifecycle-callback type="preUpdate" method="preUpdate"/>
+        </lifecycle-callbacks>
+
+    </entity>
+
+</doctrine-mapping>

@@ -1,0 +1,27 @@
+<div class="item-header">
+  <div class="heading-inner">
+    <div class="heading-left">
+      <a class="collapse-button" ng-click="collapsed = !collapsed" title="Collapse">
+        <i ng-class="{'bts bt-angle-down': !collapsed, 'bts bt-angle-right': collapsed}"></i>
+      </a>
+
+      <h3>{{ service.getLabel(model) }}
+        <small>{{ service.getName(model) }}</small>
+      </h3>
+    </div>
+    <div class="heading-right">
+      <a class="move-button"
+         ng-class="{'disabled': !itemService.canMove(data.items, data.index - 1)}"
+         ng-click="itemService.move(data.items, data.index, data.index - 1)"
+         title="Move up"><i class="bts bt-arrow-up"></i></a>
+      <a class="move-button"
+         ng-class="{'disabled': !itemService.canMove(data.items, data.index + 1)}"
+         ng-click="itemService.move(data.items, data.index, data.index + 1)"
+         title="Move down"><i class="bts bt-arrow-down"></i></a>
+      <a class="remove-button"
+         nn-confirm-text="Are you sure you want to remove this item?"
+         ng-click="itemService.remove(data.items, data.index)"
+         title="Remove"><i class="bts bt-times"></i></a>
+    </div>
+  </div>
+</div>

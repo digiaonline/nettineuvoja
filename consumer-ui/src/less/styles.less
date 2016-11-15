@@ -1,0 +1,546 @@
+// -- Imports --
+// Bootstrap Framework
+@import (once) "../../bower_components/bootstrap/less/bootstrap";
+
+// -- Mixins --
+
+.nn-icon(@size; @font-size; @color; @bg-color) {
+  .square(@size);
+  background: @bg-color;
+  border-radius: 100%;
+  display: block;
+  text-align: center;
+
+  > i {
+    color: @color;
+    font-size: @font-size;
+    line-height: @size;
+  }
+}
+
+hr {
+  border: none;
+  border-top: 3px solid #fff;
+  margin: 40px 0;
+}
+
+// -- Forms --
+
+.form-control {
+  border-color: transparent;
+  box-shadow: none;
+}
+
+.form-control-feedback {
+  top: 25px !important;
+}
+
+// -- Controllers --
+
+.main {
+  @slide-padding: 80px;
+  @action-button-width: 120px;
+  @action-button-height: 80px;
+  .container;
+
+  .main-title {
+    color: @nn-blue;
+    font-size: 80px;
+    margin: 40px 0;
+    text-align: center;
+  }
+
+  .main-head {
+    .clearfix();
+    height: 120px;
+    padding: 30px 0;
+    position: relative;
+    text-align: center;
+
+    .head-kkv {
+      left: 20px;
+      position: absolute;
+      top: 20px;
+      width: 150px;
+
+      @media screen and (min-width: @screen-sm) {
+        left: 20px;
+        top: 40px;
+        width: auto;
+      }
+    }
+
+    .head-kune {
+      position: absolute;
+      left: 9px;
+      top: 55px;
+      width: 235px;
+
+      @media screen and (min-width: @screen-sm) {
+        left: 235px;
+        top: 27px;
+        width: 280px;
+      }
+    }
+
+    .language-menu {
+      .list-inline;
+      float: right;
+      font-size: 16px;
+      font-weight: bold;
+      margin: 15px;
+
+      > li {
+        > a {
+          color: @nn-blue;
+          text-decoration: none;
+        }
+
+        &.active > a {
+          color: @nn-blue-dark;
+        }
+      }
+    }
+  }
+
+  .slide-pager {
+    .list-unstyled;
+    position: fixed;
+    margin: 0 -(@screen-lg-min / 2) 0 0;
+    top: 50%;
+    right: 50%;
+    z-index: 1000;
+
+    > li {
+      margin-bottom: 10px;
+
+      > a {
+        .square(15px);
+        background: @nn-blue;
+        border-radius: 100%;
+        content: "";
+        cursor: pointer;
+        display: block;
+        z-index: 1001;
+      }
+    }
+  }
+
+  .slide {
+    background: #fff;
+    margin-bottom: @action-button-height / 2;
+    position: relative;
+    text-align: center;
+
+    h2 {
+      margin: 0 0 30px;
+
+      @media screen and (min-width: 320px) and (max-width: 359px) {
+        font-size: 28px;
+      }
+      @media screen and (min-width: 360px) and (max-width: @screen-sm) {
+        font-size: 32px;
+      }
+
+      > small {
+        color: inherit;
+      }
+    }
+
+    p {
+      margin-bottom: 20px;
+    }
+  }
+
+  .slide-elements {
+    padding: (@slide-padding / 2) (@slide-padding / 4) @slide-padding;
+
+    @media screen and (min-width: @screen-sm) {
+      padding: (@slide-padding / 2) (@slide-padding / 2) @slide-padding;
+    }
+    @media screen and (min-width: @screen-md) {
+      padding: (@slide-padding / 2) @slide-padding @slide-padding;
+    }
+  }
+
+  .choice-element {
+    @choice-size: 274px;
+    .make-row();
+    text-align: center;
+
+    .choice-column {
+      .make-sm-column(4);
+      display: inline-block;
+      float: none !important;
+      position: relative;
+    }
+
+    .choice-item {
+      // TODO: Fix responsive styles
+      background: @nn-blue-lighter;
+      cursor: pointer;
+      display: block;
+      font-size: 22px;
+      margin-bottom: 20px;
+      position: relative;
+      width: 100%;
+
+      @media screen and (min-width: @screen-sm-min) and (max-width: @screen-sm-max) {
+        font-size: 12px;
+      }
+
+      &.active {
+        background: @nn-blue-light !important;
+      }
+
+      .item-icon {
+        .img-responsive;
+        margin: auto;
+      }
+
+      .item-content {
+        color: @nn-blue-dark;
+        font-weight: 600;
+        position: absolute;
+        text-align: center;
+        right: @grid-gutter-width / 2;
+        bottom: 20px;
+        left: @grid-gutter-width / 2;
+      }
+    }
+
+    .choice-info {
+      .nn-icon(64px; 36px; #fff; @nn-blue);
+      border: 5px solid #fff;
+      position: absolute;
+      top: -10px;
+      right: 5px;
+
+      > i {
+        position: relative;
+        bottom: 5px;
+      }
+    }
+  }
+
+  .slide-form {
+    .form {
+      margin: 40px auto;
+      max-width: 540px;
+    }
+
+    .form-group {
+      position: relative;
+      text-align: left;
+    }
+
+    .input-info {
+      .nn-icon(24px; 18px; #fff; @nn-blue);
+    }
+
+    .input-text > .input-info,
+    .input-dropdown > .input-info {
+      position: absolute;
+      top: 33px;
+      right: -33px;
+
+      @media screen and (max-width: @screen-xs-max) {
+        display: none;
+      }
+    }
+
+    .input-file {
+      label {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .upload-button {
+        .btn;
+        .btn-default;
+        border-radius: 4px;
+        display: inline-block;
+        margin-bottom: 10px;
+      }
+
+      .upload-filename {
+        color: @gray-dark;
+      }
+    }
+
+    .input-notice {
+      @input-notice-padding: 20px;
+      background: @nn-yellow;
+      color: #000;
+      margin-top: 20px;
+      padding: @input-notice-padding;
+      position: relative;
+
+      .notice-icon {
+        @icon-size: 36px;
+        .nn-icon(@icon-size; 24px; #fff; @nn-purple);
+        left: @input-notice-padding;
+        margin: -(@icon-size / 2) 0 0;
+        position: absolute;
+        top: 50%;
+      }
+
+      .notice-content {
+        padding-left: 70px;
+      }
+
+      .notice-title {
+        margin-top: 0;
+      }
+
+      .notice-body {
+        p:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    .text-max {
+      color: #000;
+      margin-top: 10px;
+      text-align: right;
+    }
+
+    .input-checkbox {
+      .checkbox;
+      color: @nn-blue-dark;
+      font-size: 16px;
+      position: relative;
+
+      input[type=checkbox] {
+        margin-right: 5px;
+      }
+
+      > .input-info {
+        display: inline-block;
+        margin-left: 5px;
+
+        @media screen and (max-width: @screen-xs-max) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .slide-next {
+    .size(auto, @action-button-height / 2);
+    background: #fff;
+    color: @nn-blue;
+    position: absolute;
+    right: 0;
+    bottom: -(@action-button-height / 2);
+    left: 0;
+
+    .next-button {
+      .size(@action-button-width, @action-button-height);
+      background: inherit;
+      border-radius: 6px;
+      box-sizing: border-box;
+      color: inherit;
+      cursor: pointer;
+      display: block;
+      margin-left: -(@action-button-width / 2);
+      padding: 15px;
+      position: absolute;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+      left: 50%;
+      bottom: 0;
+
+      > span {
+        display: block;
+        font-size: 14px;
+        font-family: @font-family-interstate-l;
+      }
+
+      > i {
+        display: block;
+        font-size: 3em;
+        margin-top: -5px;
+      }
+    }
+  }
+
+  .slide-loading {
+    color: @nn-blue;
+    font-size: 36px;
+    padding: 100px 0;
+    text-align: center;
+  }
+
+  .debug {
+    margin: (@action-button-height / 2) + 10px 0 40px;
+    text-align: left;
+
+    > pre {
+      background: @gray-lighter;
+      border: none;
+      border-radius: 0;
+    }
+  }
+}
+
+.info-modal {
+  @info-padding: 40px;
+  @info-body-padding: 20px;
+  color: #000;
+  min-height: 400px;
+  padding: @info-padding;
+  position: relative;
+
+  .info-close {
+    @close-button-color: #000;
+    @close-button-size: 40px;
+    @close-button-thickness: 2px;
+    @close-button-offset: (@close-button-size / 2) - (@close-button-thickness / 2);
+    .size(80px, 40px);
+    color: @close-button-color;
+    display: block;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+
+    &:hover {
+      color: @close-button-color;
+    }
+
+    .close-text {
+      display: inline-block;
+      position: relative;
+      right: -5px;
+      bottom: -10px;
+    }
+
+    .close-icon {
+      .rotate(45deg);
+      background: @close-button-color;
+      display: inline-block;
+      height: @close-button-size;
+      position: absolute;
+      width: @close-button-thickness;
+      right: 20px;
+
+      &:after {
+        background: @close-button-color;
+        content: "";
+        height: @close-button-thickness;
+        position: absolute;
+        left: -@close-button-offset;
+        top: @close-button-offset;
+        width: @close-button-size;
+      }
+    }
+  }
+
+  .info-body {
+    .make-row();
+  }
+
+  .body-left {
+    .make-xs-column(3);
+    .hidden-xs;
+
+    .info {
+      @info-size: 125px;
+      .nn-icon(@info-size; 100px; @nn-blue; #fff);
+      margin: @info-body-padding 0 0 -(@info-size / 2);
+      position: absolute;
+      left: 50%;
+    }
+  }
+
+  .body-middle {
+    .make-sm-column(7);
+    padding-top: @info-body-padding;
+    padding-bottom: @info-body-padding;
+
+    > h3 {
+      margin-top: 0;
+    }
+  }
+}
+
+.summary {
+  border: 10px solid @nn-blue-dark;
+  padding: 40px;
+  text-align: left;
+
+  &-title {
+    margin: 0 0 40px;
+    text-align: center;
+  }
+
+  &-label {
+    margin-bottom: 0;
+  }
+
+  &-item {
+    white-space: pre-line;
+  }
+
+  &-actions {
+    margin: 40px 0;
+    text-align: center;
+  }
+
+  &-button {
+    .btn;
+    .button-variant(#fff; @nn-purple; @nn-purple);
+    text-transform: uppercase;
+  }
+
+  &-message {
+    font-size: 24px;
+    height: 50px;
+    text-align: center;
+  }
+}
+
+@media print {
+  .summary {
+    border: none;
+    font-size: 12px;
+    padding: 0;
+  }
+}
+
+// -- Bootstrap --
+
+.modal-dialog {
+  .container;
+}
+
+.modal-body {
+  padding: 0;
+}
+
+.modal-content {
+  box-shadow: none !important;
+}
+
+.tooltip-inner {
+  font-size: 18px;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+// -- Angular --
+
+a[ng-click] {
+  cursor: pointer;
+}
+
+.nn-fade-in.ng-enter {
+  opacity: 0;
+  transition: .15s linear all;
+}
+
+.nn-fade-in.ng-enter.ng-enter-active {
+  opacity: 1;
+}

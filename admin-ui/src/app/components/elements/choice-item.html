@@ -1,0 +1,41 @@
+<div class="panel panel-default">
+  <div nn-item-header></div>
+  <div class="panel-body" ng-show="!collapsed">
+    <div nn-form-group>
+      <label for="{{ model.id }}_name">System Name</label>
+      <input class="form-control" type="text" id="{{ model.id }}_name" name="{{ model.id }}_name"
+             ng-model="model.name"/>
+    </div>
+    <div ng-repeat="language in languages">
+      <div nn-form-group>
+        <label for="{{ model.id }}_label_{{ language.iso_code }}">Label
+          <small>{{ language.label }}</small>
+        </label>
+        <input class="form-control" type="text"
+               id="{{ model.id }}_label_{{ language.iso_code }}"
+               name="{{ model.id }}_label_{{ language.iso_code }}"
+               ng-model="model.label[language.iso_code]"/>
+      </div>
+    </div>
+    <div nn-form-group>
+      <label for="{{ model.id }}_icon">Icon</label>
+      <select class="form-control" id="{{ model.id }}_icon" name="{{ model.id }}_icon"
+              ng-options="option.url as option.label for option in service.iconOptions"
+              ng-model="model.icon">
+        <option value="">-- Icon --</option>
+      </select>
+    </div>
+    <div nn-form-group class="nullable">
+      <label for="{{ model.id }}_next_slide">Slide</label>
+      <select class="form-control" id="{{ model.id }}_next_slide" name="{{ model.id }}_next_slide"
+              ng-options="option.name as option.label.fi for option in slideOptions | orderBy:'label.fi'"
+              ng-model="model.next_slide">
+        <option value="">-- Slide --</option>
+      </select>
+    </div>
+    <div class="item-info">
+      <a class="info-button" ng-click="infoService.open(model.info)"
+         title="Edit info"><i class="bts bt-info-circle bt-lg"></i></a>
+    </div>
+  </div>
+</div>

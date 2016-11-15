@@ -1,0 +1,45 @@
+{
+  "name": "nettineuvoja-api",
+  "description": "Nettineuvoja REST API.",
+  "license": "MIT",
+  "type": "project",
+  "require": {
+    "php": ">=5.5.9",
+    "laravel/lumen-framework": "5.2.*",
+    "league/flysystem-aws-s3-v2": "~1.0",
+    "illuminate/mail": "^5.2",
+    "jenssegers/date": "^3.0",
+    "nordsoftware/lumen-core": "^1.4",
+    "nordsoftware/lumen-cors": "^1.5",
+    "nordsoftware/lumen-doctrine": "~2.4",
+    "nordsoftware/lumen-oauth2": "^1.4",
+    "nordsoftware/lumen-serializer": "~0.1",
+    "vlucas/phpdotenv": "~1.0",
+    "mandrill/mandrill": "~1.0",
+    "guzzlehttp/guzzle": "~5.0",
+    "crisu83/shortid": "~1.0",
+    "nordsoftware/lumen-rbac": "~0.5",
+    "nordsoftware/lumen-fractal": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.0",
+    "fzaninotto/faker": "~1.0",
+    "doctrine/data-fixtures": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Nettineuvoja\\": "app/"
+    },
+    "classmap": [
+      "database/"
+    ]
+  },
+  "autoload-dev": {
+    "classmap": [
+      "tests/"
+    ]
+  },
+  "config": {
+    "preferred-install": "dist"
+  }
+}

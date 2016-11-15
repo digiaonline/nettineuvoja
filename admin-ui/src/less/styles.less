@@ -1,0 +1,485 @@
+@import (once) "../../bower_components/bootstrap/less/bootstrap";
+@import (once) "../../bower_components/font-awesome/less/font-awesome";
+@import (once) "black-tie/black-tie";
+
+.item() {
+  .make-row();
+
+  select, input[type=text] {
+    .input-sm;
+  }
+}
+
+a, button[type=button] {
+  &:hover {
+    text-decoration: none !important;
+  }
+}
+
+h3 {
+  font-size: 18px;
+}
+
+label {
+  margin-bottom: 10px;
+
+  > small {
+    color: @gray-light;
+  }
+}
+
+.login-form {
+  width: 340px;
+}
+
+.remove-button {
+  .btn;
+  .btn-link;
+  .btn-sm;
+}
+
+.add-button {
+  .btn;
+  .btn-link;
+}
+
+.submit-button {
+  .btn;
+  .btn-primary;
+  .btn-lg;
+}
+
+.cancel-button {
+  .btn;
+  .btn-link;
+  .btn-lg;
+}
+
+.move-button {
+  .btn;
+  .btn-link;
+  .btn-sm;
+
+  &.disabled > i {
+    color: @gray-light;
+  }
+}
+
+.remove-button {
+  .btn;
+  .btn-link;
+  .btn-sm;
+}
+
+.panel-heading {
+  h3 {
+    margin: 5px 0;
+
+    > small,
+    > a > small {
+      font-family: @font-family-monospace;
+      font-size: 10px;
+    }
+  }
+}
+
+.heading-inner {
+  .make-row();
+}
+
+.heading-left {
+  .clearfix();
+  .make-sm-column(6);
+
+  > h3 {
+    font-size: 16px;
+  }
+}
+
+.heading-right {
+  .make-sm-column(6);
+  text-align: right;
+}
+
+.heading-weight {
+  .make-sm-column(12);
+
+  > span {
+    color: @gray-light;
+    font-family: @font-family-monospace;
+    font-size: 10px;
+    font-weight: bold;
+
+    > i {
+      font-size: 12px;
+      padding-right: 5px;
+    }
+  }
+}
+
+.header-affix() {
+  #gradient > .vertical(#fff, transparent, 80%);
+  padding-top: 0;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.header-slide {
+  margin-bottom: 20px;
+  padding: 10px 0;
+
+  &.affix {
+    .header-affix();
+
+    .slide-title {
+      .make-md-column(8);
+      font-size: 26px;
+    }
+
+    .sidebar-title-fixed {
+      .make-md-column(4);
+      font-size: 26px;
+      padding: 0 30px 0 0;
+
+      @media screen and (min-width: @screen-md-min) {
+        display: block;
+      }
+
+      .preview-button {
+        float: right;
+      }
+    }
+  }
+
+  .slide-title {
+    margin-bottom: 20px;
+  }
+
+  .slide-status {
+    .status-saved {
+      color: @brand-success;
+    }
+
+    .status-saving {
+      color: @gray-lighter;
+    }
+
+    .status-dirty {
+      color: @gray-lighter;
+    }
+  }
+
+  .sidebar-title-fixed {
+    display: none;
+  }
+}
+
+.header-sidebar {
+  display: block;
+  margin-bottom: 20px;
+  padding: 10px 0;
+
+  .sidebar-title {
+    margin-bottom: 20px;
+  }
+}
+
+.edit-slide {
+  .container-fluid;
+  position: relative;
+}
+
+.edit-slide-inner {
+  .make-row();
+}
+
+.edit-slide-left {
+  .make-md-column(8);
+
+  .slide-elements {
+    .panel-heading {
+      h3 {
+        float: left;
+      }
+
+      .collapse-button {
+        .btn;
+        .btn-link;
+        .btn-sm;
+        display: block;
+        float: left;
+        margin-left: -5px;
+        width: 36px;
+      }
+    }
+
+    .elements-add {
+      text-align: center;
+      margin-bottom: 15px;
+
+      .add-button {
+        .btn-lg;
+      }
+    }
+
+    .panel-body {
+      margin-bottom: -15px;
+    }
+  }
+
+  .element-styles {
+    .add-button {
+      .btn-sm;
+    }
+
+    .styles-item {
+      .item();
+
+      .item-property,
+      .item-value {
+        .make-xs-column(5);
+      }
+
+      .item-actions {
+        .make-xs-column(2);
+      }
+    }
+
+    .styles-add {
+      margin-bottom: 15px;
+
+      .add-button {
+        display: block;
+      }
+    }
+  }
+
+  .form-items {
+    .form-input {
+      .panel {
+        margin-bottom: 15px;
+      }
+
+      .panel-heading {
+        padding: 5px;
+      }
+
+      label {
+        font-size: 11px;
+        margin-bottom: 5px;
+      }
+
+      select, input[type=text] {
+        .input-sm;
+      }
+    }
+
+    .create-input {
+      margin: 50px 0 20px;
+
+      .input-item {
+        .make-md-column(3);
+      }
+
+      .add-button {
+        display: block;
+        text-align: left;
+      }
+    }
+  }
+
+  .item-add {
+    margin-bottom: 15px;
+
+    .add-button {
+      .btn-lg;
+      display: block;
+    }
+
+    .add-items {
+      position: relative;
+      text-align: center;
+
+      .item-button {
+        .btn;
+        .btn-link;
+        .btn-lg;
+      }
+
+      .close-button {
+        .btn;
+        .btn-link;
+        .btn-lg;
+        right: 5px;
+        position: absolute;
+      }
+    }
+  }
+
+  .item-info {
+    margin-bottom: 15px;
+
+    .info-button {
+      .btn;
+      .btn-link;
+      .btn-lg;
+      display: block;
+    }
+  }
+}
+
+.edit-slide-right {
+  .make-md-column(4);
+
+  @media screen and (min-width: @screen-md-min) {
+    padding: 0;
+  }
+
+  .edit-slide-right-content {
+
+    @media screen and (min-width: @screen-md-min) {
+      max-height: 100vh;
+      overflow-y: scroll;
+      padding: 71px 15px 20px;
+      position: fixed;
+      top: 0;
+      width: inherit;
+
+      &::before {
+        #gradient > .vertical(#fff, transparent, 80%);
+        content: '';
+        height: 90px;
+        position: fixed;
+        right: 0;
+        top: 0;
+        z-index: 999;
+        width: inherit;
+      }
+
+      &.fixed {
+        padding: 100px 15px 20px;
+
+        .header-sidebar {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .active .panel-heading {
+    background: darken(@gray-lighter, 1%);
+  }
+
+  .preview-button {
+    color: #000;
+    float: right;
+  }
+
+  .heading-right > i {
+    color: @gray-light;
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+
+  .slide-add {
+    .add-button {
+      .btn-lg;
+      display: block;
+    }
+  }
+}
+
+.flowchart-image {
+  display: block;
+  margin: auto;
+}
+
+.debug {
+  font-size: 8px;
+  margin-top: 20px;
+  text-align: left;
+
+  > pre {
+    background: lighten(#000, 93.5%);
+    border: none;
+    padding: 20px;
+  }
+}
+
+// -- Debug --
+
+.debug {
+  &-exception {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  &-message {
+    background: @gray-lighter;
+    margin-bottom: 20px;
+    padding: 20px;
+  }
+
+  &-source {
+    font-size: 11px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  &-trace-nav {
+    font-size: 11px;
+  }
+
+  &-trace-source {
+    font-weight: bold;
+  }
+}
+
+// -- Text Angular --
+
+.ta-toolbar {
+  background-color: #F0F0F0;
+  padding: 10px 10px 5px;
+  margin-left: 0;
+  border: 1px solid #EEE;
+}
+
+.ta-toolbar .btn-group {
+  margin-bottom: 5px;
+}
+
+.ta-edit-slide, .white-box {
+  padding: 10px;
+  background-color: #FFF;
+  border: 1px solid #EEE;
+}
+
+.ta-edit-slide.ta-html,
+.ta-scroll-window > .ta-bind,
+.ta-scroll-window.form-control {
+  min-height: 200px;
+}
+
+textarea.ta-bind {
+  width: 100%;
+}
+
+.modal-dialog.modal-lg {
+  width: auto !important;
+}
+
+// -- Angular --
+
+a[ng-click] {
+  cursor: pointer;
+}
+
+.nn-fade-in.ng-enter {
+  opacity: 0;
+  transition: .15s linear all;
+}
+
+.nn-fade-in.ng-enter.ng-enter-active {
+  opacity: 1;
+}

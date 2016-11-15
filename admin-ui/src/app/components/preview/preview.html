@@ -1,0 +1,10 @@
+<div class="modal-header">
+  <button type="button" class="close" ng-click="close()"><i class="bts bt-times bt-sm"></i></button>
+  <h3 class="modal-title">Preview Flow</h3>
+</div>
+<div class="modal-body">
+  <img class="flowchart-image" ng-show="model.url" ng-src="{{ model.url }}" alt="Flowchart"/>
+</div>
+<div class="modal-footer">
+  <button type="button" class="cancel-button" ng-click="close()">Close</button>
+</div>

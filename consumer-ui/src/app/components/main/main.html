@@ -1,0 +1,200 @@
+<div class="main">
+  <div class="main-head hidden-print">
+    <a href="http://kkv.fi/kuluttajaneuvonta"><img class="head-kkv" src="images/kkv.png" alt="Kilpailu- ja kuluttajavirasto" analytics-on analytics-event="kkv logo"></a>
+    <a href="http://kkv.fi/kuluttajaneuvonta"><img class="head-kune" src="images/kune-logo.png" alt="Kuluttajaneuvonta" analytics-on analytics-event="kune logo"/></a>
+    <ul class="language-menu hidden-print">
+      <li ng-class="{'active': language.iso_code === activeLanguage}" ng-repeat="language in languages">
+        <a ng-click="changeLanguage(language.iso_code)">{{ language.abbreviation }}</a>
+      </li>
+    </ul>
+  </div>
+  <ul class="slide-pager hidden-print" ng-show="slides.length">
+    <li ng-repeat="item in slides">
+      <a ng-click="scrollToElement(item.name)" tooltip="{{ translate(item.label) }}"
+         tooltip-animation="false" tooltip-placement="left"></a>
+    </li>
+  </ul>
+  <div class="main-slides">
+    <div ng-repeat="(slide_idx, slide) in slides" class="slide nn-fade-in" ng-style="slide.style"
+         id="{{ slide.name }}">
+      <div ng-switch="slide.name">
+        <div ng-switch-default>
+          <div class="slide-elements hidden-print">
+            <div ng-repeat="(element_idx, element) in slide.elements" class="slide-element">
+              <div ng-switch="element.type">
+                <div ng-switch-default="html">
+                  <div class="html-element" ng-switch="element.tag">
+                    <div ng-switch-default="p">
+                      <p ng-bind-html="translate(element.content) | html" ng-style="element.style"></p>
+                    </div>
+                    <div ng-switch-when="h2">
+                      <h2 ng-bind-html="translate(element.content) | html" ng-style="element.style"></h2>
+                    </div>
+                    <div ng-switch-when="h3">
+                      <h3 ng-bind-html="translate(element.content) | html" ng-style="element.style"></h3>
+                    </div>
+                    <div ng-switch-when="h4">
+                      <h4 ng-bind-html="translate(element.content) | html" ng-style="element.style"></h4>
+                    </div>
+                    <div ng-switch-when="h5">
+                      <h5 ng-bind-html="translate(element.content) | html" ng-style="element.style"></h5>
+                    </div>
+                    <div ng-switch-when="h6">
+                      <h6 ng-bind-html="translate(element.content) | html" ng-style="element.style"></h6>
+                    </div>
+                  </div>
+                </div>
+                <div class="choice-element" ng-switch-when="choice">
+                  <div ng-repeat="(item_idx, item) in element.items" class="choice-column">
+                    <div ng-switch="element.multiple">
+                      <div ng-switch-default>
+                        <a class="choice-item"
+                           ng-model="session.model[slide.name][element.name]"
+                           ng-style="element.style"
+                           ng-click="singleChoiceToggled(slide, element, item, slide_idx)"
+                           btn-radio="'{{ item.name }}'"
+                           analytics-on>
+                          <img class="item-icon" ng-src="{{ item.icon }}" alt=""/>
+
+                          <div class="item-content" ng-bind-html="translate(item.label) | html"></div>
+                        </a>
+                      </div>
+                      <div ng-switch-when="true">
+                        <a class="choice-item"
+                           ng-model="session.model[slide.name][element.name][item.name]"
+                           ng-style="element.style"
+                           ng-click="multipleChoiceToggled(slide, element, item)" btn-checkbox>
+                          <img class="item-icon" ng-src="{{ item.icon }}" alt=""/>
+
+                          <div class="item-content" ng-bind-html="translate(item.label) | html"></div>
+                        </a>
+                      </div>
+                    </div>
+                    <a class="choice-info" ng-show="item.info.title"
+                       ng-click="infoService.open(item.info, activeLanguage)">
+                      <i class="fa fa-info"></i>
+                    </a>
+                  </div>
+                </div>
+                <div ng-switch-when="form" class="slide-form">
+                  <form class="form" name="forms['{{ slide.name }}']['{{ element.name }}']" novalidate>
+                    <div ng-repeat="(item_idx, item) in element.items" nn-form-group
+                         class="has-feedback">
+                      <div ng-switch="item.type">
+                        <div ng-switch-default="text">
+                          <label for="{{ item.id }}_value" ng-show="item.label">{{ translate(item.label) }}</label>
+
+                          <div ng-switch="item.input_type">
+                            <div ng-switch-when="textarea" class="input-textarea">
+                              <textarea class="form-control" rows="10"
+                                        name="{{ item.id }}_value" id="{{ item.id }}_value"
+                                        placeholder="{{ translate(item.placeholder) }}"
+                                        ng-model="session.model[slide.name][element.name][item.name]"
+                                        ng-style="item.style"
+                                        maxlength="{{ item.max_length }}"
+                                        ng-maxlength="item.max_length"
+                                        ng-required="item.required"></textarea>
+
+                              <p class="text-max" ng-show="item.max_length">
+                                <b>{{ calculateCharactersRemaining(session.model[slide.name][element.name][item.name],
+                                  item.max_length) }}</b>
+                                {{ 'CHARACTERS_LEFT' | translate }}</p>
+                            </div>
+                            <div ng-switch-default class="input-text">
+                              <input class="form-control" type="{{ item.input_type || 'text' }}"
+                                     name="{{ item.id }}_value"
+                                     id="{{ item.id }}_value" placeholder="{{ translate(item.placeholder) }}"
+                                     ng-model="session.model[slide.name][element.name][item.name]"
+                                     ng-required="item.required"/>
+                              <span class="fa fa-asterisk form-control-feedback"
+                                    title="{{ 'REQUIRED_FIELD' | translate }}"
+                                    ng-show="item.required"></span>
+                              <a class="input-info" ng-show="item.info.title"
+                                 ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
+                            </div>
+                          </div>
+                        </div>
+                        <div ng-switch-when="checkbox" class="input-checkbox">
+                          <label>
+                            <input type="checkbox" name="{{ item.id }}_value"
+                                   id="{{ item.id }}_value"
+                                   ng-model="session.model[slide.name][element.name][item.name]"
+                                   ng-required="item.required"/> {{ translate(item.label) }}
+                          </label>
+                          <a class="input-info" ng-show="item.info.title"
+                             ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
+                        </div>
+                        <div ng-switch-when="radio"></div>
+                        <div ng-switch-when="dropdown" class="input-dropdown nullable">
+                          <label for="{{ item.id }}"
+                                 ng-show="item.label">{{ translate(item.label) }}</label>
+                          <select class="form-control" name="{{ item.id }}" id="{{ item.id }}"
+                                  ng-model="session.model[slide.name][element.name][item.name]"
+                                  ng-options="option.name as translate(option.label) for option in item.items"
+                                  ng-required="item.required">
+                            <option value="">{{ translate(item.empty) || ('EMPTY_TEXT' | translate) }}</option>
+                          </select>
+                          <a class="input-info info-info-dropdown" ng-show="item.info.title"
+                             ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
+                        </div>
+                        <div ng-switch-when="autocomplete" class="input-text">
+                          <label for="{{ item.id }}" ng-show="item.label"> {{ translate(item.label) }}</label>
+                          <input type="text" class="form-control"
+                                 name="{{ item.id }}" id="{{ item.id }}"
+                                 placeholder="{{ translate(item.placeholder) }}"
+                                 ng-model="session.model[slide.name][element.name][item.name]"
+                                 ng-style="item.style"
+                                 ng-required="item.required"
+                                 typeahead="name for name in service.autocomplete($viewValue, item, notices)"
+                                 typeahead-min-length="3"/>
+                          <span class="fa fa-asterisk form-control-feedback"
+                                title="{{ 'REQUIRED_FIELD' | translate }}" ng-show="item.required"></span>
+                          <a class="input-info" ng-show="item.info.title"
+                             ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
+
+                          <div ng-show="notices[item.id]" nn-notice="notices[item.id]"></div>
+                        </div>
+                        <div ng-switch-when="file" class="input-file">
+                          <label for="{{ item.id }}_value" ng-show="item.label">{{ translate(item.label) }}</label>
+                          <div class="upload-button" ngf-select="uploadFile($file, session, slide, element, item)"
+                               ng-model="file" name="file" ngf-pattern="'*/*'" ngf-accept="'*/*'" ngf-max-size="20MB">
+                            {{ 'CHOOSE_FILE' | translate }}
+                          </div>
+                          <div class="upload-filename">{{session.model[slide.name][element.name][item.name] ? session.model[slide.name][element.name][item.name].filename : ''}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div ng-switch-when="next" class="slide-next" ng-style="element.style"
+                     ng-show="element.next_slide && service.validateForms(forms[slide.name], slide, session.model[slide.name])">
+                  <a class="next-button" ng-click="loadSlide(element.next_slide, slide_idx)" analytics-on>
+                    <span>{{ translate(element.label) || ('NEXT_TEXT' | translate) }}</span>
+                    <i class="fa fa-chevron-down"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div ng-switch-when="summary" class="summary">
+          <div nn-summary="session.model" nn-summary-language="activeLanguage"></div>
+          <div class="summary-actions hidden-print">
+            <a class="summary-button" ng-click="service.print()">{{ 'PRINT_BUTTON' | translate }}</a>
+            <a class="summary-button" ng-click="sendMail()">{{ 'SEND_MAIL_BUTTON' | translate }}</a>
+          </div>
+          <div class="summary-message hidden-print">
+            <span ng-show="showSentMessage">{{ 'MAIL_SENT_TEXT' | translate }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-loading hidden-print" ng-show="loading">
+    <i class="fa fa-circle-o-notch fa-spin"></i>
+  </div>
+  <div class="debug hidden-print" ng-show="debug">
+    <pre>session: {{ session | json }}</pre>
+    <a ng-click="clear()">Clear</a>
+  </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="element-styles">
+  <label>Style</label>
+
+  <div ng-repeat="style in styles">
+    <div nn-form-group>
+      <div class="styles-item">
+        <div class="item-property">
+          <select class="form-control" name="{{ $index }}_property"
+                  ng-model="style.property"
+                  ng-options="option.name as option.label for option in service.getPropertyOptions()">
+            <option value="">-- Property --</option>
+          </select>
+        </div>
+        <div class="item-value">
+          <select class="form-control" name="{{ $index }}_value"
+                  ng-model="style.value"
+                  ng-options="option.value as option.label for option in service.getValueOptions(style.property)">
+            <option value="">-- Value --</option>
+          </select>
+        </div>
+        <div class="item-actions">
+          <a class="remove-button" ng-click="service.remove(styles, $index)"
+             title="Remove style"><i class="bts bt-times"></i></a>
+          <a class="add-button" ng-show="$index === (styles.length - 1)"
+             ng-click="service.add(styles)"
+             title="Add style"><i class="bts bt-plus"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="styles-add" ng-show="!styles.length">
+    <a class="add-button" ng-click="service.add(styles)"
+       title="Add style"><i class="bts bt-plus"></i></a>
+  </div>
+</div>
