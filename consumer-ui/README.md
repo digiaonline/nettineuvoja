@@ -1,30 +1,27 @@
-# Nettineuvoja Consumer UI
+# Takuuapuri Consumer UI
 
-## Setup
+## Installation
 
-Requirements: *Node*
+* Run `cd /vagrant/consumer-ui`
+* Copy `.env.example` to `.env` and add the missing details. The OAuth secret must match the one in `api/.env`.
+* Run `npm install && bower install` to install all dependencies
 
-```
-$ npm install && bower install
-$ cp .env.example .env
-```
-
-Open `.env`, enter the missing variables and save the file
-
-## Start Development Environment
+## Start development environment
 
 ```
-$ npm start
+npm start
 ```
 
 ## Create development build
 
 ```
-$ npm run build
+npm run build
 ```
 
 ## Create distribution build
 
 ```
-$ npm run dist
+npm run dist
 ```
+
+You can now access the site at `http://takuuapuri.dev`

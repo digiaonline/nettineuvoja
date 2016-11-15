@@ -17,7 +17,7 @@ class OAuth2ClientsFixture implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $client = new Client(env('OAUTH2_CLIENT_ID'), env('OAUTH2_CLIENT_SECRET'), 'Nettineuvoja');
+        $client = new Client(env('OAUTH2_CLIENT_ID'), env('OAUTH2_CLIENT_SECRET'), 'Takuuapuri');
 
         $manager->persist($client);
         $manager->flush();

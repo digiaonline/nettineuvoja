@@ -5,9 +5,12 @@
 * Add the following line to your hosts file:
 
 ```
-192.168.172.43 takuuapuri.dev api.takuuapuri.dev
+192.168.172.43 takuuapuri.dev api.takuuapuri.dev admin.takuuapuri.dev www.takuuapuri.dev
 ```
 
 * Run `vagrant up`
-
-You can now access the API on `http://api.takuuapuri.dev/`
+* Run `vagrant ssh`
+* Follow the instructions in the following READMEs too:
+  * [app/README.md](app/README.md)
+  * [admin-ui/README.md](admin-ui/README.md)
+  * [consumer-ui/README.md](consumer-ui/README.md)
