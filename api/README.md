@@ -4,7 +4,7 @@
 
 Do the following to run the application:
 
-- Run `cd /vagrant/app`
+- Run `cd /vagrant/api`
 - Copy `.env.example` and name it `.env` and enter the missing variables
 - Generate a new `APP_KEY` and `OAUTH2_CLIENT_SECRET` for your `api/.env` file by running `openssl rand -base64 32`
   - Note that you need to set the same `OAUTH2_CLIENT_SECRET` in your `admin-ui/.env`  
