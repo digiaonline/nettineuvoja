@@ -19,8 +19,7 @@ module.exports = function(grunt) {
     data: {
       src: 'src',
       build: 'build',
-      web: 'public',
-      apiUrl: 'http://nettineuvoja.dev/api/v1.0'
+      web: 'public'
     }
   });
 
@@ -64,18 +63,6 @@ module.exports = function(grunt) {
     'publish'
   ]);
 
-  // Production task
-  grunt.registerTask('prod', [
-    //'jshint',
-    'ngconstant:prod',
-    'build',
-    'optimize',
-    'publish',
-    'copy:deploy',
-    'compress:prod',
-    'aws_s3:prod'
-  ]);
-
   // Dist task
   grunt.registerTask('dist', [
     //'jshint',
@@ -83,8 +70,7 @@ module.exports = function(grunt) {
     'build',
     'optimize',
     'publish',
-    'copy:deploy',
-    'compress:prod'
+    'copy:deploy'
   ]);
 
 };
