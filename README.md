@@ -14,3 +14,8 @@
   * [app/README.md](app/README.md)
   * [admin-ui/README.md](admin-ui/README.md)
   * [consumer-ui/README.md](consumer-ui/README.md)
+
+## Deploying
+
+Run `/vagrant/ops/scripts/deploy.sh`. For more advanced usage, please see 
+https://github.com/nordsoftware/ops/blob/master/capistrano/README.md
