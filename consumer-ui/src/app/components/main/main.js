@@ -105,7 +105,7 @@ angular.module('nnConsumerUi')
     function sendSummaryMail(scope) {
       $templateRequest('components/summary/summary.html')
         .then(function(template) {
-          var body = $compile('<div nn-summary="session.model">' + template + '</div>')(scope);
+          var body = $compile('<div nn-summary="session.model" nn-summary-language="activeLanguage"></div>' + template + '</div>')(scope);
 
           $timeout(function() {
             var email = '';
