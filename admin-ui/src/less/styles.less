@@ -391,8 +391,19 @@ label {
 }
 
 .flowchart-image {
+  cursor: zoom-in;
   display: block;
   margin: auto;
+  max-width: 100%;
+
+  &.zoomed {
+    cursor: zoom-out;
+    max-width: none;
+  }
+}
+
+.modal-body {
+  overflow: scroll;
 }
 
 .debug {
