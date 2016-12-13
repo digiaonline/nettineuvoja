@@ -192,6 +192,18 @@ angular.module('nnConsumerUi')
     }
 
     /**
+     * Saves changes to a textarea to answers
+     * @param {number} index
+     */
+    $scope.saveTextareaData = function(index) {
+      var current = $scope.slides[index];
+
+      if (current && angular.isDefined($scope.session.model[current.name])) {
+        $scope.session.answers[current.name] = angular.copy($scope.session.model[current.name]);
+      }
+    };
+
+    /**
      * Loads a slide from the slide service.
      * @param {string} name
      * @param {number} index

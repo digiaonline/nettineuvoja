@@ -93,6 +93,7 @@
                                         ng-style="item.style"
                                         maxlength="{{ item.max_length }}"
                                         ng-maxlength="item.max_length"
+                                        ng-change="saveTextareaData(slide_idx)"
                                         ng-required="item.required"></textarea>
 
                               <p class="text-max" ng-show="item.max_length">
