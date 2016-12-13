@@ -10,7 +10,7 @@ angular.module('nnConsumerUi')
   })
 
   // Service that handles all logic related to the main view.
-  .service('mainService', function($templateRequest, $compile, $window, $timeout, $filter, $rootScope, $log, storageService, DEBUG, APP_NAME, FROM_EMAIL, apiService, kutiService) {
+  .service('mainService', function($templateRequest, $compile, $window, $timeout, $filter, $rootScope, $log, storageService, DEBUG, PAGE_TITLE, FROM_EMAIL, apiService, kutiService) {
 
     this.autocomplete = autocomplete;
     this.findSlide = findSlide;
@@ -128,9 +128,9 @@ angular.module('nnConsumerUi')
             }
 
             var config = {
-              subject: APP_NAME + ': ' + $filter('translate')('SUMMARY_HEADING'),
+              subject: PAGE_TITLE + ': ' + $filter('translate')('SUMMARY_HEADING'),
               from_email: FROM_EMAIL,
-              from_name: APP_NAME,
+              from_name: PAGE_TITLE,
               to: [{ email: email, type: 'to' }],
               html: body.html(),
               text: body.text()
