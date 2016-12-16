@@ -120,6 +120,8 @@ $app->register(Nettineuvoja\Access\Providers\AuthServiceProvider::class);
 |
 */
 
-require __DIR__ . '/../app/Common/routes.php';
+require __DIR__ . '/../app/Access/Http/routes.php';
+require __DIR__ . '/../app/Common/Http/routes.php';
+require __DIR__ . '/../app/Slides/Http/routes.php';
 
 return $app;

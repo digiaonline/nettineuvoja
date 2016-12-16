@@ -1,4 +1,4 @@
-<?php namespace Nettineuvoja\Slides\Http;
+<?php namespace Nettineuvoja\Slides\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Nettineuvoja\Slides\App\HandlesSlides;
@@ -10,7 +10,7 @@ use Nord\Lumen\Core\Traits\ValidatesData;
 
 /**
  * Class SlideController
- * @package Nettineuvoja\Slides\Http
+ * @package Nettineuvoja\Slides\Http\Controllers
  */
 class SlideController extends Controller
 {

@@ -1,4 +1,4 @@
-<?php namespace Nettineuvoja\Access\Http;
+<?php namespace Nettineuvoja\Access\Http\Controllers;
 
 use Nettineuvoja\Access\App\HandlesUsers;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ use Nord\Lumen\Core\Traits\ValidatesData;
 
 /**
  * Class UserController
- * @package Nettineuvoja\Access\Http
+ * @package Nettineuvoja\Access\Http\Controllers
  */
 class UserController extends Controller
 {

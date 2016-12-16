@@ -1,4 +1,4 @@
-<?php namespace Nettineuvoja\Common\Http;
+<?php namespace Nettineuvoja\Common\Http\Controllers;
 
 use GuzzleHttp\Message\Response;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ use Nord\Lumen\Core\Traits\ValidatesData;
 
 /**
  * Class MailController
- * @package Nettineuvoja\Common\Http
+ * @package Nettineuvoja\Common\Http\Controllers
  */
 class MailController extends Controller
 {

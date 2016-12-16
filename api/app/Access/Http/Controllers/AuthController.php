@@ -1,4 +1,4 @@
-<?php namespace Nettineuvoja\Access\Http;
+<?php namespace Nettineuvoja\Access\Http\Controllers;
 
 use Nettineuvoja\Access\App\HandlesAuthentication;
 use Nettineuvoja\Access\App\HandlesUsers;
@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class AuthController
- * @package Nettineuvoja\Access\Http
+ * @package Nettineuvoja\Access\Http\Controllers
  */
 class AuthController extends Controller
 {

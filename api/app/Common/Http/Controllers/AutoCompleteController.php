@@ -1,4 +1,4 @@
-<?php namespace Nettineuvoja\Common\Http;
+<?php namespace Nettineuvoja\Common\Http\Controllers;
 
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ use Nord\Lumen\Core\Traits\ValidatesData;
 
 /**
  * Class AutoCompleteController
- * @package Nettineuvoja\Common\Http
+ * @package Nettineuvoja\Common\Http\Controllers
  */
 class AutoCompleteController extends Controller
 {
