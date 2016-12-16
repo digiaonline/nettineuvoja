@@ -1,6 +1,6 @@
 <?php
 
-namespace Nettineuvoja\Common\Http;
+namespace Nettineuvoja\Common\Http\Controllers;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Message\Response;
@@ -12,7 +12,7 @@ use Nord\Lumen\Core\Traits\ValidatesData;
 /**
  * Class DiagramController.
  *
- * @package Nettineuvoja\Common\Http
+ * @package Nettineuvoja\Common\Http\Controllers
  */
 class DiagramController
 {

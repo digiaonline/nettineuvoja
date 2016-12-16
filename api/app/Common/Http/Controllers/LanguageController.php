@@ -1,10 +1,10 @@
-<?php namespace Nettineuvoja\Common\Http;
+<?php namespace Nettineuvoja\Common\Http\Controllers;
 
 use Nord\Lumen\Core\Traits\CreatesHttpResponses;
 
 /**
  * Class LanguageController
- * @package Nettineuvoja\Common\Http
+ * @package Nettineuvoja\Common\Http\Controllers
  */
 class LanguageController
 {

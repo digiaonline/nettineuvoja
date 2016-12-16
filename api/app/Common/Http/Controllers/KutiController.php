@@ -1,4 +1,4 @@
-<?php namespace Nettineuvoja\Common\Http;
+<?php namespace Nettineuvoja\Common\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Nettineuvoja\Common\Facades\Kuti;
@@ -8,7 +8,7 @@ use Nord\Lumen\Core\Traits\ValidatesData;
 
 /**
  * Class KutiController
- * @package Nettineuvoja\Common\Http
+ * @package Nettineuvoja\Common\Http\Controllers
  */
 class KutiController extends Controller
 {

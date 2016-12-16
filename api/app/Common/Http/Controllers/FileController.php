@@ -1,4 +1,4 @@
-<?php namespace Nettineuvoja\Common\Http;
+<?php namespace Nettineuvoja\Common\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Nord\Lumen\Core\Traits\CreatesHttpResponses;
@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Class FileController
- * @package Nettineuvoja\Common\Http
+ * @package Nettineuvoja\Common\Http\Controllers
  */
 class FileController
 {
