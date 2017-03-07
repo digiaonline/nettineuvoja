@@ -6,7 +6,7 @@ angular.module('nnConsumerUi')
       'CHOOSE_FILE': 'Valitse tiedosto',
       'EMPTY_TEXT': 'Valitse',
       'PRINT_BUTTON': 'Tulosta valitus',
-      'SEND_MAIL_BUTTON': 'Lähetä sähköpostiin',
+      'SEND_MAIL_BUTTON': 'Lähetä Omaan Sähköpostiisi',
       'MAIL_SENT_TEXT': 'Sähköposti lähetetty',
       'NEXT_TEXT': 'Seuraava',
       'SUMMARY_HEADING': 'Reklamaatio',

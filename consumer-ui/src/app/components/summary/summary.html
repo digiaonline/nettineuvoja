@@ -3,8 +3,8 @@
 <div ng-repeat="data in summaryData" style="margin-bottom: 20px;">
   <h3 class="summary-label">{{ data.label }}</h3>
 
-  <div class="summary-item" ng-repeat="item in data.items">
-    {{ item }}
+  <div ng-repeat="item in data.items">
+    <div class="summary-item" style="white-space: pre-wrap;">{{ item }}</div>
   </div>
 </div>
 
