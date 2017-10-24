@@ -1,7 +1,7 @@
 angular.module('nnAdminUi')
 
-  // Service that handles all logic related to choice elements.
-  .service('choiceElementService', function() {
+// Service that handles all logic related to choice elements.
+  .service('choiceElementService', function () {
     var iconOptions = [
       {url: 'images/icon-cart.png', label: 'Shopping cart'},
       {url: 'images/icon-collection.png', label: 'Collection'},
@@ -66,13 +66,14 @@ angular.module('nnAdminUi')
     }
 
     this.iconOptions = iconOptions;
+    this.sizeOptions = sizeOptions;
 
     this.getLabel = getLabel;
     this.getName = getName;
   })
 
   // Controller that connects the necessary services to the choice element view.
-  .controller('ChoiceElementCtrl', function($scope, COLLAPSED_DEFAULT, elementService, itemService, choiceElementService) {
+  .controller('ChoiceElementCtrl', function ($scope, COLLAPSED_DEFAULT, elementService, itemService, choiceElementService) {
     $scope.collapsed = COLLAPSED_DEFAULT;
     $scope.elementService = elementService;
     $scope.itemService = itemService;
@@ -83,7 +84,7 @@ angular.module('nnAdminUi')
   })
 
   // Directive that allows us to re-use the choice element.
-  .directive('nnChoiceElement', function() {
+  .directive('nnChoiceElement', function () {
     return {
       restrict: 'A',
       controller: 'ChoiceElementCtrl',

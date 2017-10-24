@@ -92,3 +92,13 @@ $app->group([
     // Files
     $app->post('files', 'FileController@uploadFile');
 });
+
+// Common, with auth.
+$app->group([
+    'prefix'     => 'v1',
+    'namespace'  => 'Nettineuvoja\Common\Http',
+    'middleware' => 'auth',
+], function () use ($app) {
+    // Diagram
+    $app->post('diagram', 'DiagramController@createDiagram');
+});
