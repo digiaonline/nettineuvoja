@@ -11,7 +11,6 @@ angular.module('nnConsumerUi')
 
   // Service that handles all logic related to the main view.
   .service('mainService', function($templateRequest, $compile, $window, $timeout, $filter, $rootScope, $log, storageService, DEBUG, PAGE_TITLE, FROM_EMAIL, apiService, $q) {
-    var STORAGE_PERSONAL_DETAILS_KEY = 'nnSessionPersonalDetails';
 
     this.autocomplete = autocomplete;
     this.findSlide = findSlide;
@@ -273,55 +272,6 @@ angular.module('nnConsumerUi')
         scrollToNextSlide(current, next, name, index);
       });
     }
-    /*
-    function loadSession() {
-      var savedSessionModel = storageService.get(STORAGE_MODEL_KEY);
-
-      mainService.checkIfAuthenticated($scope.token)
-        .then(function(response) {
-          if (response) {
-            $scope.authenticated = true;
-          } else {
-            $scope.authenticated = false;
-          }
-          loadSlide(firstSlide, -1);
-        })
-        .finally(function() {
-          var authModalOpened = false;
-
-          angular.forEach(savedSessionModel, function (value, key) {
-            var name = key;
-            var index = value.index - 1;
-            var current = $scope.slides[index];
-            var next = slideService.getByName(name);
-
-            if (key === 'etusivu') {
-              return;
-            }
-            if (!next) {
-              $log.error('Failed to find slide', name);
-              return;
-            }
-            if (authModalOpened) {
-              return;
-            }
-            if(next.needs_authentication && !$scope.authenticated) {
-              authenticationService.open(next);
-              authModalOpened = true;
-
-              // Remove previous answers if there are any
-              _.forEach($scope.session.answers, function(value, key) {
-                if (value.index > index) {
-                  delete $scope.session.answers[key];
-                }
-              });
-            } else {
-              scrollToNextSlide(current, next, name, index);
-            }
-          });
-        })
-    }
-    */
 
     /**
      *
@@ -357,11 +307,6 @@ angular.module('nnConsumerUi')
         if (current && angular.isDefined($scope.session.model[current.name])) {
           $scope.session.answers[current.name] = angular.copy($scope.session.model[current.name]);
         }
-        // If the next slide contains a personal details form and the user is authenticated, fill the form with stored data.
-        if (personal.length && $scope.authenticated) {
-          $scope.session.model[name] = mainService.getPersonalDetails();
-        }
-        $scope.session.model[next.name].needs_authentication = next.needs_authentication;
         $scope.session.model[next.name].index = index + 1;
         $scope.slides.push(next);
         centerPager();
@@ -375,7 +320,6 @@ angular.module('nnConsumerUi')
      * @param {number} index
      */
     function nextSlide(name, index) {
-      var next = slideService.getByName(name);
       loadSlide(name, index);
       // Copy model to sessionStorage
       $timeout(function() {
