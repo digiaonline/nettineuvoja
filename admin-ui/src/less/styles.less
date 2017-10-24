@@ -225,6 +225,21 @@ label {
 
     .panel-body {
       margin-bottom: -15px;
+
+      .form-group {
+        input[type=text] {
+          .input-sm;
+
+          &.disabled {
+            opacity: .6;
+            pointer-events: none;
+
+            &:hover {
+              cursor: not-allowed;
+            }
+          }
+        }
+      }
     }
   }
 
@@ -272,6 +287,15 @@ label {
 
       select, input[type=text] {
         .input-sm;
+
+        &.disabled {
+          opacity: .6;
+          pointer-events: none;
+
+          &:hover {
+            cursor: not-allowed;
+          }
+        }
       }
     }
 
@@ -391,8 +415,19 @@ label {
 }
 
 .flowchart-image {
+  cursor: zoom-in;
   display: block;
   margin: auto;
+  max-width: 100%;
+
+  &.zoomed {
+    cursor: zoom-out;
+    max-width: none;
+  }
+}
+
+.modal-body {
+  overflow: scroll;
 }
 
 .debug {

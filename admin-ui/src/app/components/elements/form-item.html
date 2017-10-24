@@ -6,14 +6,16 @@
       <input class="form-control" type="text" name="{{ model.id }}_name" id="{{ model.id }}_name"
              ng-model="model.name"/>
     </div>
-    <div ng-repeat="language in languages">
-      <div nn-form-group>
-        <label for="{{ model.id }}_label_{{ language.iso_code }}">Label
-          <small>{{ language.label }}</small>
-        </label>
-        <input class="form-control" type="text" name="{{ model.id }}_label_{{ language.iso_code }}"
-               id="{{ model.id }}_label_{{ language.iso_code }}"
-               ng-model="model.label[language.iso_code]"/>
+    <div ng-if="model.type != 'total'">
+      <div ng-repeat="language in languages">
+        <div nn-form-group>
+          <label for="{{ model.id }}_label_{{ language.iso_code }}">Label
+            <small>{{ language.label }}</small>
+          </label>
+          <input class="form-control" type="text" name="{{ model.id }}_label_{{ language.iso_code }}"
+                 id="{{ model.id }}_label_{{ language.iso_code }}"
+                 ng-model="model.label[language.iso_code]"/>
+        </div>
       </div>
     </div>
     <div ng-switch="model.type">
@@ -41,6 +43,9 @@
             <option value="">-- Type --</option>
           </select>
         </div>
+        <div ng-show="model.input_type == 'text'" class="checkbox">
+          <label><input type="checkbox" ng-model="model.small"/> Small</label>
+        </div>
       </div>
       <div ng-switch-when="autocomplete">
         <div ng-repeat="language in languages">
@@ -51,6 +56,42 @@
             <input class="form-control" type="text" name="{{ model.id }}_placeholder_{{ language.iso_code }}"
                    id="{{ model.id }}_placeholder_{{ language.iso_code }}"
                    ng-model="model.placeholder[language.iso_code]"/>
+          </div>
+        </div>
+        <div nn-form-group>
+          <label for="{{ model.id }}_source">Source URL</label>
+          <input class="form-control" type="text" name="{{ model.id }}_source" id="{{ model.id }}_source"
+                 ng-model="model.source"/>
+        </div>
+        <label>Notices</label>
+
+        <div ng-repeat="notice in model.notices" class="notice-item">
+          <div nn-notice-item="{items: model.notices, index: $index}"></div>
+        </div>
+        <div class="item-add">
+          <a class="add-button" ng-click="itemService.add(model.notices)"
+             title="Add item"><i class="bts bt-plus"></i></a>
+        </div>
+      </div>
+      <div ng-switch-when="multiselect">
+        <div ng-repeat="language in languages">
+          <div nn-form-group>
+            <label for="{{ model.id }}_placeholder_{{ language.iso_code }}">Placeholder
+              <small>{{ language.label }}</small>
+            </label>
+            <input class="form-control" type="text" name="{{ model.id }}_placeholder_{{ language.iso_code }}"
+                   id="{{ model.id }}_placeholder_{{ language.iso_code }}"
+                   ng-model="model.placeholder[language.iso_code]"/>
+          </div>
+        </div>
+        <div ng-repeat="language in languages">
+          <div nn-form-group>
+            <label for="{{ model.id }}_infotext_{{ language.iso_code }}">Info text
+              <small>{{ language.label }}</small>
+            </label>
+            <input class="form-control" type="text" name="{{ model.id }}_infotext_{{ language.iso_code }}"
+                   id="{{ model.id }}_infotext_{{ language.iso_code }}"
+                   ng-model="model.infotext[language.iso_code]"/>
           </div>
         </div>
         <div nn-form-group>
@@ -91,7 +132,19 @@
         </div>
       </div>
       <div ng-switch-when="file"></div>
-      <div class="checkbox">
+      <div ng-switch-when="total">
+        <div ng-repeat="language in languages">
+          <div nn-form-group>
+            <label for="{{ model.id }}_label_{{ language.iso_code }}">Label
+              <small>{{ language.label }}</small>
+            </label>
+            <input class="form-control" type="text" name="{{ model.id }}_label_{{ language.iso_code }}"
+                   id="{{ model.id }}_label_{{ language.iso_code }}"
+                   ng-model="model.label[language.iso_code]"/>
+          </div>
+        </div>
+      </div>
+      <div class="checkbox" ng-if="model.type != 'total'">
         <label><input type="checkbox" ng-model="model.required"/> Required</label>
       </div>
     </div>

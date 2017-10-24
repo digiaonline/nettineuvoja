@@ -20,7 +20,7 @@ angular.module('nnAdminUi')
     });
   })
 
-  .controller('EditSlideCtrl', function($scope, $log, $timeout, _, DEBUG, FLOWCHART_URL, querySlides, languageService, slideService, slideSerializer, SlideState, elementService, previewService) {
+  .controller('EditSlideCtrl', function($scope, $log, $timeout, _, DEBUG, FLOWCHART_URL, querySlides, languageService, slideService, slideSerializer, SlideState, elementService, previewService, flowchartService) {
 
     var ready = false;
     var updateTimeout;
@@ -127,7 +127,7 @@ angular.module('nnAdminUi')
      * Updates the flowchart URL.
      */
     function updateFlowchart() {
-      var url = FLOWCHART_URL;
+      var flowchartPayload = "";
       var label, l;
 
       angular.forEach($scope.slides, function(value, key) {
@@ -135,15 +135,15 @@ angular.module('nnAdminUi')
         angular.forEach($scope.slides, function(v, k) {
           l = v.name + (v.save_after ? ';SAVE{bg:limegreen}' : '');
           if (isNextSlide(value, v.name)) {
-            url += '[' + label + ']->[' + l + '],';
+            flowchartPayload += '[' + label + ']->[' + l + '],';
           }
         });
         if (value.summary_after) {
-          url += '[' + label + ']->[Yhteenveto],';
+          flowchartPayload += '[' + label + ']->[Yhteenveto],';
         }
       });
 
-      $scope.flowchartUrl = url;
+      flowchartService.getFlowchartUrl(flowchartPayload);
     }
 
     /**
@@ -228,6 +228,10 @@ angular.module('nnAdminUi')
     });
 
     $scope.$on('resource.slides.delete', loadSlides);
+
+    $scope.$on('flowchart.url.received', function(event, url) {
+      $scope.flowchartUrl = url;
+    });
 
     function startWatcher() {
       $scope.$watch('model', function(value, old) {

@@ -51,6 +51,12 @@ angular.module('nnAdminUi')
       {url: 'images/icon-warranty.png', label: 'Warranty valid'}
     ];
 
+    var sizeOptions = [
+      {name: 'small', label: '4 items / row'},
+      {name: 'medium-small', label: '3 items / row, smaller icons'},
+      {name: 'medium', label: '3 items / row (Default)'}
+    ];
+
     function getLabel(model) {
       return 'Option';
     }
@@ -66,10 +72,11 @@ angular.module('nnAdminUi')
   })
 
   // Controller that connects the necessary services to the choice element view.
-  .controller('ChoiceElementCtrl', function($scope, COLLAPSED_DEFAULT, elementService, itemService) {
+  .controller('ChoiceElementCtrl', function($scope, COLLAPSED_DEFAULT, elementService, itemService, choiceElementService) {
     $scope.collapsed = COLLAPSED_DEFAULT;
     $scope.elementService = elementService;
     $scope.itemService = itemService;
+    $scope.choiceElementService = choiceElementService;
     $scope.model = $scope.data.elements[$scope.data.index];
     $scope.model.items = $scope.model.items || [];
     $scope.model.style = $scope.model.style || [];
