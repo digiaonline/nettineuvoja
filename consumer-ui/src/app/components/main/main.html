@@ -218,7 +218,7 @@
                                       on-tag-added="multiselectChange(slide.name, element.name, item.name)"
                                       on-tag-removed="multiselectChange(slide.name, element.name, item.name)"
                                       placeholder="{{ translate(item.placeholder) }}">
-                            <auto-complete source="service.autocomplete($query, item, notices)"></auto-complete>
+                            <auto-complete ng-if="item.source" source="service.autocomplete($query, item, notices)"></auto-complete>
                           </tags-input>
                           <!-- Not Required -->
                           <tags-input id="{{ item.id }}" name="{{ item.id }}_value"
@@ -227,7 +227,7 @@
                                       on-tag-added="multiselectChange(slide.name, element.name, item.name)"
                                       on-tag-removed="multiselectChange(slide.name, element.name, item.name)"
                                       placeholder="{{ translate(item.placeholder) }}">
-                            <auto-complete source="service.autocomplete($query, item, notices)"></auto-complete>
+                            <auto-complete ng-if="item.source" source="service.autocomplete($query, item, notices)"></auto-complete>
                           </tags-input>
                           <span ng-show="session.model[slide.name][element.name][item.name]">
                             <small><b>{{ translate(item.infotext) }}</b> {{session.model[slide.name][element.name][item.name]}}</small>
