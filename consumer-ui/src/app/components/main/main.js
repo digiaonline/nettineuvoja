@@ -10,7 +10,7 @@ angular.module('nnConsumerUi')
   })
 
   // Service that handles all logic related to the main view.
-  .service('mainService', function($templateRequest, $compile, $window, $timeout, $filter, $rootScope, $log, storageService, DEBUG, PAGE_TITLE, FROM_EMAIL, apiService, kutiService) {
+  .service('mainService', function($templateRequest, $compile, $window, $timeout, $filter, $rootScope, $log, storageService, DEBUG, PAGE_TITLE, FROM_EMAIL, apiService, $q) {
 
     this.autocomplete = autocomplete;
     this.findSlide = findSlide;
@@ -107,6 +107,7 @@ angular.module('nnConsumerUi')
         .then(function(template) {
           var body = $compile('<div nn-summary="session.model" nn-summary-language="activeLanguage"></div>' + template + '</div>')(scope);
 
+          // TODO: Refactor to use scope.email
           $timeout(function() {
             var email = '';
 
@@ -151,12 +152,13 @@ angular.module('nnConsumerUi')
   })
 
   // Controller that connects the necessary services to the main view.
-  .controller('MainCtrl', function($scope, $q, $timeout, $document, $window, $interval, $log, $modal, $translate, DEBUG, ENVIRONMENT, sessionService, slideService, InfoService, mainService, apiService, languageService) {
+  .controller('MainCtrl', function(_, $scope, $q, $timeout, $location, $state, $document, $window, $interval, $log, $modal, $translate, DEBUG, ENVIRONMENT, sessionService, storageService, slideService, InfoService, VideoService, mainService, apiService, languageService, $stateParams) {
 
     var firstSlide = 'etusivu';
     var loadDelay = 350;
     var scrollDelay = 150;
     var pagerElement = angular.element('.slide-pager');
+    var STORAGE_MODEL_KEY = 'nnSessionModel';
 
     $scope.loading = false;
     $scope.showSummary = false;
@@ -165,11 +167,24 @@ angular.module('nnConsumerUi')
     $scope.forms = {};
     $scope.service = mainService;
     $scope.infoService = InfoService;
+    $scope.videoService = VideoService;
     $scope.debug = DEBUG;
     $scope.notices = {};
     $scope.activeLanguage = $scope.session.language || 'fi';
     $scope.languages = [];
     $scope.showSentMessage = false;
+    $scope.email = '';
+    $scope.emailDisabled = true;
+    $scope.slideMenuOpen = false;
+    $scope.multiselect = [];
+
+    /**
+     * Toggle slide menu
+     * @param {string} name
+     */
+    function slideMenuToggle() {
+      $scope.slideMenuOpen = !$scope.slideMenuOpen;
+    }
 
     /**
      * Scrolls to a specific slide.
@@ -204,14 +219,120 @@ angular.module('nnConsumerUi')
     };
 
     /**
+     * Update session model based on multiselect selection
+     * @param slide Slide name
+     * @param element Element name
+     * @param item Item name
+     */
+    function multiselectChange (slide, element, item) {
+      if (angular.isDefined(!$scope.session.model[slide][element])) {
+        $scope.session.model[slide][element] = {};
+      }
+      $scope.session.model[slide][element][item] = _.map($scope.multiselect, 'text').join(', ');
+    }
+
+    /**
+     * Calculates the total sum of the number fields in the form
+     * @param {object} slide
+     * @param {object} element
+     */
+    function sumTotal (slide, element) {
+      if(_.find(element.items, {'type': 'total'})) {
+        var valuesToSum = [];
+
+        angular.forEach($scope.session.model[slide.name][element.name], function (value) {
+          if(angular.isNumber(value)) {
+            valuesToSum.push(value);
+          }
+        });
+        $scope.session.model[slide.name][element.name].total = _.sum(valuesToSum).toString();
+      }
+    }
+
+    /**
+     * Looks for earlier saved route and scrolls to last slide in the model
+     */
+    function loadSession() {
+      var savedSessionModel = storageService.get(STORAGE_MODEL_KEY);
+      loadSlide(firstSlide, -1);
+
+      angular.forEach(savedSessionModel, function (value, key) {
+        var name = key;
+        var index = value.index - 1;
+        var current = $scope.slides[index];
+        var next = slideService.getByName(name);
+
+        if (key === 'etusivu') {
+          return;
+        }
+        if (!next) {
+          $log.error('Failed to find slide', name);
+          return;
+        }
+        scrollToNextSlide(current, next, name, index);
+      });
+    }
+
+    /**
+     *
+     * @param {object} current
+     * @param {object} next
+     * @param {string} name
+     * @param {number} index
+     */
+    function scrollToNextSlide(current, next, name, index) {
+      $timeout(function() {
+        $scope.loading = false;
+        $log.debug('Loaded slide', next);
+        var elements = mainService.findElements(next, 'next');
+        var personal = mainService.findElements(next, 'personal');
+
+        if (elements.length) {
+          // Ensure that the current slides next element points to the next slide.
+          if (current) {
+            current.next_slide = next.name;
+          }
+          // Point the next slide to the 'summary' slide if the 'summary_after' flag is set.
+          if (next.summary_after) {
+            elements[0].next_slide = 'summary';
+          }
+        }
+        // Copy existing answers from the session if there are any.
+        if (angular.isDefined($scope.session.answers[name])) {
+          $scope.session.model[name] = angular.copy($scope.session.answers[name]);
+        } else {
+          $scope.session.model[name] = {};
+        }
+        // Copy the current model answers to another collection for save keeping purposes.
+        if (current && angular.isDefined($scope.session.model[current.name])) {
+          $scope.session.answers[current.name] = angular.copy($scope.session.model[current.name]);
+        }
+        $scope.session.model[next.name].index = index + 1;
+        $scope.slides.push(next);
+        centerPager();
+        scrollToElement(next.name);
+      }, loadDelay);
+    }
+
+    /**
+     * Scrolls to the next slide
+     * @param {string} name
+     * @param {number} index
+     */
+    function nextSlide(name, index) {
+      loadSlide(name, index);
+      // Copy model to sessionStorage
+      $timeout(function() {
+        sessionService.saveSessionModel($scope.session.model);
+      }, loadDelay);
+    }
+
+    /**
      * Loads a slide from the slide service.
      * @param {string} name
      * @param {number} index
      */
     function loadSlide(name, index) {
-      if ($scope.loading) {
-        return;
-      }
       if (!name) {
         return;
       }
@@ -253,40 +374,11 @@ angular.module('nnConsumerUi')
         }
       }
       $scope.loading = true;
-      $timeout(function() {
-        $scope.loading = false;
-        $log.debug('Loaded slide', next);
-        var elements = mainService.findElements(next, 'next');
-        if (elements.length) {
-          // Ensure that the current slides next element points to the next slide.
-          if (current) {
-            current.next_slide = next.name;
-          }
-          // Point the next slide to the 'summary' slide if the 'summary_after' flag is set.
-          if (next.summary_after) {
-            elements[0].next_slide = 'summary';
-          }
-        }
-        // Copy existing answers from the session if there is any.
-        if (angular.isDefined($scope.session.answers[name])) {
-          $scope.session.model[name] = angular.copy($scope.session.answers[name]);
-        } else {
-          $scope.session.model[name] = {};
-        }
-        // Copy the current model answers to another collection for save keeping purposes.
-        if (current && angular.isDefined($scope.session.model[current.name])) {
-          $scope.session.answers[current.name] = angular.copy($scope.session.model[current.name]);
-        }
-        $scope.session.model[next.name].index = index + 1;
-        $scope.slides.push(next);
-        centerPager();
-        scrollToElement(next.name);
-      }, loadDelay);
+      scrollToNextSlide(current, next, name, index);
     }
 
     /**
      * Returns the name of the next slide from the given set of choices.
-     *
      * @param {array} choices
      * @param {object} model
      * @returns {string|null}
@@ -319,8 +411,7 @@ angular.module('nnConsumerUi')
       // Load the slides
       slideService.load()
         .then(function() {
-          $scope.loading = false;
-          loadSlide(firstSlide, -1);
+          loadSession();
         });
 
       // Get languages.
@@ -334,10 +425,37 @@ angular.module('nnConsumerUi')
         if (!value) {
           return;
         }
+
         sessionService.saveLocal(value);
       }, true/* objectEquality */);
 
-      changeLanguage($scope.session.language);
+      // Setup a watcher for session model.
+      $scope.$watch('session.model', function(value) {
+        if (!value) {
+          return;
+        }
+
+        // Check for email
+        angular.forEach(value, function(slideData, slideName) {
+          if (true || slideName.indexOf('yhteystiedot') !== -1) {
+            angular.forEach(slideData, function(elementData, elementName) {
+              angular.forEach(elementData, function(itemData, itemName) {
+                if (itemName === 'sahkoposti' || itemName === 'email_input') {
+                  $scope.email = itemData;
+
+                  if($scope.email === '' || angular.isUndefined($scope.email)) {
+                    $scope.emailDisabled = true;
+                  } else {
+                    $scope.emailDisabled = false;
+                  }
+                }
+              });
+            });
+          }
+        });
+      }, true/* objectEquality */);
+
+      changeLanguage($stateParams.lang);
     }
 
     /**
@@ -359,6 +477,7 @@ angular.module('nnConsumerUi')
      */
     function changeLanguage(language) {
       $scope.activeLanguage = $scope.session.language = language;
+      $state.go('.', {lang: language});
       $translate.use(language);
     }
 
@@ -442,7 +561,7 @@ angular.module('nnConsumerUi')
     };
 
     /**
-     * Called when a multiple choice is toggled.
+     * Called when a single choice is toggled.
      *
      * @param {object} slide
      * @param {object} element
@@ -459,12 +578,13 @@ angular.module('nnConsumerUi')
         });
 
         if (item.next_slide) {
-          loadSlide(item.next_slide, slide_idx);
+          nextSlide(item.next_slide, slide_idx);
         }
       }
     };
 
     /**
+     * Called when a multiple choice is toggled.
      *
      * @param {object} slide
      * @param {object} element
@@ -497,8 +617,11 @@ angular.module('nnConsumerUi')
       }
     }
 
+    $scope.slideMenuToggle = slideMenuToggle;
     $scope.scrollToElement = scrollToElement;
-    $scope.loadSlide = loadSlide;
+    $scope.multiselectChange = multiselectChange;
+    $scope.sumTotal = sumTotal;
+    $scope.nextSlide = nextSlide;
     $scope.changeLanguage = changeLanguage;
 
     init();

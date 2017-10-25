@@ -2,7 +2,8 @@ angular.module('nnConsumerUi')
   .factory('sessionService', function($log, $q, ENVIRONMENT, DEFAULT_LANGUAGE, kutiService, storageService) {
 
     var STORAGE_KEY = 'nnSession';
-    
+    var STORAGE_MODEL_KEY = 'nnSessionModel';
+
     /**
      * Returns the session ID from the Kuti API.
      * @returns {promise}
@@ -60,12 +61,31 @@ angular.module('nnConsumerUi')
     }
 
     /**
+     * Loads the session model from local storage if applicable.
+     * @returns {object}
+     */
+    function loadSessionModel() {
+      var sessionModel = storageService.get(STORAGE_MODEL_KEY) || {};
+      $log.debug('Loaded session model', sessionModel);
+      return sessionModel;
+    }
+
+    /**
      * Saves the session to local storage.
      * @param {object} session
      */
     function saveLocal(session) {
       $log.debug('Saving session locally', session);
       storageService.set(STORAGE_KEY, session);
+    }
+
+    /**
+     * Saves the session model to local storage.
+     * @param {object} session
+     */
+    function saveSessionModel(sessionModel) {
+      $log.debug('Saving session model locally', sessionModel);
+      storageService.set(STORAGE_MODEL_KEY, sessionModel);
     }
 
     /**
@@ -88,7 +108,9 @@ angular.module('nnConsumerUi')
     return {
       init: init,
       load: load,
+      loadSessionModel: loadSessionModel,
       saveLocal: saveLocal,
+      saveSessionModel: saveSessionModel,
       saveRemote: saveRemote,
       clear: clear
     };

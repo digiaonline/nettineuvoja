@@ -7,6 +7,14 @@
              ng-model="model.name"/>
     </div>
     <div nn-form-group>
+      <label for="{{ model.id }}_size">Choice Size</label>
+      <select class="form-control" id="{{ model.id }}_size" name="{{ model.id }}_size"
+              ng-options="option.name as option.label for option in choiceElementService.sizeOptions"
+              ng-model="model.size">
+        <option value="">-- Size --</option>
+      </select>
+    </div>
+    <div nn-form-group>
       <div class="checkbox">
         <label><input type="checkbox" ng-model="model.multiple" name="multiple"/> Multiple Choice</label>
       </div>

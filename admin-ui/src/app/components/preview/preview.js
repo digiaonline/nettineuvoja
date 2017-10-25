@@ -1,6 +1,6 @@
 angular.module('nnAdminUi')
 
-  // Services that handles all logic related to the preview modal.
+// Services that handles all logic related to the preview modal.
   .service('previewService', function($modal) {
     function open(model) {
       if (!model.url.length) {

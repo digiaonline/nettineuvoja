@@ -1,12 +1,31 @@
 <div class="main">
   <div class="main-head hidden-print">
-    <a href="http://kkv.fi/kuluttajaneuvonta"><img class="head-kkv" src="images/kkv.png" alt="Kilpailu- ja kuluttajavirasto" analytics-on analytics-event="kkv logo"></a>
-    <a href="http://kkv.fi/kuluttajaneuvonta"><img class="head-kune" src="images/kune-logo.png" alt="Kuluttajaneuvonta" analytics-on analytics-event="kune logo"/></a>
-    <ul class="language-menu hidden-print">
-      <li ng-class="{'active': language.iso_code === activeLanguage}" ng-repeat="language in languages">
-        <a ng-click="changeLanguage(language.iso_code)">{{ language.abbreviation }}</a>
-      </li>
-    </ul>
+    <div class="main-head-content">
+      <div class="head-kkv-container">
+        <a href="http://kkv.fi/kuluttajaneuvonta"><img class="head-kkv-logo" src="images/kkv.png" alt="Kilpailu- ja kuluttajavirasto" analytics-on analytics-event="kkv logo"></a>
+        <a href="http://kkv.fi/kuluttajaneuvonta"><img class="head-kkv-logo--small" src="images/kkv-small.png" alt="Kilpailu- ja kuluttajavirasto" analytics-on analytics-event="kkv logo"></a>
+      </div>
+      <div class="head-kune-container">
+        <a href="http://kkv.fi/kuluttajaneuvonta"><img class="head-kune-logo" src="images/kune-logo.png" alt="Kuluttajaneuvonta" analytics-on analytics-event="kune logo"/></a>
+        <a href="http://kkv.fi/kuluttajaneuvonta"><img class="head-kune-logo--small" src="images/kune-logo-small.png" alt="Kuluttajaneuvonta" analytics-on analytics-event="kune logo"/></a>
+      </div>
+      <div class="language-menu">
+        <ul class="hidden-print">
+          <li ng-class="{'active': language.iso_code === activeLanguage}" ng-repeat="language in languages">
+            <a ng-click="changeLanguage(language.iso_code)">{{ language.abbreviation }}</a>
+          </li>
+        </ul>
+        <a ng-if="!slideMenuOpen" ng-click="slideMenuToggle()" class="slide-menu-button" ng-class="{'open': slideMenuOpen}"><i class="fa fa-bars"></i> {{ 'MENU_BUTTON' | translate }}</a>
+        <a ng-if="slideMenuOpen" ng-click="slideMenuToggle()" class="slide-menu-button"><i class="fa fa-times"></i> {{ 'CLOSE_TEXT' | translate }}</a>
+      </div>
+      <div class="slide-menu hidden-md-up" ng-class="{'open': slideMenuOpen}">
+        <ul class="slide-menu-slides" ng-show="slides.length">
+          <li ng-repeat="item in slides">
+            <a ng-click="scrollToElement(item.name)">{{ translate(item.label) }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
   <ul class="slide-pager hidden-print" ng-show="slides.length">
     <li ng-repeat="item in slides">
@@ -17,6 +36,7 @@
   <div class="main-slides">
     <div ng-repeat="(slide_idx, slide) in slides" class="slide nn-fade-in" ng-style="slide.style"
          id="{{ slide.name }}">
+      <div class="slide-needs-authentication" ng-show="slide.needs_authentication"><i class="fa fa-lock"></i></div>
       <div ng-switch="slide.name">
         <div ng-switch-default>
           <div class="slide-elements hidden-print">
@@ -44,7 +64,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="choice-element" ng-switch-when="choice">
+                <div ng-switch-when="video">
+                  <div class="video-element" ng-click="videoService.open(element)" ng-bind-html="translate(element.content) | html" ng-style="element.style"></div>
+                </div>
+                <div class="choice-element {{element.size}}" ng-switch-when="choice">
                   <div ng-repeat="(item_idx, item) in element.items" class="choice-column">
                     <div ng-switch="element.multiple">
                       <div ng-switch-default>
@@ -101,11 +124,28 @@
                                   item.max_length) }}</b>
                                 {{ 'CHARACTERS_LEFT' | translate }}</p>
                             </div>
-                            <div ng-switch-default class="input-text">
-                              <input class="form-control" type="{{ item.input_type || 'text' }}"
+
+                            <div ng-switch-when="number" class="input-number">
+                              <input class="form-control" type="{{ item.input_type || 'number' }}"
                                      name="{{ item.id }}_value"
                                      id="{{ item.id }}_value" placeholder="{{ translate(item.placeholder) }}"
                                      ng-model="session.model[slide.name][element.name][item.name]"
+                                     ng-change="sumTotal(slide, element, item.name)"
+                                     ng-maxlength="item.max_length"
+                                     ng-required="item.required"/>
+                              <span class="fa fa-asterisk form-control-feedback"
+                                    title="{{ 'REQUIRED_FIELD' | translate }}"
+                                    ng-show="item.required"></span>
+                              <a class="input-info" ng-show="item.info.title"
+                                 ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
+                            </div>
+
+                            <div ng-switch-default class="input-text">
+                              <input class="form-control" ng-class="{ 'small-input': item.small }" type="{{ item.input_type || 'text' }}"
+                                     name="{{ item.id }}_value"
+                                     id="{{ item.id }}_value" placeholder="{{ translate(item.placeholder) }}"
+                                     ng-model="session.model[slide.name][element.name][item.name]"
+                                     ng-maxlength="item.max_length"
                                      ng-required="item.required"/>
                               <span class="fa fa-asterisk form-control-feedback"
                                     title="{{ 'REQUIRED_FIELD' | translate }}"
@@ -115,6 +155,14 @@
                             </div>
                           </div>
                         </div>
+
+                        <div ng-switch-when="total" class="input-total">
+                          <p>{{ translate(item.label) }} {{ session.model[slide.name][element.name].total }}€</p>
+                          <input type="hidden"
+                                 name="{{ item.id }}_value"
+                                 ng-model="session.model[slide.name][element.name][item.name]"/>
+                        </div>
+
                         <div ng-switch-when="checkbox" class="input-checkbox">
                           <label>
                             <input type="checkbox" name="{{ item.id }}_value"
@@ -148,11 +196,43 @@
                                  ng-required="item.required"
                                  typeahead="name for name in service.autocomplete($viewValue, item, notices)"
                                  typeahead-min-length="3"/>
+
                           <span class="fa fa-asterisk form-control-feedback"
                                 title="{{ 'REQUIRED_FIELD' | translate }}" ng-show="item.required"></span>
+
                           <a class="input-info" ng-show="item.info.title"
                              ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
+                          <div ng-show="notices[item.id]" nn-notice="notices[item.id]"></div>
+                        </div>
+                        <div ng-switch-when="multiselect" class="input-multiselect">
+                          <label for="{{ item.id }}" ng-show="item.label"> {{ translate(item.label) }}</label>
+                          <!-- Required -->
+                          <tags-input id="{{ item.id }}" name="{{ item.id }}_value"
+                                      min-tags="1"
+                                      ng-show="item.required && !session.model[slide.name][element.name][item.name]"
+                                      ng-model="multiselect"
+                                      on-tag-added="multiselectChange(slide.name, element.name, item.name)"
+                                      on-tag-removed="multiselectChange(slide.name, element.name, item.name)"
+                                      placeholder="{{ translate(item.placeholder) }}">
+                            <auto-complete ng-if="item.source" source="service.autocomplete($query, item, notices)"></auto-complete>
+                          </tags-input>
+                          <!-- Not Required -->
+                          <tags-input id="{{ item.id }}" name="{{ item.id }}_value"
+                                      ng-show="!item.required || session.model[slide.name][element.name][item.name]"
+                                      ng-model="multiselect"
+                                      on-tag-added="multiselectChange(slide.name, element.name, item.name)"
+                                      on-tag-removed="multiselectChange(slide.name, element.name, item.name)"
+                                      placeholder="{{ translate(item.placeholder) }}">
+                            <auto-complete ng-if="item.source" source="service.autocomplete($query, item, notices)"></auto-complete>
+                          </tags-input>
+                          <span ng-show="session.model[slide.name][element.name][item.name]">
+                            <small><b>{{ translate(item.infotext) }}</b> {{session.model[slide.name][element.name][item.name]}}</small>
+                          </span>
+                          <span class="fa fa-asterisk form-control-feedback"
+                                title="{{ 'REQUIRED_FIELD' | translate }}" ng-show="item.required"></span>
 
+                          <a class="input-info" ng-show="item.info.title"
+                             ng-click="infoService.open(item.info, activeLanguage)"><i class="fa fa-info"></i></a>
                           <div ng-show="notices[item.id]" nn-notice="notices[item.id]"></div>
                         </div>
                         <div ng-switch-when="file" class="input-file">
@@ -169,7 +249,7 @@
                 </div>
                 <div ng-switch-when="next" class="slide-next" ng-style="element.style"
                      ng-show="element.next_slide && service.validateForms(forms[slide.name], slide, session.model[slide.name])">
-                  <a class="next-button" ng-click="loadSlide(element.next_slide, slide_idx)" analytics-on>
+                  <a class="next-button" ng-click="nextSlide(element.next_slide, slide_idx)" analytics-on>
                     <span>{{ translate(element.label) || ('NEXT_TEXT' | translate) }}</span>
                     <i class="fa fa-chevron-down"></i>
                   </a>
@@ -182,9 +262,10 @@
           <div nn-summary="session.model" nn-summary-language="activeLanguage"></div>
           <div class="summary-actions hidden-print">
             <a class="summary-button" ng-click="service.print()">{{ 'PRINT_BUTTON' | translate }}</a>
-            <a class="summary-button" ng-click="sendMail()">{{ 'SEND_MAIL_BUTTON' | translate }}</a>
+            <a class="summary-button" ng-click="sendMail()" ng-disabled="emailDisabled">{{ 'SEND_MAIL_BUTTON' | translate }}</a>
           </div>
           <div class="summary-message hidden-print">
+            <span ng-show="emailDisabled">{{ 'EMAIL_REQUIRED' | translate }}</span>
             <span ng-show="showSentMessage">{{ 'MAIL_SENT_TEXT' | translate }}</span>
           </div>
         </div>

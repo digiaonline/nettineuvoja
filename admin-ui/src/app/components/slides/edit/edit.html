@@ -17,8 +17,7 @@
         </h2>
         <h2 class="sidebar-title-fixed">
           Slides
-          <a class="preview-button" ng-click="previewService.open({url: flowchartUrl})" title="Preview"><i
-                  class="btb bt-eye bt-lg"></i></a>
+          <a class="preview-button" ng-click="previewService.open({url: flowchartUrl})" title="Preview"><i class="btb bt-eye bt-lg"></i></a>
         </h2>
       </div>
       <form class="form" name="slideForm">
@@ -99,6 +98,9 @@
               </div>
               <div ng-switch-when="next">
                 <div nn-next-element="{elements: model.elements, index: $index}"></div>
+              </div>
+              <div ng-switch-when="video">
+                <div nn-video-element="{elements: model.elements, index: $index}"></div>
               </div>
             </div>
           </div>

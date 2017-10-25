@@ -1,0 +1,44 @@
+<div class="panel panel-default">
+  <div nn-element-header></div>
+  <div class="panel-body" ng-show="!collapsed">
+    <div nn-form-group>
+      <label for="{{ model.id }}_name">System Name</label>
+      <input class="form-control" type="text" name="{{ model.id }}_name"
+             id="{{ model.id }}_name" ng-model="model.name"/>
+    </div>
+    <div nn-form-group>
+      <label for="{{ model.id }}_service">Video Service</label>
+      <select class="form-control" name="{{ model.id }}_service"
+              id="{{ model.id }}_service" ng-model="model.service"
+              ng-options="option.name as option.label for option in service.videoServiceOptions">
+        <option value="">-- Video Service --</option>
+      </select>
+    </div>
+    <div nn-form-group>
+      <div ng-switch="model.service">
+        <div ng-switch-when="youtube">
+          <label for="{{ model.id }}_service_youtube">YouTube video ID</label>
+          <input class="form-control" type="text" name="{{ model.id }}_service_youtube"
+                 id="{{ model.id }}_service_youtube" ng-model="model.video_id" placeholder="YouTube ID e.g. tFlAFo78xoQ"/>
+        </div>
+        <div ng-switch-when="dreambroker">
+          <label for="{{ model.id }}_service_dreambroker">Dream Broker video ID</label>
+          <input class="form-control" type="text" name="{{ model.id }}_service_dreambroker"
+                 id="{{ model.id }}_service_dreambroker" ng-model="model.video_id" placeholder="Dream Broker ID e.g. acs7nkkn/iframe/mp46vi7y"/>
+        </div>
+      </div>
+    </div>
+    <div ng-repeat="language in languages">
+      <div nn-form-group>
+        <label for="{{ model.id }}_content_{{ language.iso_code }}">Content
+          <small>{{ language.label }}</small>
+        </label>
+
+        <div text-angular ta-toolbar="[['h1','h2','h3','h4','h5','h6','p'],['bold','italics','underline'],['justifyLeft','justifyCenter','justifyRight'],['indent', 'outdent']]" name="{{ model.id }}_content_{{ language.iso_code }}"
+             id="{{ model.id }}_content_{{ language.iso_code }}"
+             ng-model="model.content[language.iso_code]"></div>
+      </div>
+    </div>
+    <div nn-styles="model.style"></div>
+  </div>
+</div>
