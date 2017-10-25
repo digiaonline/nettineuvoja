@@ -150,11 +150,7 @@ blockquote {
     top: 0;
     width: 100%;
     z-index: 11;
-
-    @media screen and (min-width: @screen-sm) {
-      box-shadow: none;
-    }
-
+    
     &:after {
       background: #fff;
       content: '';
@@ -281,6 +277,10 @@ blockquote {
 
         &:hover {
           color: @nn-blue-dark;
+        }
+
+        @media screen and (min-width: @screen-sm-min) {
+          display: none;
         }
       }
     }

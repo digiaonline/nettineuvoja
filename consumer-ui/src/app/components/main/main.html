@@ -15,6 +15,15 @@
             <a ng-click="changeLanguage(language.iso_code)">{{ language.abbreviation }}</a>
           </li>
         </ul>
+        <a ng-if="!slideMenuOpen" ng-click="slideMenuToggle()" class="slide-menu-button" ng-class="{'open': slideMenuOpen}"><i class="fa fa-bars"></i> {{ 'MENU_BUTTON' | translate }}</a>
+        <a ng-if="slideMenuOpen" ng-click="slideMenuToggle()" class="slide-menu-button"><i class="fa fa-times"></i> {{ 'CLOSE_TEXT' | translate }}</a>
+      </div>
+      <div class="slide-menu hidden-md-up" ng-class="{'open': slideMenuOpen}">
+        <ul class="slide-menu-slides" ng-show="slides.length">
+          <li ng-repeat="item in slides">
+            <a ng-click="scrollToElement(item.name)">{{ translate(item.label) }}</a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
