@@ -1,4 +1,6 @@
 .env
+.env.staging
+.env.production
 bower_components
 node_modules
 public

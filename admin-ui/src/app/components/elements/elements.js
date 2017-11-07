@@ -9,7 +9,8 @@ angular.module('nnAdminUi')
       {type: 'choice', label: 'Choice'},
       {type: 'form', label: 'Form'},
       {type: 'html', label: 'HTML'},
-      {type: 'next', label: 'Next'}
+      {type: 'next', label: 'Next'},
+      {type: 'video', label: 'Video'}
     ];
 
     /**

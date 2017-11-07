@@ -8,11 +8,14 @@ angular.module('nnConsumerUi', [
   'nnConsumerUi.templates',
   'nord.resource-service',
   'ui.bootstrap',
+  'ui.router',
   'pascalprecht.translate',
   'duScroll',
   'LocalStorageModule',
   'ngFileUpload',
   'angulartics',
-  'angulartics.google.analytics'
+  'angulartics.google.analytics',
+  'ngTagsInput'
 ])
-  .value('duScrollGreedy', true);
+  .value('duScrollGreedy', true)
+  .value('duScrollOffset', 80);
