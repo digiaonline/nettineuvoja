@@ -2,11 +2,16 @@
 
 angular.module('nnConsumerUi')
 
-  .config(function($routeProvider) {
-    $routeProvider.when('/', {
-      templateUrl: 'components/main/main.html',
-      controller: 'MainCtrl'
-    });
+  .config(function($stateProvider) {
+    $stateProvider
+      .state('main', {
+        url: '/{lang}',
+        templateUrl: 'components/main/main.html',
+        controller: 'MainCtrl'
+      })
+      .state('main.root', {
+        url: ''
+      });
   })
 
   // Service that handles all logic related to the main view.
@@ -228,7 +233,7 @@ angular.module('nnConsumerUi')
       if (angular.isDefined(!$scope.session.model[slide][element])) {
         $scope.session.model[slide][element] = {};
       }
-      $scope.session.model[slide][element][item] = _.map($scope.multiselect, 'text').join(', ');
+      $scope.session.model[slide][element][item] = _.map($scope.multiselect, 'text').join('|');
     }
 
     /**
@@ -455,7 +460,7 @@ angular.module('nnConsumerUi')
         });
       }, true/* objectEquality */);
 
-      changeLanguage($stateParams.lang);
+      changeLanguage($stateParams.lang, true);
     }
 
     /**
@@ -474,10 +479,13 @@ angular.module('nnConsumerUi')
      * Changes the active language.
      *
      * @param {string} language
+     * @param {boolean} init
      */
-    function changeLanguage(language) {
+    function changeLanguage(language, init) {
       $scope.activeLanguage = $scope.session.language = language;
-      $state.go('.', {lang: language});
+      if (init) {
+        $state.go('.', {lang: language});
+      }
       $translate.use(language);
     }
 

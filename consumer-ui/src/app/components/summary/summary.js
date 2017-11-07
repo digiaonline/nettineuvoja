@@ -72,6 +72,17 @@ angular.module('nnConsumerUi')
                           break;
                         case 'file':
                           break;
+                        case 'multiselect':
+                          text = '';
+
+                          if (item.label) {
+                            text += translate(item.label) + ': ';
+                          }
+
+                          text += elementValue[item.name].replace('|', ', ');
+
+                          items.push(text);
+                          break;
                         default:
                           text = '';
 

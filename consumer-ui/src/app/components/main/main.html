@@ -226,7 +226,7 @@
                             <auto-complete ng-if="item.source" source="service.autocomplete($query, item, notices)"></auto-complete>
                           </tags-input>
                           <span ng-show="session.model[slide.name][element.name][item.name]">
-                            <small><b>{{ translate(item.infotext) }}</b> {{session.model[slide.name][element.name][item.name]}}</small>
+                            <small><b>{{ translate(item.infotext) }}</b> {{ session.model[slide.name][element.name][item.name] }}</small>
                           </span>
                           <span class="fa fa-asterisk form-control-feedback"
                                 title="{{ 'REQUIRED_FIELD' | translate }}" ng-show="item.required"></span>
