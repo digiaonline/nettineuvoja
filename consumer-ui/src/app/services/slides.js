@@ -102,7 +102,7 @@ angular.module('nnConsumerUi')
         var element = null;
 
         angular.forEach(slide.elements, function(value) {
-          if (value.name == elementName) {
+          if (value.name === elementName) {
             element = value;
           }
         });

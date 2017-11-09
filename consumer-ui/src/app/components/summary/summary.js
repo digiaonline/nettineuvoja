@@ -47,6 +47,17 @@ angular.module('nnConsumerUi')
                   break;
                 case 'form':
                   angular.forEach(element.items, function(item) {
+                    if (elementValue.total && item.type === 'total') {
+                      text = '';
+
+                      if (item.label) {
+                        text += translate(item.label) + ' ';
+                      }
+
+                      text += elementValue.total;
+
+                      items.push(text);
+                    }
                     if (elementValue[item.name]) {
                       switch (item.type) {
                         case 'checkbox':
@@ -54,12 +65,23 @@ angular.module('nnConsumerUi')
                           break;
                         case 'dropdown':
                           angular.forEach(item.items, function(dropdownItem) {
-                            if (dropdownItem.name == elementValue[item.name]) {
+                            if (dropdownItem.name === elementValue[item.name]) {
                               items.push(translate(item.label) + ': ' + translate(dropdownItem.label));
                             }
                           });
                           break;
                         case 'file':
+                          break;
+                        case 'multiselect':
+                          text = '';
+
+                          if (item.label) {
+                            text += translate(item.label) + ': ';
+                          }
+
+                          text += elementValue[item.name].replace('|', ', ');
+
+                          items.push(text);
                           break;
                         default:
                           text = '';
@@ -98,7 +120,7 @@ angular.module('nnConsumerUi')
 
     storageService.observeStorage()
       .then(null, null, function(key) {
-        if (key == 'nnSession') {
+        if (key === 'nnSession') {
           buildSummaryData(storageService.get('nnSession').model);
         }
       });
