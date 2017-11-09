@@ -79,7 +79,7 @@ angular.module('nnConsumerUi')
                             text += translate(item.label) + ': ';
                           }
 
-                          text += elementValue[item.name].replace('|', ', ');
+                          text += elementValue[item.name].split('|').join(', ');
 
                           items.push(text);
                           break;
